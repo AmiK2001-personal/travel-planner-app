@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:travel_planner_app/extensions/double_ext.dart';
 import 'package:travel_planner_app/utilities/constraints.dart';
-import 'package:travel_planner_app/utilities/constraints.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import 'login_page..dart';
+import 'login_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override

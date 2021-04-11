@@ -4,7 +4,6 @@ import 'package:travel_planner_app/utilities/constraints.dart';
 import 'package:travel_planner_app/widgets/button_widget.dart';
 import 'package:travel_planner_app/widgets/header_container.dart';
 import 'package:dio/dio.dart';
-import '';
 
 class RegPage extends StatefulWidget {
   @override
@@ -34,7 +33,7 @@ class _RegPageState extends State<RegPage> {
         padding: EdgeInsets.only(bottom: 30),
         child: Column(
           children: <Widget>[
-            HeaderContainer("Register"),
+            HeaderContainer(text: "Register"),
             Expanded(
               flex: 1,
               child: Container(
@@ -49,7 +48,7 @@ class _RegPageState extends State<RegPage> {
                     Expanded(
                       child: Center(
                         child: ButtonWidget(
-                          btnText: "REGISTER",
+                          text: "REGISTER",
                           onClick: () {
                             registerAccount("test", "test");
                           },

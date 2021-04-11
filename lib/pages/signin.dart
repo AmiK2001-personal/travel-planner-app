@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:travel_planner_app/pages/login_signup.dart';
-import 'package:travel_planner_app/widgets/entry.dart';
 
 class Signin extends StatefulWidget {
   Signin({Key key}) : super(key: key);

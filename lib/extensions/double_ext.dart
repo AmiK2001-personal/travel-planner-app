@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Range {
   final double min;
   final double max;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:travel_planner_app/widgets/white_background.dart';
 
