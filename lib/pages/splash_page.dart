@@ -35,24 +35,23 @@ class _SplashPageState extends State<SplashPage> {
         ),
         child: Center(
             child: VxAnimator<double>(
-          duration: Duration(seconds: 1, milliseconds: 500),
-          tween: Tween<double>(begin: 30, end: 80),
-          cycles: 0,
-          builder: (context, animatorState, child) => Center(
-              child: Icon(Icons.card_travel_outlined)
-                  .iconColor(Colors.indigoAccent)
-                  .iconSize(animatorState.value
-                      .mapRange(Range(30, 80), Range(70, 250)))
-                  .card
-                  .elevation(8)
-                  .circular
-                  .white
-                  .make()
-                  .box
-                  .size(context.percentWidth * animatorState.value,
-                      context.percentWidth * animatorState.value)
-                  .make()),
-        ).make()),
+                duration: Duration(seconds: 1, milliseconds: 500),
+                tween: Tween<double>(begin: 30, end: 80),
+                cycles: 0,
+                builder: (context, animatorState, child) =>
+                    Icon(Icons.card_travel_outlined)
+                        .iconColor(Colors.indigoAccent)
+                        .iconSize(animatorState.value
+                            .mapRange(Range(30, 80), Range(70, 250)))
+                        .card
+                        .elevation(8)
+                        .circular
+                        .white
+                        .make()
+                        .box
+                        .size(context.percentWidth * animatorState.value,
+                            context.percentWidth * animatorState.value)
+                        .makeCentered()).make()),
       ),
     );
   }

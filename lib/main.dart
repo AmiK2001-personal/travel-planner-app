@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_planner_app/pages/login_page.dart';
 
 import 'pages/splash_page.dart';
 
@@ -13,10 +14,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Login Design',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        accentColor: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashPage(),
+      home: LoginPage(),
     );
   }
 }

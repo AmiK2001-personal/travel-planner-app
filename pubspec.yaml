@@ -28,6 +28,7 @@ dependencies:
   flutter_svg:
   velocity_x:
   dio: ^4.0.0
+  flutter_bloc:
 
   google_sign_in: 4.5.5
   flutter_login_vk:
