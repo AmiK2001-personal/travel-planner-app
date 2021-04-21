@@ -101,7 +101,7 @@ class MenuPageWidget extends StatelessWidget {
                   bottomNavigationBar: BottomNavigationBar(
                     onTap: (value) {
                       store.selectedNavigationBarItemId = value;
-                      SelectedNavigationBarItemChanged();
+                      SelectedNavigationBarItemChanged().next(() => null);
                     },
                     unselectedItemColor: Theme.of(context).primaryColor,
                     selectedItemColor: Theme.of(context).accentColor,
