@@ -3,9 +3,10 @@ import 'package:travel_planner_app/utilities/constraints.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HeaderContainer extends StatelessWidget {
+  @required
   final String text;
 
-  const HeaderContainer({Key key, this.text}) : super(key: key);
+  const HeaderContainer({Key? key, this.text = ""}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ final kBoxDecorationStyle = BoxDecoration(
   borderRadius: BorderRadius.circular(5.0),
   boxShadow: [
     BoxShadow(
-      color: Colors.grey[200],
+      color: Colors.grey.shade200,
       blurRadius: 0.0,
       offset: Offset(0, 2),
     ),

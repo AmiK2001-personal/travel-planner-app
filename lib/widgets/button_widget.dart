@@ -3,12 +3,13 @@ import 'package:travel_planner_app/utilities/constraints.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ButtonWidget extends StatelessWidget {
+  @required
   final String text;
-  final Function onClick;
+  @required
+  final void Function()? onClick;
 
-  const ButtonWidget({Key key, this.onClick, this.text}) : super(key: key);
-
-  //ButtonWidget({this.btnText, this.onClick});
+  const ButtonWidget({Key? key, this.text = "", this.onClick})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

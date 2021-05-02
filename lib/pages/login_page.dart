@@ -3,6 +3,7 @@ import 'package:travel_planner_app/pages/registration_page.dart';
 import 'package:travel_planner_app/utilities/constraints.dart';
 import 'package:travel_planner_app/widgets/button_widget.dart';
 import 'package:travel_planner_app/widgets/header_container.dart';
+import 'package:travel_planner_app/widgets/tp_text_field.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,8 +20,22 @@ class _LoginPageState extends State<LoginPage> {
           HeaderContainer(text: "Войти в приложение"),
           VStack(
             [
-              _textInput(hint: "Email", icon: Icons.email),
-              _textInput(hint: "Пароль", icon: Icons.vpn_key),
+              VStack(
+                [
+                  TpTextField(
+                      hint: "Email",
+                      icon: Icons.email,
+                      borderColor: Theme.of(context).accentColor),
+                  TpTextField(
+                      hint: "Пароль",
+                      icon: Icons.vpn_key,
+                      borderColor: Theme.of(context).accentColor),
+                ]
+                    .map(
+                      (e) => e.box.padding(EdgeInsets.only(bottom: 15)).make(),
+                    )
+                    .toList(),
+              ),
               // TextButton(
               //         onPressed: () {
               //           context.nextPage(RegPage());

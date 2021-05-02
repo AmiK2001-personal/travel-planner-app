@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 
 class OutlineRoundedButton extends StatefulWidget {
-  const OutlineRoundedButton(
-      {Key key, this.width, this.height, this.onTap, this.child, this.radius})
-      : super(key: key);
-
+  @required
   final double width;
+  @required
   final double height;
-  final Function onTap;
-  final Widget child;
+  @required
+  final void Function()? onTap;
+  @required
+  final Widget? child;
+  @required
   final double radius;
+
+  const OutlineRoundedButton(
+      {Key? key,
+      this.width = 0,
+      this.height = 0,
+      this.onTap,
+      this.radius = 0,
+      this.child})
+      : super(key: key);
 
   @override
   _AppRoundedButtonState createState() => _AppRoundedButtonState();
