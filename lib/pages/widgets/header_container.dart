@@ -12,7 +12,7 @@ class HeaderContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Icon(Icons.card_travel_outlined)
+        const Icon(Icons.card_travel_outlined)
             .iconColor(Colors.indigoAccent)
             .iconSize(context.percentWidth * 35)
             .p(16)
@@ -27,7 +27,7 @@ class HeaderContainer extends StatelessWidget {
             .make()
             .centered(),
         text.text
-            .textStyle(TextStyle(color: Colors.white, fontSize: 20))
+            .textStyle(const TextStyle(color: Colors.white, fontSize: 20))
             .make()
             .positioned(bottom: 10, right: 10)
       ],
@@ -39,7 +39,8 @@ class HeaderContainer extends StatelessWidget {
                 colors: [primaryColor, secondaryColor],
                 end: Alignment.bottomCenter,
                 begin: Alignment.topCenter),
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30))))
+            borderRadius:
+                const BorderRadius.only(bottomLeft: Radius.circular(30))))
         .makeCentered();
   }
 }

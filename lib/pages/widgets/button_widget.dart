@@ -12,9 +12,10 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onClick,
       child: text.text
           .textStyle(
-            TextStyle(
+            const TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           )
           .make()
@@ -28,7 +29,6 @@ class ButtonWidget extends StatelessWidget {
           .alignCenter
           .make()
           .cornerRadius(30),
-      onTap: onClick,
     );
   }
 }

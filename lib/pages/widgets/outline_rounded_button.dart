@@ -33,35 +33,33 @@ class _AppRoundedButtonState extends State<OutlineRoundedButton> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(widget.radius),
-        border: Border.all(color: borderColor, width: 1),
+        border: Border.all(color: borderColor),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(widget.radius),
         child: Material(
           borderRadius: BorderRadius.circular(widget.radius),
           color: Colors.white,
-          child: Container(
-            child: InkWell(
-              splashColor: Theme.of(context).splashColor.withOpacity(0.3),
-              child: Container(
-                child: SizedBox(
-                    width: widget.width,
-                    height: widget.height,
-                    child: widget.child),
-                margin: EdgeInsets.all(10.0),
-              ),
-              onTap: widget.onTap,
-              onHighlightChanged: (value) {
-                if (value) {
-                  setState(() {
-                    borderColor = Theme.of(context).accentColor;
-                  });
-                } else {
-                  setState(() {
-                    borderColor = Colors.black12;
-                  });
-                }
-              },
+          child: InkWell(
+            splashColor: Theme.of(context).splashColor.withOpacity(0.3),
+            onTap: widget.onTap,
+            onHighlightChanged: (value) {
+              if (value) {
+                setState(() {
+                  borderColor = Theme.of(context).accentColor;
+                });
+              } else {
+                setState(() {
+                  borderColor = Colors.black12;
+                });
+              }
+            },
+            child: Container(
+              margin: const EdgeInsets.all(10.0),
+              child: SizedBox(
+                  width: widget.width,
+                  height: widget.height,
+                  child: widget.child),
             ),
           ),
         ),

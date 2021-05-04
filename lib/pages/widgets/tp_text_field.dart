@@ -25,12 +25,12 @@ class TpTextField extends StatelessWidget {
       icon: icon,
       fillColor: Colors.transparent,
       borderType: VxTextFieldBorderType.none,
-      onChanged: onChanged != null ? onChanged : (str) {},
+      onChanged: onChanged ?? (str) {},
     )
         .box
         .color(Colors.white)
         .roundedLg
-        .padding(EdgeInsets.symmetric(horizontal: 10, vertical: 2))
+        .padding(const EdgeInsets.symmetric(horizontal: 10, vertical: 2))
         .border(color: borderColor ?? Theme.of(context).accentColor)
         .make();
   }

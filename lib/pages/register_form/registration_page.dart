@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_planner_app/gen/assets.gen.dart';
-import 'package:travel_planner_app/pages/menu_page/menu_page.dart';
 import 'package:travel_planner_app/utilities/constraints.dart';
 import 'package:travel_planner_app/pages/widgets/button_widget.dart';
 import 'package:travel_planner_app/pages/widgets/header_container.dart';
 import 'package:travel_planner_app/pages/widgets/tp_text_field.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:dio/dio.dart';
 
 // Future<Response<String>> registerAccount() async {
 //   var options = BaseOptions(
@@ -74,11 +72,10 @@ class RegPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(children: [
-        HeaderContainer(text: "Регистрация"),
+        const HeaderContainer(text: "Регистрация"),
         Expanded(
-          flex: 1,
           child: Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+            margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
             child: ListView(
               children: [
                 VStack(
@@ -173,7 +170,7 @@ class RegPage extends StatelessWidget {
                 ),
                 RichText(
                   text: TextSpan(children: [
-                    TextSpan(
+                    const TextSpan(
                         text: "Есть аккаунт? ",
                         style: TextStyle(color: Colors.black)),
                     TextSpan(

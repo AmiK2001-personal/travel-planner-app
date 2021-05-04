@@ -1,18 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:travel_planner_app/models/validation/validation.dart';
 import 'package:formz/formz.dart';
+import 'package:travel_planner_app/models/validation/validation.dart';
 
-import 'login_form_state.dart';
 import 'login_form_event.dart';
+import 'login_form_state.dart';
 
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   LoginFormBloc() : super(const LoginFormState());
-
-  @override
-  void onTransition(Transition<LoginFormEvent, LoginFormState> transition) {
-    print(transition);
-    super.onTransition(transition);
-  }
 
   @override
   Stream<LoginFormState> mapEventToState(LoginFormEvent event) async* {

@@ -14,7 +14,7 @@ class SettingsPage extends StatelessWidget {
         svgImage: Assets.icons.uniconsLine.paintTool,
         label: "Тема",
       )
-    ]).box.margin(EdgeInsets.symmetric(horizontal: 10)).make();
+    ]).box.margin(const EdgeInsets.symmetric(horizontal: 10)).make();
   }
 }
 
@@ -32,8 +32,17 @@ class MenuItem extends StatelessWidget {
     return HStack(
       [
         svgImage.svg(color: Theme.of(context).primaryColor, width: 32),
-        label.text.size(16).make().box.margin(EdgeInsets.only(left: 20)).make(),
+        label.text
+            .size(16)
+            .make()
+            .box
+            .margin(const EdgeInsets.only(left: 20))
+            .make(),
       ],
-    ).onInkTap(onTap ?? () {}).box.margin(EdgeInsets.only(bottom: 10)).make();
+    )
+        .onInkTap(onTap ?? () {})
+        .box
+        .margin(const EdgeInsets.only(bottom: 10))
+        .make();
   }
 }

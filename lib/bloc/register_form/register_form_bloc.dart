@@ -10,13 +10,6 @@ class RegisterFormBloc extends Bloc<RegisterFormEvent, RegisterFormState> {
   RegisterFormBloc() : super(const RegisterFormState());
 
   @override
-  void onTransition(
-      Transition<RegisterFormEvent, RegisterFormState> transition) {
-    print(transition);
-    super.onTransition(transition);
-  }
-
-  @override
   Stream<RegisterFormState> mapEventToState(RegisterFormEvent event) async* {
     if (event is EmailChanged) {
       final email = Email.dirty(event.email);

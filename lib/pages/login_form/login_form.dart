@@ -71,7 +71,6 @@ class _LoginPageState extends State<LoginForm> {
               ]),
             )
           ],
-          mainAxisSize: MainAxisSize.max,
         )
             .box
             .margin(const EdgeInsets.only(left: 20, right: 20, top: 30))

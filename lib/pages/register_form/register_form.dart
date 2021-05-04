@@ -24,7 +24,7 @@ class _RegisterFormState extends State<RegisterForm> {
       if (!_emailFocusNode.hasFocus) {
         context
             .read<RegisterFormBloc>()
-            .add(RegisterFormEvent.emailUnfocused());
+            .add(const RegisterFormEvent.emailUnfocused());
         FocusScope.of(context).requestFocus(_passwordFocusNode);
       }
     });
@@ -32,12 +32,12 @@ class _RegisterFormState extends State<RegisterForm> {
       if (!_passwordFocusNode.hasFocus) {
         context
             .read<RegisterFormBloc>()
-            .add(RegisterFormEvent.passwordUnfocused());
+            .add(const RegisterFormEvent.passwordUnfocused());
       }
     });
     _ageFocusNode.addListener(() {
       if (!_ageFocusNode.hasFocus) {
-        context.read<RegisterFormBloc>().add(AgeUnfocused());
+        context.read<RegisterFormBloc>().add(const AgeUnfocused());
       }
     });
   }
@@ -103,7 +103,7 @@ class EmailInput extends StatelessWidget {
                 borderSide: BorderSide(
                     color: Theme.of(context).accentColor, width: 5.0),
                 borderRadius: BorderRadius.circular(23)),
-            contentPadding: EdgeInsets.fromLTRB(12, 8, 12, 8),
+            contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
             labelText: 'Email',
             helperText: 'A complete, valid email e.g. joe@gmail.com',
             errorText: state.email.invalid
@@ -140,15 +140,14 @@ class AgeInput extends StatelessWidget {
                 borderSide: BorderSide(
                     color: Theme.of(context).accentColor, width: 5.0),
                 borderRadius: BorderRadius.circular(23)),
-            contentPadding: EdgeInsets.fromLTRB(12, 8, 12, 8),
+            contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
             icon: Assets.icons.uniconsLine.user.svg(),
             labelText: 'Age',
             errorText: state.email.invalid
                 ? 'Please ensure the age entered is valid'
                 : null,
           ),
-          keyboardType: const TextInputType.numberWithOptions(
-              signed: false, decimal: false),
+          keyboardType: const TextInputType.numberWithOptions(),
           onChanged: (value) {
             context.read<RegisterFormBloc>().add(AgeChanged(value));
           },
@@ -177,7 +176,7 @@ class PasswordInput extends StatelessWidget {
                 borderSide: BorderSide(
                     color: Theme.of(context).accentColor, width: 5.0),
                 borderRadius: BorderRadius.circular(23)),
-            contentPadding: EdgeInsets.fromLTRB(12, 8, 12, 8),
+            contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
             icon: Assets.icons.uniconsLine.lockAlt.svg(),
             helperText:
                 '''Password should be at least 8 characters with at least one letter and number''',
@@ -208,7 +207,8 @@ class SubmitButton extends StatelessWidget {
       builder: (context, state) {
         return ElevatedButton(
           onPressed: state.status.isValidated
-              ? () => context.read<RegisterFormBloc>().add(FormSubmitted())
+              ? () =>
+                  context.read<RegisterFormBloc>().add(const FormSubmitted())
               : null,
           child: const Text('Зарегестрировать'),
         );
@@ -230,7 +230,6 @@ class SuccessDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Row(
-              mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Assets.icons.uniconsLine.info.svg(),
                 const Flexible(
@@ -245,8 +244,8 @@ class SuccessDialog extends StatelessWidget {
               ],
             ),
             ElevatedButton(
-              child: const Text('OK'),
               onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
             ),
           ],
         ),

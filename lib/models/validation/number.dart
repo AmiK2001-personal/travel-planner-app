@@ -18,7 +18,7 @@ class Number extends FormzInput<String, NumberValidationError> {
       }
     }
 
-    var number = int.tryParse(value ?? '');
+    final int? number = int.tryParse(value ?? '');
     return isInvalidNumber(number);
   }
 }

@@ -10,13 +10,13 @@ import 'package:velocity_x/velocity_x.dart';
 
 class MenuPage extends StatefulWidget {
   @override
-  _MenuPageState createState() => _MenuPageState(0);
+  _MenuPageState createState() => _MenuPageState();
 }
 
 class _MenuPageState extends State<MenuPage> {
-  _MenuPageState(this.selectedNavigationBarItemId);
+  _MenuPageState();
 
-  int selectedNavigationBarItemId;
+  int selectedNavigationBarItemId = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _MenuPageState extends State<MenuPage> {
           ],
         )
             .box
-            .padding(EdgeInsets.only(top: 15))
+            .padding(const EdgeInsets.only(top: 15))
             .color(Colors.transparent)
             .make(),
       ),
@@ -67,6 +67,7 @@ class TravelCard extends StatelessWidget {
             .margin(const EdgeInsets.all(4))
             .make(),
         Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             "Название"
                 .text
@@ -85,8 +86,6 @@ class TravelCard extends StatelessWidget {
                 .make(),
             "14.05.2001".text.fontFamily(FontFamily.metropolis).make()
           ],
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
         )
             .wh(context.percentWidth * 70, context.percentHeight * 12)
             .card
@@ -98,10 +97,7 @@ class TravelCard extends StatelessWidget {
             .margin(const EdgeInsets.only(bottom: 30))
             .make()
       ],
-    )
-        .box
-        .margin(const EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 0))
-        .make();
+    ).box.margin(const EdgeInsets.only(left: 6, right: 6, top: 6)).make();
   }
 }
 
@@ -120,7 +116,7 @@ class Body extends StatelessWidget {
             itemCount: 10,
             height: context.screenHeight,
             itemBuilder: (context, index) {
-              return TravelCard();
+              return const TravelCard();
             },
           );
         case 4:
@@ -153,13 +149,13 @@ class Body extends StatelessWidget {
 
 class BottomNavBar extends StatefulWidget {
   @override
-  _BottomNavBarState createState() => _BottomNavBarState(0);
+  _BottomNavBarState createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  _BottomNavBarState(this.selectedItemId);
+  _BottomNavBarState();
 
-  int selectedItemId;
+  int selectedItemId = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -172,6 +168,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Assets.icons.uniconsLine.homeAlt,
                 Assets.icons.uniconsLine.favorite,
@@ -205,7 +202,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       }))
                   .map((e) => e.scale(scaleValue: 1.2))
                   .toList(),
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ).w(context.percentWidth * 80),
           ),
         )
