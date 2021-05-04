@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_planner_app/gen/fonts.gen.dart';
 
 final kBoxDecorationStyle = BoxDecoration(
   color: Color(0Xf0f0f0),
@@ -12,5 +13,14 @@ final kBoxDecorationStyle = BoxDecoration(
   ],
 );
 
-final Color primaryColor = Color(0xffF5591F);
+final Color primaryColor = Colors.deepPurpleAccent;
 final Color secondaryColor = Color(0xffF2861E);
+
+class FontStyle {
+  const FontStyle();
+
+  static const TextStyle regular =
+      TextStyle(fontFamily: FontFamily.proximaNova);
+  static const TextStyle bold = TextStyle(
+      fontFamily: FontFamily.proximaNova, fontWeight: FontWeight.bold);
+}

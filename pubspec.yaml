@@ -1,7 +1,7 @@
 name: travel_planner_app
 description: A new Flutter project.
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -22,6 +22,7 @@ dependencies:
   flutter_svg: ^0.22.0
   formz: ^0.4.0
   freezed_annotation: ^0.14.1
+  google_fonts: ^2.0.0
   google_sign_in: ^5.0.2
   json_annotation: ^4.0.1
   meta: ^1.3.0
@@ -44,25 +45,30 @@ flutter_gen:
   integrations:
     flutter_svg: true
     flare_flutter: true
-
   # colors:
   #   inputs:
   #     - assets/color/colors.xml
-
 flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    - assets/icons/
-    - assets/fonts/
+    - assets/icons/custom/
+    - assets/icons/unicons_line/
+    - assets/icons/unicons_monochrome/
+    - assets/icons/unicons_solid/
 
   fonts:
-  - family: Metropolis
-    fonts:
-      - asset: assets/fonts/Metropolis/Metropolis-Regular.ttf
-      - asset: assets/fonts/Metropolis/Raleway-RegularItalic.ttf
-        style: italic
-
-  # assets:
-  #   - assets/icons/vk.svg
-  #   - assets/icons/google.svg
+    - family: Metropolis
+      fonts:
+        - asset: assets/fonts/metropolis/Metropolis-Regular.otf
+        - asset: assets/fonts/metropolis/Metropolis-RegularItalic.otf
+        - asset: assets/fonts/metropolis/Metropolis-Bold.otf
+          style: italic
+          weight: 700
+    - family: Proxima Nova
+      fonts:
+        - asset: assets/fonts/proxima_nova/ProximaNova-Regular.otf
+        - asset: assets/fonts/proxima_nova/Proxima Nova Alt Regular.otf
+        - asset: assets/fonts/proxima_nova/Proxima Nova Alt Regular Italic.otf
+          style: italic
+          weight: 700
