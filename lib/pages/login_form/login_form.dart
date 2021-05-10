@@ -8,6 +8,7 @@ import 'package:travel_planner_app/utilities/constraints.dart';
 import 'package:travel_planner_app/pages/widgets/button_widget.dart';
 import 'package:travel_planner_app/pages/widgets/header_container.dart';
 import 'package:travel_planner_app/pages/widgets/tp_text_field.dart';
+import 'package:travel_planner_app/utilities/network.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class LoginForm extends StatefulWidget {
@@ -45,6 +46,7 @@ class _LoginPageState extends State<LoginForm> {
             ),
             ButtonWidget(
               onClick: () {
+                getHttp();
                 context.nextPage(BlocProvider(
                   create: (context) => MenuPageBloc(),
                   child: MenuPage(),
