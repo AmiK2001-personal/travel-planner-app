@@ -154,18 +154,7 @@ class RegPage extends StatelessWidget {
                   child: Center(
                       child: ButtonWidget(
                     text: "ЗАРЕГЕСТРИРОВАТЬ",
-                    onClick: () async {
-                      // if (store.isPasswordValid) {
-                      //   var reg = await store.registerAccount();
-                      //   VxToast.show(context,
-                      //       msg: reg.data,
-                      //       bgColor: Colors.red,
-                      //       textColor: Colors.white,
-                      //       showTime: 5000);
-
-                      // }
-                      // context.nextPage(MenuPage());
-                    },
+                    onClick: () async {},
                   )),
                 ),
                 RichText(

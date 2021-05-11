@@ -211,6 +211,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.1"
+  dfunc:
+    dependency: "direct main"
+    description:
+      name: dfunc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.2"
   dio:
     dependency: "direct main"
     description:
