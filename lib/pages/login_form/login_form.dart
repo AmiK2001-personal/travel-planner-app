@@ -19,63 +19,64 @@ class _LoginPageState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        const HeaderContainer(text: "Войти в приложение"),
-        Column(
-          children: [
-            Column(
-              children: [
-                TpTextField(
-                    value: '',
-                    hint: "Email",
-                    icon: Assets.icons.uniconsLine.mailboxAlt.svg(),
-                    borderColor: Theme.of(context).accentColor),
-                TpTextField(
-                    value: '',
-                    hint: "Пароль",
-                    icon: Assets.icons.uniconsLine.keySkeleton.svg(),
-                    borderColor: Theme.of(context).accentColor),
-              ]
-                  .map(
-                    (e) =>
-                        e.box.padding(const EdgeInsets.only(bottom: 15)).make(),
-                  )
-                  .toList(),
-            ),
-            ButtonWidget(
-              onClick: () {
-                context.nextPage(BlocProvider(
-                  create: (context) => MenuPageBloc(),
-                  child: MenuPage(),
-                ));
-              },
-              text: "Войти",
-            ).box.shadow.withRounded(value: 30).make().centered(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: HStack([
-                "У вас нет аккаунта?"
-                    .text
-                    .textStyle(const TextStyle(color: Colors.black))
-                    .make()
-                    .pOnly(right: 5),
-                TextButton(
-                    onPressed: () {
-                      context.nextPage(RegPage());
-                    },
-                    child: "Зарегестрироваться"
-                        .text
-                        .textStyle(TextStyle(color: primaryColor))
-                        .make())
-              ]),
-            )
-          ],
-        )
-            .box
-            .margin(const EdgeInsets.only(left: 20, right: 20, top: 30))
-            .make(),
-      ],
-    ).box.padding(const EdgeInsets.only(bottom: 30)).make());
+        body: SingleChildScrollView(
+      child: Column(
+        children: [
+          const HeaderContainer(text: "Войти в приложение"),
+          Column(
+            children: [
+              Column(
+                children: [
+                  TpTextField(
+                      hint: "Логин",
+                      icon: Assets.icons.uniconsLine.user.svg(),
+                      borderColor: Theme.of(context).accentColor),
+                  TpTextField(
+                      hint: "Пароль",
+                      icon: Assets.icons.uniconsLine.keySkeleton.svg(),
+                      borderColor: Theme.of(context).accentColor),
+                ]
+                    .map(
+                      (e) => e.box
+                          .padding(const EdgeInsets.only(bottom: 15))
+                          .make(),
+                    )
+                    .toList(),
+              ),
+              ButtonWidget(
+                onClick: () {
+                  context.nextPage(BlocProvider(
+                    create: (context) => MenuPageBloc(),
+                    child: MenuPage(),
+                  ));
+                },
+                text: "Войти",
+              ).box.shadow.withRounded(value: 30).make().centered(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: HStack([
+                  "У вас нет аккаунта?"
+                      .text
+                      .textStyle(const TextStyle(color: Colors.black))
+                      .make()
+                      .pOnly(right: 5),
+                  TextButton(
+                      onPressed: () {
+                        context.nextPage(RegPage());
+                      },
+                      child: "Зарегестрироваться"
+                          .text
+                          .textStyle(TextStyle(color: primaryColor))
+                          .make())
+                ]),
+              )
+            ],
+          )
+              .box
+              .margin(const EdgeInsets.only(left: 20, right: 20, top: 30))
+              .make(),
+        ],
+      ).box.padding(const EdgeInsets.only(bottom: 30)).make(),
+    ));
   }
 }

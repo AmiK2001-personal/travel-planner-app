@@ -3,7 +3,7 @@ import 'package:velocity_x/velocity_x.dart';
 
 class TpTextField extends StatelessWidget {
   final Widget icon;
-  final String value;
+  final String? value;
   final String hint;
   final Color? borderColor;
   final void Function(String)? onChanged;
@@ -11,7 +11,7 @@ class TpTextField extends StatelessWidget {
   const TpTextField(
       {Key? key,
       required this.icon,
-      required this.value,
+      this.value,
       required this.hint,
       this.borderColor,
       this.onChanged})
@@ -20,7 +20,7 @@ class TpTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return VxTextField(
-      value: value,
+      value: value ?? "",
       hint: hint,
       icon: icon,
       fillColor: Colors.transparent,
@@ -31,6 +31,7 @@ class TpTextField extends StatelessWidget {
         .color(Colors.white)
         .roundedLg
         .padding(const EdgeInsets.symmetric(horizontal: 10, vertical: 2))
+        .height(50)
         .border(color: borderColor ?? Theme.of(context).accentColor)
         .make();
   }

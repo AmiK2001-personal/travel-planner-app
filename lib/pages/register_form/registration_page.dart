@@ -75,102 +75,181 @@ class RegPage extends StatelessWidget {
         const HeaderContainer(text: "Регистрация"),
         Expanded(
           child: Container(
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
+            margin: const EdgeInsets.only(left: 20, right: 20),
             child: ListView(
               children: [
                 VStack(
                   [
-                    BlocBuilder<LastnameCubit, String>(
-                      bloc: LastnameCubit(),
-                      builder: (context, lastname) => TpTextField(
-                        value: lastname,
-                        hint: "Фамилия",
-                        icon: Assets.icons.uniconsLine.userSquare.svg(),
-                        borderColor: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    BlocBuilder<PatronymicCubit, String>(
-                      bloc: PatronymicCubit(),
-                      builder: (context, patrobymic) => TpTextField(
-                        value: patrobymic,
-                        hint: "Отчество",
-                        icon: Assets.icons.uniconsLine.userSquare.svg(),
-                        borderColor: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    BlocBuilder<AgeCubit, int>(
-                      bloc: AgeCubit(),
-                      builder: (context, age) => TpTextField(
-                        value: '',
-                        hint: "Возраст",
-                        icon: Assets.icons.uniconsLine.userSquare.svg(),
-                        borderColor: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    BlocBuilder<EmailCubit, String>(
-                      bloc: EmailCubit(),
-                      builder: (context, email) => TpTextField(
-                        value: email,
-                        hint: "Email",
-                        icon: Assets.icons.uniconsLine.mailboxAlt.svg(),
-                        borderColor: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    BlocProvider(
-                      create: (context) => PhoneNumberCubit(),
-                      child: BlocBuilder<PhoneNumberCubit, String>(
-                        bloc: PhoneNumberCubit(),
-                        builder: (context, phoneNumber) => TpTextField(
-                          value: phoneNumber,
-                          hint: "Номер телефона",
-                          icon: Assets.icons.uniconsLine.phoneAlt.svg(),
-                          borderColor: Theme.of(context).accentColor,
-                        ),
-                      ),
-                    ),
-                    BlocProvider(
-                      create: (context) => PasswordCubit(),
-                      child: BlocBuilder<PasswordCubit, String>(
-                        builder: (context, password) => TpTextField(
-                          value: password,
-                          hint: "Пароль",
-                          icon: Assets.icons.uniconsLine.mailboxAlt.svg(),
-                          borderColor: isPasswordValid(password)
-                              ? Theme.of(context).accentColor
-                              : Colors.red,
-                          onChanged: (value) {
-                            context.read<PasswordCubit>().change(value);
-                          },
-                        ),
-                      ),
-                    )
+                    LoginField(),
+                    PasswordField(),
+                    NameField(),
+                    SurnameField(),
+                    PatronymicField(),
+                    AgeField()
                   ]
                       .map(
                         (e) => e.pOnly(bottom: 15),
                       )
                       .toList(),
                 ),
-                Expanded(
-                  child: Center(
-                      child: ButtonWidget(
-                    text: "ЗАРЕГЕСТРИРОВАТЬ",
-                    onClick: () async {},
-                  )),
+                const Expanded(
+                  child: Center(child: RegisterButton()),
                 ),
-                RichText(
-                  text: TextSpan(children: [
-                    const TextSpan(
-                        text: "Есть аккаунт? ",
+                HStack(
+                  [
+                    const Text("Есть аккаунт? ",
                         style: TextStyle(color: Colors.black)),
-                    TextSpan(
-                        text: "Войти", style: TextStyle(color: primaryColor)),
-                  ]),
-                )
+                    TextButton(
+                      onPressed: () {},
+                      child: "Войти"
+                          .text
+                          .textStyle(TextStyle(color: primaryColor))
+                          .make(),
+                    )
+                  ],
+                  alignment: MainAxisAlignment.center,
+                ).box.alignBottomCenter.make(),
               ],
             ),
           ),
         ),
       ]),
+    );
+  }
+}
+
+class LoginField extends StatelessWidget {
+  const LoginField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TpTextField(
+      hint: "Логин",
+      icon: Assets.icons.uniconsLine.user.svg(),
+      borderColor: Theme.of(context).accentColor,
+    );
+  }
+}
+
+class AgeField extends StatelessWidget {
+  const AgeField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TpTextField(
+      value: '',
+      hint: "Возраст",
+      icon: Assets.icons.uniconsLine.userSquare.svg(),
+      borderColor: Theme.of(context).accentColor,
+    );
+  }
+}
+
+class RegisterButton extends StatelessWidget {
+  const RegisterButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ButtonWidget(
+      text: "ЗАРЕГЕСТРИРОВАТЬ",
+      onClick: () async {},
+    );
+  }
+}
+
+class PasswordField extends StatelessWidget {
+  const PasswordField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TpTextField(
+      value: "",
+      hint: "Пароль",
+      icon: Assets.icons.uniconsLine.keySkeleton.svg(),
+      onChanged: (value) {},
+    );
+  }
+}
+
+class PhoneNumberField extends StatelessWidget {
+  const PhoneNumberField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TpTextField(
+      hint: "Номер телефона",
+      icon: Assets.icons.uniconsLine.phoneAlt.svg(),
+      borderColor: Theme.of(context).accentColor,
+    );
+  }
+}
+
+class EmailField extends StatelessWidget {
+  const EmailField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TpTextField(
+      hint: "Email",
+      icon: Assets.icons.uniconsLine.mailboxAlt.svg(),
+      borderColor: Theme.of(context).accentColor,
+    );
+  }
+}
+
+class SurnameField extends StatelessWidget {
+  const SurnameField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TpTextField(
+      hint: "Фамилия",
+      icon: Assets.icons.uniconsLine.userSquare.svg(),
+      borderColor: Theme.of(context).accentColor,
+    );
+  }
+}
+
+class NameField extends StatelessWidget {
+  const NameField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TpTextField(
+      hint: "Имя",
+      icon: Assets.icons.uniconsLine.userSquare.svg(),
+      borderColor: Theme.of(context).accentColor,
+    );
+  }
+}
+
+class PatronymicField extends StatelessWidget {
+  const PatronymicField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TpTextField(
+      hint: "Отчество",
+      icon: Assets.icons.uniconsLine.userSquare.svg(),
+      borderColor: Theme.of(context).accentColor,
     );
   }
 }
