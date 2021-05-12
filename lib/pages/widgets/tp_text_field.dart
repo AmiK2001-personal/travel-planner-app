@@ -7,6 +7,7 @@ class TpTextField extends StatelessWidget {
   final String hint;
   final Color? borderColor;
   final void Function(String)? onChanged;
+  final TextEditingController? controller;
 
   const TpTextField(
       {Key? key,
@@ -14,12 +15,14 @@ class TpTextField extends StatelessWidget {
       this.value,
       required this.hint,
       this.borderColor,
-      this.onChanged})
+      this.onChanged,
+      this.controller})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return VxTextField(
+      controller: controller,
       value: value ?? "",
       hint: hint,
       icon: icon,

@@ -15,11 +15,11 @@ Map<String, dynamic> jsonToMap(String jsonString) {
   return toMap(jsonDecode(jsonString));
 }
 
-class RestClient {
-  final Dio client = httpClient();
+mixin RestClient {
+  static final Dio client = httpClient();
 
-  late AccountsRest accounts = AccountsRest(client);
-  late PlacesRest places = PlacesRest(client);
+  static late AccountsRest accounts = AccountsRest(client);
+  static late PlacesRest places = PlacesRest(client);
 }
 
 class AccountsRest {
@@ -62,29 +62,31 @@ class AccountsRest {
         }
       }).then((value) => jsonToMap(value.data!));
 
+      String errorToString(int errorId) {
+        switch (errorId) {
+          case 0:
+            return "Ошибка валидации";
+          case 1:
+            return "Аккаунт не найден";
+          case 2:
+            return "Неверный BsonId";
+          case 3:
+            return "Неверный параметр запроса";
+          case 4:
+            return "Ошибка парсинга JSON";
+          default:
+            return "Неизвестная ошибка";
+        }
+      }
+
       return response['resultValue'] != null
           ? Either.left(
               Account.fromJson(response['resultValue'] as Map<String, dynamic>))
           : Either.right(
               ((response['errorValue'] as Map<String, dynamic>)['tag'] as int)
                   .maybeMap((errorId) {
-              switch (errorId) {
-                case 0:
-                  return "Ошибка валидации";
-                case 1:
-                  return "Аккаунт не найден";
-                case 2:
-                  return "Неверный BsonId";
-                case 3:
-                  return "Неверный параметр запроса";
-                case 4:
-                  return "Ошибка парсинга JSON";
-                default:
-                  return "Неизвестная ошибка";
-              }
+              return errorToString(errorId);
             }));
-
-      //return Account.fromJson(toMap(response.data!));
     } on DioError catch (e) {
       return Either.right(e.response!.data.toString());
     }

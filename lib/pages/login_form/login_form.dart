@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_planner_app/bloc/menu_page/menu_page_bloc.dart';
 import 'package:travel_planner_app/gen/assets.gen.dart';
+import 'package:travel_planner_app/network/rest_client.dart';
 import 'package:travel_planner_app/pages/menu_page/menu_page.dart';
 import 'package:travel_planner_app/pages/register_form/registration_page.dart';
 import 'package:travel_planner_app/utilities/constraints.dart';
@@ -16,6 +17,9 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginForm> {
+  final TextEditingController _loginController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +33,11 @@ class _LoginPageState extends State<LoginForm> {
                 children: [
                   TpTextField(
                       hint: "Логин",
+                      controller: _loginController,
                       icon: Assets.icons.uniconsLine.user.svg(),
                       borderColor: Theme.of(context).accentColor),
                   TpTextField(
+                      controller: _passwordController,
                       hint: "Пароль",
                       icon: Assets.icons.uniconsLine.keySkeleton.svg(),
                       borderColor: Theme.of(context).accentColor),
@@ -44,11 +50,44 @@ class _LoginPageState extends State<LoginForm> {
                     .toList(),
               ),
               ButtonWidget(
-                onClick: () {
-                  context.nextPage(BlocProvider(
-                    create: (context) => MenuPageBloc(),
-                    child: MenuPage(),
-                  ));
+                onClick: () async {
+                  final isPasswordMatch = await RestClient.accounts
+                      .passwordMatch(
+                          login: _loginController.text,
+                          password: _passwordController.text);
+
+                  if (isPasswordMatch) {
+                    context.nextPage(
+                      BlocProvider(
+                        create: (context) => MenuPageBloc(),
+                        child: MenuPage(),
+                      ),
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Ошибка"),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: const [
+                                Text("Пароль не верный"),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('ОК'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
                 text: "Войти",
               ).box.shadow.withRounded(value: 30).make().centered(),

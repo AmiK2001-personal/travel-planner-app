@@ -1,73 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_planner_app/gen/assets.gen.dart';
+import 'package:travel_planner_app/network/rest_client.dart';
 import 'package:travel_planner_app/utilities/constraints.dart';
 import 'package:travel_planner_app/pages/widgets/button_widget.dart';
 import 'package:travel_planner_app/pages/widgets/header_container.dart';
 import 'package:travel_planner_app/pages/widgets/tp_text_field.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-// Future<Response<String>> registerAccount() async {
-//   var options = BaseOptions(
-//     baseUrl: "http://185.246.67.169:5001/api",
-//   );
-//   var dio = Dio(options);
-
-//   return await dio.post('/accounts', data: {
-//     "login": login,
-//     "password": password,
-//     "personalInfo": {
-//       "firstname": personalInfo.firstname,
-//       "lastname": personalInfo.lastname,
-//       "patronymic": personalInfo.patronymic,
-//       "age": personalInfo.age
-//     }
-//   });
-// }
-
-bool isPasswordValid(String password) => password.length > 10;
-
-class PasswordCubit extends Cubit<String> {
-  PasswordCubit() : super("");
-  void change(String value) => emit(value);
+class RegPage extends StatefulWidget {
+  @override
+  _RegPageState createState() => _RegPageState();
 }
 
-class EmailCubit extends Cubit<String> {
-  EmailCubit() : super("");
-  void change(String value) => emit(value);
-}
+class _RegPageState extends State<RegPage> {
+  final TextEditingController _loginController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _surnameController = TextEditingController();
+  final TextEditingController _patronymicController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
 
-class PhoneNumberCubit extends Cubit<String> {
-  PhoneNumberCubit() : super("");
-  void change(String value) => emit(value);
-}
-
-class FirstnameCubit extends Cubit<String> {
-  FirstnameCubit() : super("");
-  void change(String value) => emit(value);
-}
-
-class LastnameCubit extends Cubit<String> {
-  LastnameCubit() : super("");
-  void change(String value) => emit(value);
-}
-
-class PatronymicCubit extends Cubit<String> {
-  PatronymicCubit() : super("");
-  void change(String value) => emit(value);
-}
-
-class AgeCubit extends Cubit<int> {
-  AgeCubit() : super(0);
-  void change(int value) => emit(value);
-}
-
-class LoginCubit extends Cubit<String> {
-  LoginCubit() : super("");
-  void change(String value) => emit(value);
-}
-
-class RegPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,27 +32,83 @@ class RegPage extends StatelessWidget {
               children: [
                 VStack(
                   [
-                    LoginField(),
-                    PasswordField(),
-                    NameField(),
-                    SurnameField(),
-                    PatronymicField(),
-                    AgeField()
+                    LoginField(
+                      controller: _loginController,
+                    ),
+                    PasswordField(
+                      controller: _passwordController,
+                    ),
+                    NameField(
+                      controller: _nameController,
+                    ),
+                    SurnameField(
+                      controller: _surnameController,
+                    ),
+                    PatronymicField(
+                      controller: _patronymicController,
+                    ),
+                    AgeField(
+                      controller: _ageController,
+                    )
                   ]
                       .map(
                         (e) => e.pOnly(bottom: 15),
                       )
                       .toList(),
                 ),
-                const Expanded(
-                  child: Center(child: RegisterButton()),
+                Expanded(
+                  child: Center(
+                    child: ButtonWidget(
+                      text: "ЗАРЕГЕСТРИРОВАТЬ",
+                      onClick: () async {
+                        final registrationResponce = await RestClient.accounts
+                            .registerAccount(
+                                login: _loginController.text,
+                                password: _passwordController.text,
+                                firstname: _nameController.text,
+                                lastname: _surnameController.text,
+                                age: int.tryParse(_ageController.text) ?? 0);
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(registrationResponce!.isLeft()
+                                  ? "Успех"
+                                  : "Ошибка"),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: <Widget>[
+                                    Text(registrationResponce.fold(
+                                        (acc) =>
+                                            "Аккаунт успешно зарегестрирван",
+                                        (err) => err.toString())),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('ОК'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
                 ),
                 HStack(
                   [
                     const Text("Есть аккаунт? ",
                         style: TextStyle(color: Colors.black)),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pop();
+                      },
                       child: "Войти"
                           .text
                           .textStyle(TextStyle(color: primaryColor))
@@ -119,13 +127,14 @@ class RegPage extends StatelessWidget {
 }
 
 class LoginField extends StatelessWidget {
-  const LoginField({
-    Key? key,
-  }) : super(key: key);
+  final TextEditingController? controller;
+
+  const LoginField({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TpTextField(
+      controller: controller,
       hint: "Логин",
       icon: Assets.icons.uniconsLine.user.svg(),
       borderColor: Theme.of(context).accentColor,
@@ -134,14 +143,14 @@ class LoginField extends StatelessWidget {
 }
 
 class AgeField extends StatelessWidget {
-  const AgeField({
-    Key? key,
-  }) : super(key: key);
+  final TextEditingController? controller;
+
+  const AgeField({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TpTextField(
-      value: '',
+      controller: controller,
       hint: "Возраст",
       icon: Assets.icons.uniconsLine.userSquare.svg(),
       borderColor: Theme.of(context).accentColor,
@@ -149,29 +158,15 @@ class AgeField extends StatelessWidget {
   }
 }
 
-class RegisterButton extends StatelessWidget {
-  const RegisterButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ButtonWidget(
-      text: "ЗАРЕГЕСТРИРОВАТЬ",
-      onClick: () async {},
-    );
-  }
-}
-
 class PasswordField extends StatelessWidget {
-  const PasswordField({
-    Key? key,
-  }) : super(key: key);
+  final TextEditingController? controller;
+
+  const PasswordField({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TpTextField(
-      value: "",
+      controller: controller,
       hint: "Пароль",
       icon: Assets.icons.uniconsLine.keySkeleton.svg(),
       onChanged: (value) {},
@@ -210,13 +205,14 @@ class EmailField extends StatelessWidget {
 }
 
 class SurnameField extends StatelessWidget {
-  const SurnameField({
-    Key? key,
-  }) : super(key: key);
+  final TextEditingController? controller;
+
+  const SurnameField({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TpTextField(
+      controller: controller,
       hint: "Фамилия",
       icon: Assets.icons.uniconsLine.userSquare.svg(),
       borderColor: Theme.of(context).accentColor,
@@ -225,13 +221,14 @@ class SurnameField extends StatelessWidget {
 }
 
 class NameField extends StatelessWidget {
-  const NameField({
-    Key? key,
-  }) : super(key: key);
+  final TextEditingController? controller;
+
+  const NameField({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TpTextField(
+      controller: controller,
       hint: "Имя",
       icon: Assets.icons.uniconsLine.userSquare.svg(),
       borderColor: Theme.of(context).accentColor,
@@ -240,13 +237,14 @@ class NameField extends StatelessWidget {
 }
 
 class PatronymicField extends StatelessWidget {
-  const PatronymicField({
-    Key? key,
-  }) : super(key: key);
+  final TextEditingController? controller;
+
+  const PatronymicField({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TpTextField(
+      controller: controller,
       hint: "Отчество",
       icon: Assets.icons.uniconsLine.userSquare.svg(),
       borderColor: Theme.of(context).accentColor,
