@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:travel_planner_app/gen/assets.gen.dart';
-import 'package:travel_planner_app/network/rest_client.dart';
 import 'package:travel_planner_app/utilities/constraints.dart';
 import 'package:travel_planner_app/pages/widgets/button_widget.dart';
 import 'package:travel_planner_app/pages/widgets/header_container.dart';
@@ -56,51 +55,51 @@ class _RegPageState extends State<RegPage> {
                       )
                       .toList(),
                 ),
-                Expanded(
-                  child: Center(
-                    child: ButtonWidget(
-                      text: "ЗАРЕГЕСТРИРОВАТЬ",
-                      onClick: () async {
-                        final registrationResponce = await RestClient.accounts
-                            .registerAccount(
-                                login: _loginController.text,
-                                password: _passwordController.text,
-                                firstname: _nameController.text,
-                                lastname: _surnameController.text,
-                                age: int.tryParse(_ageController.text) ?? 0);
+                // Expanded(
+                //   child: Center(
+                //     child: ButtonWidget(
+                //       text: "ЗАРЕГЕСТРИРОВАТЬ",
+                //       onClick: () async {
+                //         final registrationResponce = await RestClient.accounts
+                //             .registerAccount(
+                //                 login: _loginController.text,
+                //                 password: _passwordController.text,
+                //                 firstname: _nameController.text,
+                //                 lastname: _surnameController.text,
+                //                 age: int.tryParse(_ageController.text) ?? 0);
 
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(registrationResponce!.isLeft()
-                                  ? "Успех"
-                                  : "Ошибка"),
-                              content: SingleChildScrollView(
-                                child: ListBody(
-                                  children: <Widget>[
-                                    Text(registrationResponce.fold(
-                                        (acc) =>
-                                            "Аккаунт успешно зарегестрирван",
-                                        (err) => err.toString())),
-                                  ],
-                                ),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('ОК'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                //         showDialog(
+                //           context: context,
+                //           builder: (context) {
+                //             return AlertDialog(
+                //               title: Text(registrationResponce!.isLeft()
+                //                   ? "Успех"
+                //                   : "Ошибка"),
+                //               content: SingleChildScrollView(
+                //                 child: ListBody(
+                //                   children: <Widget>[
+                //                     Text(registrationResponce.fold(
+                //                         (acc) =>
+                //                             "Аккаунт успешно зарегестрирван",
+                //                         (err) => err.toString())),
+                //                   ],
+                //                 ),
+                //               ),
+                //               actions: <Widget>[
+                //                 TextButton(
+                //                   onPressed: () {
+                //                     Navigator.of(context).pop();
+                //                   },
+                //                   child: const Text('ОК'),
+                //                 ),
+                //               ],
+                //             );
+                //           },
+                //         );
+                //       },
+                //     ),
+                //   ),
+                // ),
                 HStack(
                   [
                     const Text("Есть аккаунт? ",

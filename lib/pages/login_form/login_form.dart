@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_planner_app/bloc/menu_page/menu_page_bloc.dart';
 import 'package:travel_planner_app/gen/assets.gen.dart';
-import 'package:travel_planner_app/network/rest_client.dart';
 import 'package:travel_planner_app/pages/menu_page/menu_page.dart';
 import 'package:travel_planner_app/pages/register_form/registration_page.dart';
 import 'package:travel_planner_app/utilities/constraints.dart';
@@ -51,12 +50,13 @@ class _LoginPageState extends State<LoginForm> {
               ),
               ButtonWidget(
                 onClick: () async {
-                  final isPasswordMatch = await RestClient.accounts
-                      .passwordMatch(
-                          login: _loginController.text,
-                          password: _passwordController.text);
+                  // final isPasswordMatch = await RestClient.accounts
+                  //     .passwordMatch(
+                  //         login: _loginController.text,
+                  //         password: _passwordController.text);
 
-                  if (isPasswordMatch) {
+                  if (true) {
+                    // TODO: check pass
                     context.nextPage(
                       BlocProvider(
                         create: (context) => MenuPageBloc(),
