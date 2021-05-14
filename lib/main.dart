@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:travel_planner_app/network/rest_client.dart';
 import 'package:travel_planner_app/pages/login_form/login_form.dart';
 import 'package:travel_planner_app/utilities/constraints.dart';
 
