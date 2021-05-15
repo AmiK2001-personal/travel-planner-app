@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:travel_planner_app/models/validation/validation.dart';
+import 'package:travelplanner/models/validation/validation.dart';
 
 import 'login_form_event.dart';
 import 'login_form_state.dart';

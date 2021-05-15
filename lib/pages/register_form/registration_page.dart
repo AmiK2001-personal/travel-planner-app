@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:travel_planner_app/gen/assets.gen.dart';
-import 'package:travel_planner_app/utilities/constraints.dart';
-import 'package:travel_planner_app/pages/widgets/button_widget.dart';
-import 'package:travel_planner_app/pages/widgets/header_container.dart';
-import 'package:travel_planner_app/pages/widgets/tp_text_field.dart';
+import 'package:travelplanner/gen/assets.gen.dart';
+import 'package:travelplanner/utilities/constraints.dart';
+import 'package:travelplanner/pages/widgets/header_container.dart';
+import 'package:travelplanner/pages/widgets/tp_text_field.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class RegPage extends StatefulWidget {

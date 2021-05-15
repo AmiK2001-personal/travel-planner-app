@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:travel_planner_app/models/validation/validation.dart';
+import 'package:travelplanner/models/validation/validation.dart';
 import 'package:formz/formz.dart';
 
 import 'register_form_event.dart';

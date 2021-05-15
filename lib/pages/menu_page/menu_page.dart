@@ -1,12 +1,19 @@
 import 'package:blur/blur.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:travel_planner_app/bloc/menu_page/bloc.dart';
-import 'package:travel_planner_app/gen/assets.gen.dart';
-import 'package:travel_planner_app/gen/fonts.gen.dart';
-import 'package:travel_planner_app/pages/settings_page/settings_page.dart';
+import 'package:intl/intl.dart';
+import 'package:travelplanner/bloc/menu_page/bloc.dart';
+import 'package:travelplanner/gen/assets.gen.dart';
+import 'package:travelplanner/gen/fonts.gen.dart';
+import 'package:travelplanner/models/gen/travel/travel.dart';
+import 'package:travelplanner/pages/settings_page/settings_page.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:travelplanner/pages/my_travels_page/my_travels_page.dart';
+import 'package:travelplanner/pages/notifications_page/notifications_page.dart';
+import 'package:travelplanner/pages/my_travel_details_page/my_travel_details_page.dart';
 
 class MenuPage extends StatefulWidget {
   @override
@@ -45,38 +52,67 @@ class _MenuPageState extends State<MenuPage> {
 }
 
 class TravelCard extends StatelessWidget {
-  const TravelCard() : super();
+  final Travel travel;
+
+  const TravelCard(this.travel, {Key? key}) : super(key: key);
+
+  Widget logo(BuildContext context) {
+    if (travel.images != null) {
+      return CachedNetworkImage(
+        imageUrl: travel.images!.first,
+        placeholder: (context, url) => const CircularProgressIndicator(),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+        fit: BoxFit.fitHeight,
+      )
+          .whFull(context)
+          .box
+          .make()
+          .card
+          .rounded
+          .elevation(8)
+          .makeCentered()
+          .whFull(context)
+          .box
+          .margin(const EdgeInsets.all(4))
+          .make();
+    } else {
+      return CachedNetworkImage(
+        imageUrl:
+            "https://travelmaz.com/wp-content/uploads/2021/01/https___specials-images.forbesimg.com_imageserve_5f709d82fa4f131fa2114a74_0x0.jpg",
+        placeholder: (context, url) => const CircularProgressIndicator(),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+        fit: BoxFit.fitHeight,
+      )
+          .whFull(context)
+          .box
+          .make()
+          .card
+          .rounded
+          .elevation(8)
+          .makeCentered()
+          .whFull(context)
+          .box
+          .margin(const EdgeInsets.all(4))
+          .make();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.network(
-          "http://travelermap.ru/wp-content/uploads/2014/12/e35b6d17271b.jpg",
-          fit: BoxFit.fitHeight,
-        )
-            .whFull(context)
-            .box
-            .make()
-            .card
-            .rounded
-            .elevation(8)
-            .makeCentered()
-            .whFull(context)
-            .box
-            .margin(const EdgeInsets.all(4))
-            .make(),
+        logo(context),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            "Название"
+            (travel.name ?? "Название")
                 .text
                 .fontWeight(FontWeight.w400)
                 .fontFamily(FontFamily.metropolis)
                 .xl
                 .color(Theme.of(context).primaryColor)
                 .make(),
-            "Описание описание описание описание описание описание описание описание описание описание описание описание описанием описание описание описание м  мописание"
+            (travel.description ?? "Описание")
                 .text
                 .softWrap(true)
                 .ellipsis
@@ -84,7 +120,11 @@ class TravelCard extends StatelessWidget {
                 .align(TextAlign.center)
                 .gray500
                 .make(),
-            "14.05.2001".text.fontFamily(FontFamily.metropolis).make()
+            DateFormat('yyyy/MM/dd')
+                .format(travel.date!)
+                .text
+                .fontFamily(FontFamily.metropolis)
+                .make()
           ],
         )
             .wh(context.percentWidth * 70, context.percentHeight * 12)
@@ -97,7 +137,17 @@ class TravelCard extends StatelessWidget {
             .margin(const EdgeInsets.only(bottom: 30))
             .make()
       ],
-    ).box.margin(const EdgeInsets.only(left: 6, right: 6, top: 6)).make();
+    )
+        .box
+        .margin(const EdgeInsets.only(left: 6, right: 6, bottom: 30))
+        .make()
+        .onInkTap(() {
+      context.nextPage(
+        MyTravelDetailsPage(
+          travel: travel,
+        ),
+      );
+    });
   }
 }
 
@@ -111,14 +161,38 @@ class Body extends StatelessWidget {
     return BlocBuilder<MenuPageBloc, MenuPageState>(builder: (context, state) {
       switch (context.read<MenuPageBloc>().state.selectedNavigationBarItemId) {
         case 0:
-          return VxSwiper.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: 10,
-            height: context.screenHeight,
-            itemBuilder: (context, index) {
-              return const TravelCard();
-            },
-          );
+          return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              future: FirebaseFirestore.instance
+                  .collection("travels")
+                  .where('is_public', isEqualTo: true)
+                  .get(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  final travels = snapshot.data!.docs
+                      .map((e) => Travel.fromJson(e.data()))
+                      .toList();
+
+                  return travels.isNotEmpty
+                      ? VxSwiper.builder(
+                          enableInfiniteScroll: false,
+                          scrollDirection: Axis.vertical,
+                          itemCount: travels.length,
+                          height: context.screenHeight,
+                          itemBuilder: (context, index) {
+                            return TravelCard(travels[index]);
+                          },
+                        )
+                      : "Путешествий нет".text.make().centered();
+                } else if (!snapshot.hasError && !snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                } else {
+                  return const Text("Error");
+                }
+              });
+        case 2:
+          return MyTravelsPage();
+        case 3:
+          return NotificationsPage();
         case 4:
           return SettingsPage();
         default:

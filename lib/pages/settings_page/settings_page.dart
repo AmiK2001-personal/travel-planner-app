@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_planner_app/gen/assets.gen.dart';
+import 'package:travelplanner/gen/assets.gen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class SettingsPage extends StatelessWidget {

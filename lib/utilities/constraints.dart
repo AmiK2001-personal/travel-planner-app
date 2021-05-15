@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_planner_app/gen/fonts.gen.dart';
+import 'package:travelplanner/gen/fonts.gen.dart';
 
 final kBoxDecorationStyle = BoxDecoration(
   color: const Color(0x00f0f0f0),

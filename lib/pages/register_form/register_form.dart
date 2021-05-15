@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:travel_planner_app/bloc/register_form/bloc.dart';
-import 'package:travel_planner_app/gen/assets.gen.dart';
+import 'package:travelplanner/bloc/register_form/bloc.dart';
+import 'package:travelplanner/gen/assets.gen.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:travel_planner_app/utilities/constraints.dart';
+import 'package:travelplanner/utilities/constraints.dart';
 import 'package:formz/formz.dart';
 
 class RegisterForm extends StatefulWidget {

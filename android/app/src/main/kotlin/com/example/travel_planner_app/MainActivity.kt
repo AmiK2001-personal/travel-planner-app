@@ -1,4 +1,4 @@
-package com.example.travel_planner_app
+package com.amik.travelplanner
 
 import io.flutter.embedding.android.FlutterActivity
 

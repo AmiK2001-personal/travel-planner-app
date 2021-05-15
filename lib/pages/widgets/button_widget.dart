@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_planner_app/utilities/constraints.dart';
+import 'package:travelplanner/utilities/constraints.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ButtonWidget extends StatelessWidget {

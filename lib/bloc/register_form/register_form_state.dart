@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:travel_planner_app/models/validation/validation.dart';
+import 'package:travelplanner/models/validation/validation.dart';
 
 part 'register_form_state.freezed.dart';
 

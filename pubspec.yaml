@@ -1,4 +1,4 @@
-name: travel_planner_app
+name: travelplanner
 description: A new Flutter project.
 
 publish_to: "none"
@@ -12,9 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
   blur: ^2.0.0
+  cached_network_image: ^3.0.0
   cloud_firestore: ^2.1.0
   cloud_functions: ^1.0.7
   cupertino_icons: ^1.0.2
+  dfunc: ^0.6.2
   firebase_auth: ^1.1.4
   firebase_core: ^1.1.1
   firebase_messaging: ^9.1.4
@@ -24,10 +26,13 @@ dependencies:
   formz: ^0.4.0
   freezed_annotation: ^0.14.1
   google_fonts: ^2.0.0
+  google_maps_flutter: ^2.0.4
   google_sign_in: ^5.0.3
+  intl: ^0.17.0
   json_annotation: ^4.0.1
   meta: ^1.3.0
   velocity_x: ^3.0.0
+  weather: ^2.0.0
 
 dev_dependencies:
   flutter_test:
