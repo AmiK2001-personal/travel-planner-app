@@ -101,11 +101,7 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
         ),
         floatingActionButton: _controller.index > 0
             ? [
-                IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      print("a");
-                    }),
+                IconButton(icon: const Icon(Icons.add), onPressed: () {}),
                 IconButton(icon: const Icon(Icons.add), onPressed: () {}),
                 IconButton(icon: const Icon(Icons.add), onPressed: () {})
               ][_controller.index - 1]
