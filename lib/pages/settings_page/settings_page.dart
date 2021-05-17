@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:travelplanner/gen/assets.gen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import 'widgets/profile_widget.dart';
+
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
+      ProfileWidget(
+        onClicked: () {},
+      ),
       MenuItem(
         svgImage: Assets.icons.uniconsLine.userSquare,
         label: "Профиль",

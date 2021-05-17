@@ -248,7 +248,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 Assets.icons.uniconsLine.favorite,
                 Assets.icons.uniconsLine.planeFly,
                 Assets.icons.uniconsLine.bell,
-                Assets.icons.uniconsLine.setting,
+                Assets.icons.uniconsLine.user,
               ]
                   .mapIndexed((currentValue, index) => currentValue
                           .svg(

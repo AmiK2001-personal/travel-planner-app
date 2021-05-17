@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travelplanner/gen/assets.gen.dart';
+import 'package:travelplanner/pages/widgets/button_widget.dart';
 import 'package:travelplanner/utilities/constraints.dart';
 import 'package:travelplanner/pages/widgets/header_container.dart';
 import 'package:travelplanner/pages/widgets/tp_text_field.dart';
@@ -36,69 +37,81 @@ class _RegPageState extends State<RegPage> {
                     PasswordField(
                       controller: _passwordController,
                     ),
-                    NameField(
-                      controller: _nameController,
-                    ),
-                    SurnameField(
-                      controller: _surnameController,
-                    ),
-                    PatronymicField(
-                      controller: _patronymicController,
-                    ),
-                    AgeField(
-                      controller: _ageController,
-                    )
+                    // NameField(
+                    //   controller: _nameController,
+                    // ),
+                    // SurnameField(
+                    //   controller: _surnameController,
+                    // ),
+                    // PatronymicField(
+                    //   controller: _patronymicController,
+                    // ),
+                    // AgeField(
+                    //   controller: _ageController,
+                    // )
                   ]
                       .map(
                         (e) => e.pOnly(bottom: 15),
                       )
                       .toList(),
                 ),
-                // Expanded(
-                //   child: Center(
-                //     child: ButtonWidget(
-                //       text: "ЗАРЕГЕСТРИРОВАТЬ",
-                //       onClick: () async {
-                //         final registrationResponce = await RestClient.accounts
-                //             .registerAccount(
-                //                 login: _loginController.text,
-                //                 password: _passwordController.text,
-                //                 firstname: _nameController.text,
-                //                 lastname: _surnameController.text,
-                //                 age: int.tryParse(_ageController.text) ?? 0);
+                Expanded(
+                  child: Center(
+                    child: ButtonWidget(
+                      text: "ЗАРЕГЕСТРИРОВАТЬ",
+                      onClick: () async {
+                        // final registrationResponce = await RestClient.accounts
+                        //     .registerAccount(
+                        //         login: _loginController.text,
+                        //         password: _passwordController.text,
+                        //         firstname: _nameController.text,
+                        //         lastname: _surnameController.text,
+                        //         age: int.tryParse(_ageController.text) ?? 0);
 
-                //         showDialog(
-                //           context: context,
-                //           builder: (context) {
-                //             return AlertDialog(
-                //               title: Text(registrationResponce!.isLeft()
-                //                   ? "Успех"
-                //                   : "Ошибка"),
-                //               content: SingleChildScrollView(
-                //                 child: ListBody(
-                //                   children: <Widget>[
-                //                     Text(registrationResponce.fold(
-                //                         (acc) =>
-                //                             "Аккаунт успешно зарегестрирван",
-                //                         (err) => err.toString())),
-                //                   ],
-                //                 ),
-                //               ),
-                //               actions: <Widget>[
-                //                 TextButton(
-                //                   onPressed: () {
-                //                     Navigator.of(context).pop();
-                //                   },
-                //                   child: const Text('ОК'),
-                //                 ),
-                //               ],
-                //             );
-                //           },
-                //         );
-                //       },
-                //     ),
-                //   ),
-                // ),
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (context) {
+                        //     return AlertDialog(
+                        //       title: Text(registrationResponce!.isLeft()
+                        //           ? "Успех"
+                        //           : "Ошибка"),
+                        //       content: SingleChildScrollView(
+                        //         child: ListBody(
+                        //           children: <Widget>[
+                        //             Text(registrationResponce.fold(
+                        //                 (acc) =>
+                        //                     "Аккаунт успешно зарегестрирван",
+                        //                 (err) => err.toString())),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //       actions: <Widget>[
+                        //         TextButton(
+                        //           onPressed: () {
+                        //             Navigator.of(context).pop();
+                        //           },
+                        //           child: const Text('ОК'),
+                        //         ),
+                        //       ],
+                        //     );
+                        //   },
+                        // );
+                      },
+                    ).box.padding(const EdgeInsets.only(bottom: 8)).make(),
+                  ),
+                ),
+                HStack([
+                  "Зарегестрироваться через Google".text.size(18).make(),
+                  IconButton(
+                    icon: Assets.icons.uniconsMonochrome.google.svg(width: 48),
+                    onPressed: () {},
+                  )
+                      .box
+                      .margin(const EdgeInsets.only(left: 8))
+                      .border(color: context.theme.primaryColor)
+                      .roundedFull
+                      .make()
+                ]).centered(),
                 HStack(
                   [
                     const Text("Есть аккаунт? ",

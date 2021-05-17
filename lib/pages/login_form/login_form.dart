@@ -22,100 +22,123 @@ class _LoginPageState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: context.backgroundColor,
         body: SingleChildScrollView(
-      child: Column(
-        children: [
-          const HeaderContainer(text: "Войти в приложение"),
-          Column(
+          child: Column(
             children: [
+              const HeaderContainer(text: "Войти в приложение"),
               Column(
                 children: [
-                  TpTextField(
-                      hint: "Логин",
-                      controller: _loginController,
-                      icon: Assets.icons.uniconsLine.user.svg(),
-                      borderColor: Theme.of(context).accentColor),
-                  TpTextField(
-                      controller: _passwordController,
-                      hint: "Пароль",
-                      icon: Assets.icons.uniconsLine.keySkeleton.svg(),
-                      borderColor: Theme.of(context).accentColor),
-                ]
-                    .map(
-                      (e) => e.box
-                          .padding(const EdgeInsets.only(bottom: 15))
-                          .make(),
-                    )
-                    .toList(),
-              ),
-              ButtonWidget(
-                onClick: () async {
-                  // final isPasswordMatch = await RestClient.accounts
-                  //     .passwordMatch(
-                  //         login: _loginController.text,
-                  //         password: _passwordController.text);
+                  Column(
+                    children: [
+                      TpTextField(
+                          hint: "Логин",
+                          controller: _loginController,
+                          icon: Assets.icons.uniconsLine.user.svg(),
+                          borderColor: Theme.of(context).accentColor),
+                      TpTextField(
+                          controller: _passwordController,
+                          hint: "Пароль",
+                          icon: Assets.icons.uniconsLine.keySkeleton.svg(),
+                          borderColor: Theme.of(context).accentColor),
+                    ]
+                        .map(
+                          (e) => e.box
+                              .padding(const EdgeInsets.only(bottom: 15))
+                              .make(),
+                        )
+                        .toList(),
+                  ),
+                  ButtonWidget(
+                    onClick: () async {
+                      // context.read<AuthBloc>().add(
+                      //       CreateUserWithEmailAndPassword(
+                      //           _loginController.text, _passwordController.text),
+                      //     );
 
-                  if (true) {
-                    // TODO: check pass
-                    context.nextPage(
-                      BlocProvider(
-                        create: (context) => MenuPageBloc(),
-                        child: MenuPage(),
-                      ),
-                    );
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text("Ошибка"),
-                          content: SingleChildScrollView(
-                            child: ListBody(
-                              children: const [
-                                Text("Пароль не верный"),
-                              ],
-                            ),
+                      if (true) {
+                        // TODO: check pass
+                        context.nextPage(
+                          BlocProvider(
+                            create: (context) => MenuPageBloc(),
+                            child: MenuPage(),
                           ),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('ОК'),
-                            ),
-                          ],
                         );
-                      },
-                    );
-                  }
-                },
-                text: "Войти",
-              ).box.shadow.withRounded(value: 30).make().centered(),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: HStack([
-                  "У вас нет аккаунта?"
-                      .text
-                      .textStyle(const TextStyle(color: Colors.black))
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text("Ошибка"),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: const [
+                                    Text("Пароль не верный"),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('ОК'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                    text: "Войти",
+                  )
+                      .box
+                      .shadow
+                      .withRounded(value: 30)
+                      .margin(const EdgeInsets.only(bottom: 10))
                       .make()
-                      .pOnly(right: 5),
-                  TextButton(
-                      onPressed: () {
-                        context.nextPage(RegPage());
-                      },
-                      child: "Зарегестрироваться"
+                      .centered(),
+                  HStack([
+                    "Войти через Google"
+                        .text
+                        .textStyle(context.textTheme.bodyText1!)
+                        .make(),
+                    IconButton(
+                      icon:
+                          Assets.icons.uniconsMonochrome.google.svg(width: 48),
+                      onPressed: () {},
+                    )
+                        .box
+                        .margin(const EdgeInsets.only(left: 8))
+                        .border(color: context.theme.primaryColor)
+                        .roundedFull
+                        .make()
+                  ]),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: HStack([
+                      "У вас нет аккаунта?"
                           .text
-                          .textStyle(TextStyle(color: primaryColor))
-                          .make())
-                ]),
+                          .textStyle(context.textTheme.bodyText1!)
+                          .make()
+                          .pOnly(right: 5),
+                      TextButton(
+                          onPressed: () {
+                            context.nextPage(RegPage());
+                          },
+                          child: "Зарегестрироваться"
+                              .text
+                              .textStyle(TextStyle(color: primaryColor))
+                              .make())
+                    ]),
+                  )
+                ],
               )
+                  .box
+                  .margin(const EdgeInsets.only(left: 20, right: 20, top: 30))
+                  .make(),
             ],
-          )
-              .box
-              .margin(const EdgeInsets.only(left: 20, right: 20, top: 30))
-              .make(),
-        ],
-      ).box.padding(const EdgeInsets.only(bottom: 30)).make(),
-    ));
+          ).box.padding(const EdgeInsets.only(bottom: 30)).make(),
+        ));
   }
 }

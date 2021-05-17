@@ -27,7 +27,7 @@ class HeaderContainer extends StatelessWidget {
             .make()
             .centered(),
         text.text
-            .textStyle(const TextStyle(color: Colors.white, fontSize: 20))
+            .textStyle(context.theme.textTheme.headline6!)
             .make()
             .positioned(bottom: 10, right: 10)
       ],
@@ -36,7 +36,7 @@ class HeaderContainer extends StatelessWidget {
         .height(context.percentHeight * 35)
         .withDecoration(BoxDecoration(
             gradient: LinearGradient(
-                colors: [primaryColor, secondaryColor],
+                colors: [context.theme.primaryColor, context.theme.accentColor],
                 end: Alignment.bottomCenter,
                 begin: Alignment.topCenter),
             borderRadius:

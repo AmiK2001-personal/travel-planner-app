@@ -29,8 +29,9 @@ class App extends StatelessWidget {
           return BlocProvider(
             create: (context) => AuthBloc(),
             child: MaterialApp(
-              theme: ThemeData(
-                  accentColor: secondaryColor, primaryColor: primaryColor),
+              themeMode: ThemeMode.light,
+              darkTheme: buildDarkThemeData(),
+              theme: buildLightThemeData(),
               debugShowCheckedModeBanner: false,
               home: BlocProvider(
                 create: (_) => LoginFormBloc(),
@@ -41,6 +42,25 @@ class App extends StatelessWidget {
         }
         return const CircularProgressIndicator();
       },
+    );
+  }
+
+  ThemeData buildLightThemeData() {
+    return ThemeData(
+        accentColor: secondaryColor,
+        primaryColor: primaryColor,
+        backgroundColor: Colors.white);
+  }
+
+  ThemeData buildDarkThemeData() {
+    return ThemeData(
+      textTheme: const TextTheme(
+        headline6: TextStyle(color: Colors.white),
+        bodyText1: TextStyle(color: Colors.white),
+      ),
+      accentColor: secondaryColor,
+      primaryColor: primaryColor,
+      backgroundColor: Colors.grey.shade900,
     );
   }
 }

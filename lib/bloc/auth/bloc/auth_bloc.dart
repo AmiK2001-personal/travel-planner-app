@@ -43,6 +43,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 "Произошла неизвестная ошибка во время создании аккаунта");
             break;
         }
+      } catch (e) {
+        yield const _Error("Неверные данные");
       }
     }
   }
