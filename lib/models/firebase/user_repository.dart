@@ -1,10 +1,33 @@
 import 'dart:async';
+import 'package:dfunc/dfunc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:travelplanner/models/error_message.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
+
+  String firebaseAuthExceptionCodeToString(String exceptionCode) {
+    switch (exceptionCode) {
+      case "email-already-in-use":
+        return "Почта уже занята";
+      case "invalid-email":
+        return "Неверная почта";
+      case "operation-not-allowed":
+        return "Операция не разрешена";
+      case "weak-password":
+        return "Слабый пароль";
+      case "user-not-found":
+        return "Пользователь не найден";
+      case "user-disabled":
+        return "Пользователь отключен";
+      case "wrong-password":
+        return "Неверный пароль";
+      default:
+        return "Произошла неизвестная ошибка во время создании аккаунта";
+    }
+  }
 
   UserRepository({FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
@@ -22,19 +45,58 @@ class UserRepository {
     return _firebaseAuth.currentUser;
   }
 
-  Future<void> signInWithCredentials(String email, String password) {
-    return _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  Future<Either<UserCredential, ErrorMessage>> signInWithCredentials(
+      {required String email, required String password}) async {
+    if (email.isNotEmpty && password.isNotEmpty) {
+      try {
+        return Either.left(
+          await _firebaseAuth.signInWithEmailAndPassword(
+            email: email,
+            password: password,
+          ),
+        );
+      } on FirebaseAuthException catch (e) {
+        final errorMessage = firebaseAuthExceptionCodeToString(e.code);
+        return Either.right(ErrorMessage(message: errorMessage, code: e.code));
+      } catch (e) {
+        return Either.right(
+          ErrorMessage(code: "unknown", message: "Неизвестная ошибка", data: e),
+        );
+      }
+    } else {
+      return Either.right(
+        ErrorMessage(
+            code: "invalid-input",
+            message: "Неверные данные для аутентификации"),
+      );
+    }
   }
 
-  Future<UserCredential> signUp(
+  Future<Either<UserCredential, ErrorMessage>> signUp(
       {required String email, required String password}) async {
-    return _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    if (email.isNotEmpty && password.isNotEmpty) {
+      try {
+        return Either.left(
+          await _firebaseAuth.createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          ),
+        );
+      } on FirebaseAuthException catch (e) {
+        final errorMessage = firebaseAuthExceptionCodeToString(e.code);
+        return Either.right(ErrorMessage(message: errorMessage, code: e.code));
+      } catch (e) {
+        return Either.right(
+          ErrorMessage(code: "unknown", message: "Неизвестная ошибка", data: e),
+        );
+      }
+    } else {
+      return Either.right(
+        ErrorMessage(
+            code: "invalid-input",
+            message: "Неверные данные для аутентификации"),
+      );
+    }
   }
 
   Future<List<void>> signOut() async {
@@ -48,7 +110,7 @@ class UserRepository {
     return _firebaseAuth.currentUser != null;
   }
 
-  String? getUser() {
-    return _firebaseAuth.currentUser!.email;
+  User? getUser() {
+    return _firebaseAuth.currentUser;
   }
 }

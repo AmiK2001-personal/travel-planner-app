@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:travelplanner/bloc/auth/bloc/auth_bloc.dart';
 import 'package:travelplanner/gen/assets.gen.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widgets/profile_widget.dart';
 
@@ -11,6 +13,7 @@ class SettingsPage extends StatelessWidget {
       ProfileWidget(
         onClicked: () {},
       ),
+      Text(context.read<AuthBloc>().userRepo.getUser()!.displayName ?? ""),
       MenuItem(
         svgImage: Assets.icons.uniconsLine.userSquare,
         label: "Профиль",

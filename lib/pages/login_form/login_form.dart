@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travelplanner/bloc/auth/bloc/auth_bloc.dart';
 import 'package:travelplanner/bloc/menu_page/menu_page_bloc.dart';
 import 'package:travelplanner/gen/assets.gen.dart';
 import 'package:travelplanner/pages/menu_page/menu_page.dart';
@@ -16,12 +17,52 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginForm> {
-  final TextEditingController _loginController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        state.when(
+            initial: () => null,
+            created: (userCredential) => {print(userCredential)},
+            authenticated: (userCredential) => {
+                  context.nextPage(
+                    BlocProvider(
+                      create: (context) => MenuPageBloc(),
+                      child: MenuPage(),
+                    ),
+                  )
+                },
+            logouted: (userCredential) => {print(userCredential)},
+            error: (errorMessage) => {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Ошибка"),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: [
+                              Text(errorMessage),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('ОК'),
+                          ),
+                        ],
+                      );
+                    },
+                  )
+                });
+      },
+      child: Scaffold(
         backgroundColor: context.backgroundColor,
         body: SingleChildScrollView(
           child: Column(
@@ -32,8 +73,8 @@ class _LoginPageState extends State<LoginForm> {
                   Column(
                     children: [
                       TpTextField(
-                          hint: "Логин",
-                          controller: _loginController,
+                          hint: "Email",
+                          controller: _emailController,
                           icon: Assets.icons.uniconsLine.user.svg(),
                           borderColor: Theme.of(context).accentColor),
                       TpTextField(
@@ -51,44 +92,11 @@ class _LoginPageState extends State<LoginForm> {
                   ),
                   ButtonWidget(
                     onClick: () async {
-                      // context.read<AuthBloc>().add(
-                      //       CreateUserWithEmailAndPassword(
-                      //           _loginController.text, _passwordController.text),
-                      //     );
-
-                      if (true) {
-                        // TODO: check pass
-                        context.nextPage(
-                          BlocProvider(
-                            create: (context) => MenuPageBloc(),
-                            child: MenuPage(),
-                          ),
-                        );
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("Ошибка"),
-                              content: SingleChildScrollView(
-                                child: ListBody(
-                                  children: const [
-                                    Text("Пароль не верный"),
-                                  ],
-                                ),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('ОК'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
+                      context.read<AuthBloc>().add(
+                            SignInUserWithEmailAndPassword(
+                                _emailController.text,
+                                _passwordController.text),
+                          );
                     },
                     text: "Войти",
                   )
@@ -139,6 +147,8 @@ class _LoginPageState extends State<LoginForm> {
                   .make(),
             ],
           ).box.padding(const EdgeInsets.only(bottom: 30)).make(),
-        ));
+        ),
+      ),
+    );
   }
 }
