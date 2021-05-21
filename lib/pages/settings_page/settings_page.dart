@@ -13,7 +13,15 @@ class SettingsPage extends StatelessWidget {
       ProfileWidget(
         onClicked: () {},
       ),
-      Text(context.read<AuthBloc>().userRepo.getUser()!.displayName ?? ""),
+      context
+          .read<AuthBloc>()
+          .userRepo
+          .getUser()!
+          .email!
+          .text
+          .textStyle(context.textTheme.caption!)
+          .center
+          .make(),
       MenuItem(
         svgImage: Assets.icons.uniconsLine.userSquare,
         label: "Профиль",

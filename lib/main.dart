@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travelplanner/bloc/auth/bloc/auth_bloc.dart';
 import 'package:travelplanner/pages/login_form/login_form.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travelplanner/utilities/constraints.dart';
 
 import 'bloc/login_form/login_form_bloc.dart';
@@ -26,17 +27,29 @@ class App extends StatelessWidget {
           return const Text("Error connect to firebase");
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return BlocProvider(
-            create: (context) => AuthBloc(),
-            child: MaterialApp(
-              themeMode: ThemeMode.light,
-              darkTheme: buildDarkThemeData(),
-              theme: buildLightThemeData(),
-              debugShowCheckedModeBanner: false,
-              home: BlocProvider(
-                create: (_) => LoginFormBloc(),
-                child: LoginForm(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<AuthBloc>(
+                create: (BuildContext context) => AuthBloc(),
               ),
+              BlocProvider<LoginFormBloc>(
+                create: (BuildContext context) => LoginFormBloc(),
+              ),
+            ],
+            child: BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return MaterialApp(
+                    themeMode: ThemeMode.light,
+                    darkTheme: buildDarkThemeData(),
+                    theme: buildLightThemeData(),
+                    debugShowCheckedModeBanner: false,
+                    home: context.read<AuthBloc>().userRepo.isSignedIn()
+                        ? BlocProvider(
+                            create: (_) => LoginFormBloc(),
+                            child: LoginForm(),
+                          )
+                        : null);
+              },
             ),
           );
         }

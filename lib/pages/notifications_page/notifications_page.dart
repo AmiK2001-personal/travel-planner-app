@@ -5,6 +5,7 @@ class NotificationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      itemCount: 1,
       itemBuilder: (context, index) {
         return Card(
           child: Row(
@@ -13,8 +14,13 @@ class NotificationsPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  "Название".text.make(),
-                  "Текст уведомления".text.gray400.softWrap(true).make()
+                  "Изменена видимость путешествия".text.make(),
+                  "Видимость Путешествия 'Казанский Кремль' изменена на 'Публичный'"
+                      .text
+                      .gray400
+                      .softWrap(true)
+                      .make()
+                      .w(context.percentWidth * 80)
                 ],
               ).box.margin(const EdgeInsets.all(4)).make(),
               IconButton(

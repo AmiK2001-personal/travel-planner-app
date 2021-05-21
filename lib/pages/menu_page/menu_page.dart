@@ -282,7 +282,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
             .box
             .withRounded(value: 23.0)
             .padding(const EdgeInsets.only(bottom: 20))
-            .outerShadow
             .make();
       },
     );

@@ -106,7 +106,7 @@ class UserRepository {
     ]);
   }
 
-  Future<bool> isSignedIn() async {
+  bool isSignedIn() {
     return _firebaseAuth.currentUser != null;
   }
 
