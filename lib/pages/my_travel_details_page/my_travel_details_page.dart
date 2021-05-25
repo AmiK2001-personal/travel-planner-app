@@ -91,17 +91,24 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
     });
   }
 
+  Stream<DocumentSnapshot<Map<String, dynamic>>> fetchTravel(String travelId) {
+    return FirebaseFirestore.instance
+        .collection("travels")
+        .doc(travelId)
+        .snapshots();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(accentColor: secondaryColor, primaryColor: primaryColor),
       debugShowCheckedModeBanner: false,
-      home: StreamBuilder<Object>(
-          stream: FirebaseFirestore.instance
-              .collection("travels")
-              .doc(widget.travelId)
-              .snapshots(),
+      home: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+          stream: fetchTravel(widget.travelId),
           builder: (context, snapshot) {
+            final travel = Travel.fromJson(snapshot.data!.data()!);
+
+            print(travel);
             return Scaffold(
               appBar: AppBar(
                 bottom: TabBar(
@@ -124,12 +131,12 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                       TpTextField(
                         icon: const Icon(Icons.info_outlined),
                         hint: "Название",
-                        //value: widget.travel.name,
+                        value: travel.name,
                       ),
                       TpTextField(
                         icon: const Icon(Icons.info_outlined),
                         hint: "Описание",
-                        //value: widget.travel.description,
+                        value: travel.description,
                       ),
                       HStack([
                         IconButton(
@@ -137,7 +144,7 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                             onPressed: () {
                               _selectDate(context);
                             }),
-                        // Text(widget.travel.date.toString()),
+                        Text(travel.date.toString()),
                       ])
                           .box
                           .border(color: context.theme.accentColor)
@@ -152,8 +159,7 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                             .make(),
                         "Публичный".text.make(),
                         Switch(
-                            value: false,
-                            // value: widget.travel.isPublic ?? false,
+                            value: travel.isPublic ?? false,
                             onChanged: (state) {})
                       ]).box.margin(const EdgeInsets.only(left: 12)).make()
                     ]
@@ -162,56 +168,56 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                             .make())
                         .toList(),
                   ).p8(),
-                  // if (widget.travel.locations != null)
-                  //   ListView.builder(
-                  //     itemBuilder: (context, index) {
-                  //       final location = widget.travel.locations![index];
-                  //       return HStack(
-                  //         [
-                  //           index.text
-                  //               .color(context.theme.accentColor)
-                  //               .make()
-                  //               .box
-                  //               .margin(const EdgeInsets.only(right: 6))
-                  //               .make(),
-                  //           location.name!.text.bold.make()
-                  //         ],
-                  //       )
-                  //           .box
-                  //           .padding(const EdgeInsets.all(10))
-                  //           .make()
-                  //           .card
-                  //           .make();
-                  //     },
-                  //     itemCount: widget.travel.locations!.length,
-                  //   )
-                  // else
-                  //   "Нет локаций".text.make(),
-                  // if (widget.travel.goodies != null)
-                  //   ListView.builder(
-                  //     itemBuilder: (context, index) {
-                  //       final goodie = widget.travel.goodies![index];
-                  //       return HStack(
-                  //         [
-                  //           index.text
-                  //               .color(context.theme.accentColor)
-                  //               .make()
-                  //               .box
-                  //               .margin(const EdgeInsets.only(right: 6))
-                  //               .make(),
-                  //           goodie.name!.text.bold.make()
-                  //         ],
-                  //       )
-                  //           .box
-                  //           .padding(const EdgeInsets.all(10))
-                  //           .make()
-                  //           .card
-                  //           .make();
-                  //     },
-                  //     itemCount: widget.travel.goodies!.length,
-                  //   )
-                  // else
-                  //   "Нет товаров".text.make(),
+                  if (travel.locations != null)
+                    ListView.builder(
+                      itemBuilder: (context, index) {
+                        final location = travel.locations![index];
+                        return HStack(
+                          [
+                            index.text
+                                .color(context.theme.accentColor)
+                                .make()
+                                .box
+                                .margin(const EdgeInsets.only(right: 6))
+                                .make(),
+                            location.name!.text.bold.make()
+                          ],
+                        )
+                            .box
+                            .padding(const EdgeInsets.all(10))
+                            .make()
+                            .card
+                            .make();
+                      },
+                      itemCount: travel.locations!.length,
+                    )
+                  else
+                    "Нет локаций".text.make(),
+                  if (travel.goodies != null)
+                    ListView.builder(
+                      itemBuilder: (context, index) {
+                        final goodie = travel.goodies![index];
+                        return HStack(
+                          [
+                            index.text
+                                .color(context.theme.accentColor)
+                                .make()
+                                .box
+                                .margin(const EdgeInsets.only(right: 6))
+                                .make(),
+                            goodie.name!.text.bold.make()
+                          ],
+                        )
+                            .box
+                            .padding(const EdgeInsets.all(10))
+                            .make()
+                            .card
+                            .make();
+                      },
+                      itemCount: travel.goodies!.length,
+                    )
+                  else
+                    "Нет товаров".text.make(),
                   Center(
                       child: Text(
                     _selectedIndex.toString(),

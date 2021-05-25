@@ -1,14 +1,18 @@
+import 'dart:math';
+
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:travelplanner/bloc/menu_page/bloc.dart';
 import 'package:travelplanner/gen/assets.gen.dart';
 import 'package:travelplanner/gen/fonts.gen.dart';
 import 'package:travelplanner/models/gen/travel/travel.dart';
 import 'package:travelplanner/pages/settings_page/settings_page.dart';
+import 'package:tuple/tuple.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:travelplanner/pages/my_travels_page/my_travels_page.dart';
 import 'package:travelplanner/pages/notifications_page/notifications_page.dart';
@@ -94,65 +98,69 @@ class _TravelCardState extends State<TravelCard> {
     );
   }
 
-  Future<List<Travel>> fetchPublicTravels() async {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> fetchTravel(String travelId) {
     return FirebaseFirestore.instance
         .collection("travels")
-        .where('is_public', isEqualTo: true)
-        .snapshots().
-        .toList();
+        .doc(travelId)
+        .snapshots();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        logo(context, null),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            //(travel.name ?? "Название")
-            "adsasd"
-                .text
-                .fontWeight(FontWeight.w400)
-                .fontFamily(FontFamily.metropolis)
-                .xl
-                .color(Theme.of(context).primaryColor)
-                .make(),
-            //  (travel.description ?? "Описание")
-            "Описание"
-                .text
-                .softWrap(true)
-                .ellipsis
-                .fontFamily(FontFamily.metropolis)
-                .align(TextAlign.center)
-                .gray500
-                .make(),
-            // DateFormat('yyyy/MM/dd')
-            //     .format(travel.date!)
-            "ads".text.fontFamily(FontFamily.metropolis).make()
-          ],
-        )
-            .wh(context.percentWidth * 70, context.percentHeight * 12)
-            .card
-            .roundedLg
-            .elevation(12)
-            .make()
-            .box
-            .alignment(Alignment.bottomCenter)
-            .margin(const EdgeInsets.only(bottom: 30))
-            .make()
-      ],
-    )
-        .box
-        .margin(const EdgeInsets.only(left: 6, right: 6, bottom: 30))
-        .make()
-        .onInkTap(() {
-      context.nextPage(
-        MyTravelDetailsPage(
-          travelId: widget.travelId,
-        ),
-      );
-    });
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: fetchTravel(widget.travelId),
+        builder: (context, snapshot) {
+          final travel = Travel.fromJson(snapshot.data!.data()!);
+          return Stack(
+            children: [
+              logo(context, null),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  (travel.name ?? "Название")
+                      .text
+                      .fontWeight(FontWeight.w400)
+                      .fontFamily(FontFamily.metropolis)
+                      .xl
+                      .color(Theme.of(context).primaryColor)
+                      .make(),
+                  (travel.description ?? "Описание")
+                      .text
+                      .softWrap(true)
+                      .ellipsis
+                      .fontFamily(FontFamily.metropolis)
+                      .align(TextAlign.center)
+                      .gray500
+                      .make(),
+                  DateFormat('yyyy/MM/dd')
+                      .format(travel.date!)
+                      .text
+                      .fontFamily(FontFamily.metropolis)
+                      .make()
+                ],
+              )
+                  .wh(context.percentWidth * 70, context.percentHeight * 12)
+                  .card
+                  .roundedLg
+                  .elevation(12)
+                  .make()
+                  .box
+                  .alignment(Alignment.bottomCenter)
+                  .margin(const EdgeInsets.only(bottom: 30))
+                  .make()
+            ],
+          )
+              .box
+              .margin(const EdgeInsets.only(left: 6, right: 6, bottom: 30))
+              .make()
+              .onInkTap(() {
+            context.nextPage(
+              MyTravelDetailsPage(
+                travelId: widget.travelId,
+              ),
+            );
+          });
+        });
   }
 }
 
@@ -161,37 +169,44 @@ class Body extends StatelessWidget {
 
   final int selectedItemId;
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> fetchPublicTravels() {
+    return FirebaseFirestore.instance
+        .collection("travels")
+        .where('is_public', isEqualTo: true)
+        .snapshots();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MenuPageBloc, MenuPageState>(builder: (context, state) {
       switch (context.read<MenuPageBloc>().state.selectedNavigationBarItemId) {
         case 0:
-          return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              future: FirebaseFirestore.instance
-                  .collection("travels")
-                  .where('is_public', isEqualTo: true)
-                  .get(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data != null) {
-                  final travels = snapshot.data!.docs.toList();
+          return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: fetchPublicTravels(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data != null) {
+                final travels = snapshot.data!.docs
+                    .map((e) => Tuple2(e.id, Travel.fromJson(e.data())))
+                    .toList();
 
-                  return travels.isNotEmpty
-                      ? VxSwiper.builder(
-                          enableInfiniteScroll: false,
-                          scrollDirection: Axis.vertical,
-                          itemCount: travels.length,
-                          height: context.screenHeight,
-                          itemBuilder: (context, index) {
-                            return TravelCard(travels[index].id);
-                          },
-                        )
-                      : "Путешествий нет".text.make().centered();
-                } else if (!snapshot.hasError && !snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                } else {
-                  return const Text("Error");
-                }
-              });
+                return travels.isNotEmpty
+                    ? VxSwiper.builder(
+                        enableInfiniteScroll: false,
+                        scrollDirection: Axis.vertical,
+                        itemCount: travels.length,
+                        height: context.screenHeight,
+                        itemBuilder: (context, index) {
+                          return TravelCard(travels[index].item1);
+                        },
+                      )
+                    : "Путешествий нет".text.make().centered();
+              } else if (!snapshot.hasError && !snapshot.hasData) {
+                return const CircularProgressIndicator();
+              } else {
+                return const Text("Error");
+              }
+            },
+          );
         case 2:
           return MyTravelsPage();
         case 3:
