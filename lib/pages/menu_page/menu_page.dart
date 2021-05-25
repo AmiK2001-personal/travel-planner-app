@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:travelplanner/bloc/menu_page/bloc.dart';
 import 'package:travelplanner/gen/assets.gen.dart';
 import 'package:travelplanner/gen/fonts.gen.dart';
@@ -51,68 +50,76 @@ class _MenuPageState extends State<MenuPage> {
   }
 }
 
-class TravelCard extends StatelessWidget {
-  final Travel travel;
+class TravelCard extends StatefulWidget {
+  final String travelId;
 
-  const TravelCard(this.travel, {Key? key}) : super(key: key);
+  const TravelCard(this.travelId, {Key? key}) : super(key: key);
 
-  Widget logo(BuildContext context) {
-    if (travel.images != null) {
-      return CachedNetworkImage(
-        imageUrl: travel.images!.first,
-        placeholder: (context, url) => const CircularProgressIndicator(),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
-        fit: BoxFit.fitHeight,
-      )
-          .whFull(context)
-          .box
-          .make()
-          .card
-          .rounded
-          .elevation(8)
-          .makeCentered()
-          .whFull(context)
-          .box
-          .margin(const EdgeInsets.all(4))
-          .make();
-    } else {
-      return CachedNetworkImage(
-        imageUrl:
-            "https://travelmaz.com/wp-content/uploads/2021/01/https___specials-images.forbesimg.com_imageserve_5f709d82fa4f131fa2114a74_0x0.jpg",
-        placeholder: (context, url) => const CircularProgressIndicator(),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
-        fit: BoxFit.fitHeight,
-      )
-          .whFull(context)
-          .box
-          .make()
-          .card
-          .rounded
-          .elevation(8)
-          .makeCentered()
-          .whFull(context)
-          .box
-          .margin(const EdgeInsets.all(4))
-          .make();
-    }
+  @override
+  _TravelCardState createState() => _TravelCardState();
+}
+
+class _TravelCardState extends State<TravelCard> {
+  Widget logo(BuildContext context, List<String>? images) {
+    return (images != null ? firstTravelImage(images) : defaultImage())
+        .whFull(context)
+        .box
+        .make()
+        .card
+        .rounded
+        .elevation(8)
+        .makeCentered()
+        .whFull(context)
+        .box
+        .margin(const EdgeInsets.all(4))
+        .make();
+  }
+
+  CachedNetworkImage firstTravelImage(List<String> images) {
+    return CachedNetworkImage(
+      imageUrl: images.first,
+      placeholder: (context, url) => const CircularProgressIndicator(),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
+      fit: BoxFit.fitHeight,
+    );
+  }
+
+  CachedNetworkImage defaultImage() {
+    return CachedNetworkImage(
+      imageUrl:
+          "https://travelmaz.com/wp-content/uploads/2021/01/https___specials-images.forbesimg.com_imageserve_5f709d82fa4f131fa2114a74_0x0.jpg",
+      placeholder: (context, url) => const CircularProgressIndicator(),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
+      fit: BoxFit.fitHeight,
+    );
+  }
+
+  Future<List<Travel>> fetchPublicTravels() async {
+    return FirebaseFirestore.instance
+        .collection("travels")
+        .where('is_public', isEqualTo: true)
+        .snapshots().
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        logo(context),
+        logo(context, null),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            (travel.name ?? "Название")
+            //(travel.name ?? "Название")
+            "adsasd"
                 .text
                 .fontWeight(FontWeight.w400)
                 .fontFamily(FontFamily.metropolis)
                 .xl
                 .color(Theme.of(context).primaryColor)
                 .make(),
-            (travel.description ?? "Описание")
+            //  (travel.description ?? "Описание")
+            "Описание"
                 .text
                 .softWrap(true)
                 .ellipsis
@@ -120,11 +127,9 @@ class TravelCard extends StatelessWidget {
                 .align(TextAlign.center)
                 .gray500
                 .make(),
-            DateFormat('yyyy/MM/dd')
-                .format(travel.date!)
-                .text
-                .fontFamily(FontFamily.metropolis)
-                .make()
+            // DateFormat('yyyy/MM/dd')
+            //     .format(travel.date!)
+            "ads".text.fontFamily(FontFamily.metropolis).make()
           ],
         )
             .wh(context.percentWidth * 70, context.percentHeight * 12)
@@ -144,7 +149,7 @@ class TravelCard extends StatelessWidget {
         .onInkTap(() {
       context.nextPage(
         MyTravelDetailsPage(
-          travel: travel,
+          travelId: widget.travelId,
         ),
       );
     });
@@ -168,9 +173,7 @@ class Body extends StatelessWidget {
                   .get(),
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data != null) {
-                  final travels = snapshot.data!.docs
-                      .map((e) => Travel.fromJson(e.data()))
-                      .toList();
+                  final travels = snapshot.data!.docs.toList();
 
                   return travels.isNotEmpty
                       ? VxSwiper.builder(
@@ -179,7 +182,7 @@ class Body extends StatelessWidget {
                           itemCount: travels.length,
                           height: context.screenHeight,
                           itemBuilder: (context, index) {
-                            return TravelCard(travels[index]);
+                            return TravelCard(travels[index].id);
                           },
                         )
                       : "Путешествий нет".text.make().centered();

@@ -20,85 +20,74 @@ class _RegPageState extends State<RegPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        state.when(
-            initial: () => null,
-            created: (userCredential) => {print(userCredential)},
-            authenticated: (userCredential) => null,
-            logouted: (userCredential) => null,
-            error: (errorMessage) => {print(errorMessage)});
-      },
-      child: Scaffold(
-        body: Column(children: [
-          const HeaderContainer(text: "Регистрация"),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(left: 20, right: 20),
-              child: ListView(
-                children: [
-                  VStack(
-                    [
-                      EmailField(
-                        controller: _emailController,
-                      ),
-                      PasswordField(
-                        controller: _passwordController,
-                      ),
-                    ]
-                        .map(
-                          (e) => e.pOnly(bottom: 15),
-                        )
-                        .toList(),
-                  ),
-                  Expanded(
-                    child: Center(
-                        child: ButtonWidget(
-                      text: "ЗАРЕГЕСТРИРОВАТЬ",
-                      onClick: () {
-                        context.read<AuthBloc>().add(
-                              CreateUserWithEmailAndPassword(
-                                  _emailController.text,
-                                  _passwordController.text),
-                            );
-                      },
-                    )).box.padding(const EdgeInsets.only(bottom: 8)).make(),
-                  ),
-                  HStack([
-                    "Зарегестрироваться через Google".text.size(18).make(),
-                    IconButton(
-                      icon:
-                          Assets.icons.uniconsMonochrome.google.svg(width: 48),
-                      onPressed: () {},
-                    )
-                        .box
-                        .margin(const EdgeInsets.only(left: 8))
-                        .border(color: context.theme.primaryColor)
-                        .roundedFull
-                        .make()
-                  ]).centered(),
-                  HStack(
-                    [
-                      const Text("Есть аккаунт? ",
-                          style: TextStyle(color: Colors.black)),
-                      TextButton(
-                        onPressed: () {
-                          context.pop();
-                        },
-                        child: "Войти"
-                            .text
-                            .textStyle(TextStyle(color: primaryColor))
-                            .make(),
+    return Scaffold(
+      body: Column(children: [
+        const HeaderContainer(text: "Регистрация"),
+        Expanded(
+          child: Container(
+            margin: const EdgeInsets.only(left: 20, right: 20),
+            child: ListView(
+              children: [
+                VStack(
+                  [
+                    EmailField(
+                      controller: _emailController,
+                    ),
+                    PasswordField(
+                      controller: _passwordController,
+                    ),
+                  ]
+                      .map(
+                        (e) => e.pOnly(bottom: 15),
                       )
-                    ],
-                    alignment: MainAxisAlignment.center,
-                  ).box.alignBottomCenter.make(),
-                ],
-              ),
+                      .toList(),
+                ),
+                Expanded(
+                  child: Center(
+                      child: ButtonWidget(
+                    text: "ЗАРЕГЕСТРИРОВАТЬ",
+                    onClick: () {
+                      context.read<AuthBloc>().add(
+                            CreateUserWithEmailAndPassword(
+                                _emailController.text,
+                                _passwordController.text),
+                          );
+                    },
+                  )).box.padding(const EdgeInsets.only(bottom: 8)).make(),
+                ),
+                HStack([
+                  "Зарегестрироваться через Google".text.size(18).make(),
+                  IconButton(
+                    icon: Assets.icons.uniconsMonochrome.google.svg(width: 48),
+                    onPressed: () {},
+                  )
+                      .box
+                      .margin(const EdgeInsets.only(left: 8))
+                      .border(color: context.theme.primaryColor)
+                      .roundedFull
+                      .make()
+                ]).centered(),
+                HStack(
+                  [
+                    const Text("Есть аккаунт? ",
+                        style: TextStyle(color: Colors.black)),
+                    TextButton(
+                      onPressed: () {
+                        context.pop();
+                      },
+                      child: "Войти"
+                          .text
+                          .textStyle(TextStyle(color: primaryColor))
+                          .make(),
+                    )
+                  ],
+                  alignment: MainAxisAlignment.center,
+                ).box.alignBottomCenter.make(),
+              ],
             ),
           ),
-        ]),
-      ),
+        ),
+      ]),
     );
   }
 }

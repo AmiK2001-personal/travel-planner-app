@@ -27,9 +27,11 @@ class SettingsPage extends StatelessWidget {
         label: "Профиль",
       ),
       MenuItem(
-        svgImage: Assets.icons.uniconsLine.paintTool,
-        label: "Тема",
-      )
+          svgImage: Assets.icons.uniconsLine.exit,
+          label: "Выйти",
+          iconColor: Colors.redAccent,
+          onTap: () => context.read<AuthBloc>().add(const Logout()),
+          textStyle: const TextStyle(color: Colors.redAccent))
     ]).box.margin(const EdgeInsets.symmetric(horizontal: 10)).make();
   }
 }
@@ -38,18 +40,27 @@ class MenuItem extends StatelessWidget {
   final SvgGenImage svgImage;
   final String label;
   final void Function()? onTap;
+  final TextStyle? textStyle;
+  final Color? iconColor;
 
   const MenuItem(
-      {Key? key, required this.svgImage, required this.label, this.onTap})
+      {Key? key,
+      required this.svgImage,
+      required this.label,
+      this.onTap,
+      this.textStyle,
+      this.iconColor})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return HStack(
       [
-        svgImage.svg(color: Theme.of(context).primaryColor, width: 32),
+        svgImage.svg(
+            color: iconColor ?? Theme.of(context).primaryColor, width: 32),
         label.text
             .size(16)
+            .textStyle((textStyle ?? context.textTheme.button)!)
             .make()
             .box
             .margin(const EdgeInsets.only(left: 20))

@@ -39,6 +39,10 @@ class _$AuthEventTearOff {
       password,
     );
   }
+
+  Logout logout() {
+    return const Logout();
+  }
 }
 
 /// @nodoc
@@ -54,6 +58,7 @@ mixin _$AuthEvent {
     required TResult Function() signInWithGoogle,
     required TResult Function(String email, String password)
         signInUserWithEmailAndPassword,
+    required TResult Function() logout,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,6 +69,7 @@ mixin _$AuthEvent {
     TResult Function()? signInWithGoogle,
     TResult Function(String email, String password)?
         signInUserWithEmailAndPassword,
+    TResult Function()? logout,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -75,6 +81,7 @@ mixin _$AuthEvent {
     required TResult Function(SignInWithGoogle value) signInWithGoogle,
     required TResult Function(SignInUserWithEmailAndPassword value)
         signInUserWithEmailAndPassword,
+    required TResult Function(Logout value) logout,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -85,6 +92,7 @@ mixin _$AuthEvent {
     TResult Function(SignInWithGoogle value)? signInWithGoogle,
     TResult Function(SignInUserWithEmailAndPassword value)?
         signInUserWithEmailAndPassword,
+    TResult Function(Logout value)? logout,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -148,6 +156,7 @@ class _$Started implements Started {
     required TResult Function() signInWithGoogle,
     required TResult Function(String email, String password)
         signInUserWithEmailAndPassword,
+    required TResult Function() logout,
   }) {
     return started();
   }
@@ -161,6 +170,7 @@ class _$Started implements Started {
     TResult Function()? signInWithGoogle,
     TResult Function(String email, String password)?
         signInUserWithEmailAndPassword,
+    TResult Function()? logout,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -178,6 +188,7 @@ class _$Started implements Started {
     required TResult Function(SignInWithGoogle value) signInWithGoogle,
     required TResult Function(SignInUserWithEmailAndPassword value)
         signInUserWithEmailAndPassword,
+    required TResult Function(Logout value) logout,
   }) {
     return started(this);
   }
@@ -191,6 +202,7 @@ class _$Started implements Started {
     TResult Function(SignInWithGoogle value)? signInWithGoogle,
     TResult Function(SignInUserWithEmailAndPassword value)?
         signInUserWithEmailAndPassword,
+    TResult Function(Logout value)? logout,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -292,6 +304,7 @@ class _$CreateUserWithEmailAndPassword
     required TResult Function() signInWithGoogle,
     required TResult Function(String email, String password)
         signInUserWithEmailAndPassword,
+    required TResult Function() logout,
   }) {
     return createUserWithEmailAndPassword(email, password);
   }
@@ -305,6 +318,7 @@ class _$CreateUserWithEmailAndPassword
     TResult Function()? signInWithGoogle,
     TResult Function(String email, String password)?
         signInUserWithEmailAndPassword,
+    TResult Function()? logout,
     required TResult orElse(),
   }) {
     if (createUserWithEmailAndPassword != null) {
@@ -322,6 +336,7 @@ class _$CreateUserWithEmailAndPassword
     required TResult Function(SignInWithGoogle value) signInWithGoogle,
     required TResult Function(SignInUserWithEmailAndPassword value)
         signInUserWithEmailAndPassword,
+    required TResult Function(Logout value) logout,
   }) {
     return createUserWithEmailAndPassword(this);
   }
@@ -335,6 +350,7 @@ class _$CreateUserWithEmailAndPassword
     TResult Function(SignInWithGoogle value)? signInWithGoogle,
     TResult Function(SignInUserWithEmailAndPassword value)?
         signInUserWithEmailAndPassword,
+    TResult Function(Logout value)? logout,
     required TResult orElse(),
   }) {
     if (createUserWithEmailAndPassword != null) {
@@ -400,6 +416,7 @@ class _$SignInWithGoogle implements SignInWithGoogle {
     required TResult Function() signInWithGoogle,
     required TResult Function(String email, String password)
         signInUserWithEmailAndPassword,
+    required TResult Function() logout,
   }) {
     return signInWithGoogle();
   }
@@ -413,6 +430,7 @@ class _$SignInWithGoogle implements SignInWithGoogle {
     TResult Function()? signInWithGoogle,
     TResult Function(String email, String password)?
         signInUserWithEmailAndPassword,
+    TResult Function()? logout,
     required TResult orElse(),
   }) {
     if (signInWithGoogle != null) {
@@ -430,6 +448,7 @@ class _$SignInWithGoogle implements SignInWithGoogle {
     required TResult Function(SignInWithGoogle value) signInWithGoogle,
     required TResult Function(SignInUserWithEmailAndPassword value)
         signInUserWithEmailAndPassword,
+    required TResult Function(Logout value) logout,
   }) {
     return signInWithGoogle(this);
   }
@@ -443,6 +462,7 @@ class _$SignInWithGoogle implements SignInWithGoogle {
     TResult Function(SignInWithGoogle value)? signInWithGoogle,
     TResult Function(SignInUserWithEmailAndPassword value)?
         signInUserWithEmailAndPassword,
+    TResult Function(Logout value)? logout,
     required TResult orElse(),
   }) {
     if (signInWithGoogle != null) {
@@ -544,6 +564,7 @@ class _$SignInUserWithEmailAndPassword
     required TResult Function() signInWithGoogle,
     required TResult Function(String email, String password)
         signInUserWithEmailAndPassword,
+    required TResult Function() logout,
   }) {
     return signInUserWithEmailAndPassword(email, password);
   }
@@ -557,6 +578,7 @@ class _$SignInUserWithEmailAndPassword
     TResult Function()? signInWithGoogle,
     TResult Function(String email, String password)?
         signInUserWithEmailAndPassword,
+    TResult Function()? logout,
     required TResult orElse(),
   }) {
     if (signInUserWithEmailAndPassword != null) {
@@ -574,6 +596,7 @@ class _$SignInUserWithEmailAndPassword
     required TResult Function(SignInWithGoogle value) signInWithGoogle,
     required TResult Function(SignInUserWithEmailAndPassword value)
         signInUserWithEmailAndPassword,
+    required TResult Function(Logout value) logout,
   }) {
     return signInUserWithEmailAndPassword(this);
   }
@@ -587,6 +610,7 @@ class _$SignInUserWithEmailAndPassword
     TResult Function(SignInWithGoogle value)? signInWithGoogle,
     TResult Function(SignInUserWithEmailAndPassword value)?
         signInUserWithEmailAndPassword,
+    TResult Function(Logout value)? logout,
     required TResult orElse(),
   }) {
     if (signInUserWithEmailAndPassword != null) {
@@ -605,6 +629,109 @@ abstract class SignInUserWithEmailAndPassword implements AuthEvent {
   @JsonKey(ignore: true)
   $SignInUserWithEmailAndPasswordCopyWith<SignInUserWithEmailAndPassword>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LogoutCopyWith<$Res> {
+  factory $LogoutCopyWith(Logout value, $Res Function(Logout) then) =
+      _$LogoutCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$LogoutCopyWithImpl<$Res> extends _$AuthEventCopyWithImpl<$Res>
+    implements $LogoutCopyWith<$Res> {
+  _$LogoutCopyWithImpl(Logout _value, $Res Function(Logout) _then)
+      : super(_value, (v) => _then(v as Logout));
+
+  @override
+  Logout get _value => super._value as Logout;
+}
+
+/// @nodoc
+
+class _$Logout implements Logout {
+  const _$Logout();
+
+  @override
+  String toString() {
+    return 'AuthEvent.logout()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is Logout);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(String email, String password)
+        createUserWithEmailAndPassword,
+    required TResult Function() signInWithGoogle,
+    required TResult Function(String email, String password)
+        signInUserWithEmailAndPassword,
+    required TResult Function() logout,
+  }) {
+    return logout();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String email, String password)?
+        createUserWithEmailAndPassword,
+    TResult Function()? signInWithGoogle,
+    TResult Function(String email, String password)?
+        signInUserWithEmailAndPassword,
+    TResult Function()? logout,
+    required TResult orElse(),
+  }) {
+    if (logout != null) {
+      return logout();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Started value) started,
+    required TResult Function(CreateUserWithEmailAndPassword value)
+        createUserWithEmailAndPassword,
+    required TResult Function(SignInWithGoogle value) signInWithGoogle,
+    required TResult Function(SignInUserWithEmailAndPassword value)
+        signInUserWithEmailAndPassword,
+    required TResult Function(Logout value) logout,
+  }) {
+    return logout(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Started value)? started,
+    TResult Function(CreateUserWithEmailAndPassword value)?
+        createUserWithEmailAndPassword,
+    TResult Function(SignInWithGoogle value)? signInWithGoogle,
+    TResult Function(SignInUserWithEmailAndPassword value)?
+        signInUserWithEmailAndPassword,
+    TResult Function(Logout value)? logout,
+    required TResult orElse(),
+  }) {
+    if (logout != null) {
+      return logout(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Logout implements AuthEvent {
+  const factory Logout() = _$Logout;
 }
 
 /// @nodoc
@@ -627,10 +754,8 @@ class _$AuthStateTearOff {
     );
   }
 
-  _Logouted logouted(UserCredential userCredential) {
-    return _Logouted(
-      userCredential,
-    );
+  _Logouted logouted() {
+    return const _Logouted();
   }
 
   _Error error(String errorMessage) {
@@ -650,7 +775,7 @@ mixin _$AuthState {
     required TResult Function() initial,
     required TResult Function(UserCredential userCredential) created,
     required TResult Function(UserCredential userCredential) authenticated,
-    required TResult Function(UserCredential userCredential) logouted,
+    required TResult Function() logouted,
     required TResult Function(String errorMessage) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -659,7 +784,7 @@ mixin _$AuthState {
     TResult Function()? initial,
     TResult Function(UserCredential userCredential)? created,
     TResult Function(UserCredential userCredential)? authenticated,
-    TResult Function(UserCredential userCredential)? logouted,
+    TResult Function()? logouted,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) =>
@@ -740,7 +865,7 @@ class _$_Initial implements _Initial {
     required TResult Function() initial,
     required TResult Function(UserCredential userCredential) created,
     required TResult Function(UserCredential userCredential) authenticated,
-    required TResult Function(UserCredential userCredential) logouted,
+    required TResult Function() logouted,
     required TResult Function(String errorMessage) error,
   }) {
     return initial();
@@ -752,7 +877,7 @@ class _$_Initial implements _Initial {
     TResult Function()? initial,
     TResult Function(UserCredential userCredential)? created,
     TResult Function(UserCredential userCredential)? authenticated,
-    TResult Function(UserCredential userCredential)? logouted,
+    TResult Function()? logouted,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
@@ -862,7 +987,7 @@ class _$_Created implements _Created {
     required TResult Function() initial,
     required TResult Function(UserCredential userCredential) created,
     required TResult Function(UserCredential userCredential) authenticated,
-    required TResult Function(UserCredential userCredential) logouted,
+    required TResult Function() logouted,
     required TResult Function(String errorMessage) error,
   }) {
     return created(userCredential);
@@ -874,7 +999,7 @@ class _$_Created implements _Created {
     TResult Function()? initial,
     TResult Function(UserCredential userCredential)? created,
     TResult Function(UserCredential userCredential)? authenticated,
-    TResult Function(UserCredential userCredential)? logouted,
+    TResult Function()? logouted,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
@@ -991,7 +1116,7 @@ class _$_Authenticated implements _Authenticated {
     required TResult Function() initial,
     required TResult Function(UserCredential userCredential) created,
     required TResult Function(UserCredential userCredential) authenticated,
-    required TResult Function(UserCredential userCredential) logouted,
+    required TResult Function() logouted,
     required TResult Function(String errorMessage) error,
   }) {
     return authenticated(userCredential);
@@ -1003,7 +1128,7 @@ class _$_Authenticated implements _Authenticated {
     TResult Function()? initial,
     TResult Function(UserCredential userCredential)? created,
     TResult Function(UserCredential userCredential)? authenticated,
-    TResult Function(UserCredential userCredential)? logouted,
+    TResult Function()? logouted,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
@@ -1056,7 +1181,6 @@ abstract class _Authenticated implements AuthState {
 abstract class _$LogoutedCopyWith<$Res> {
   factory _$LogoutedCopyWith(_Logouted value, $Res Function(_Logouted) then) =
       __$LogoutedCopyWithImpl<$Res>;
-  $Res call({UserCredential userCredential});
 }
 
 /// @nodoc
@@ -1067,51 +1191,25 @@ class __$LogoutedCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
 
   @override
   _Logouted get _value => super._value as _Logouted;
-
-  @override
-  $Res call({
-    Object? userCredential = freezed,
-  }) {
-    return _then(_Logouted(
-      userCredential == freezed
-          ? _value.userCredential
-          : userCredential // ignore: cast_nullable_to_non_nullable
-              as UserCredential,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$_Logouted implements _Logouted {
-  const _$_Logouted(this.userCredential);
-
-  @override
-  final UserCredential userCredential;
+  const _$_Logouted();
 
   @override
   String toString() {
-    return 'AuthState.logouted(userCredential: $userCredential)';
+    return 'AuthState.logouted()';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is _Logouted &&
-            (identical(other.userCredential, userCredential) ||
-                const DeepCollectionEquality()
-                    .equals(other.userCredential, userCredential)));
+    return identical(this, other) || (other is _Logouted);
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(userCredential);
-
-  @JsonKey(ignore: true)
-  @override
-  _$LogoutedCopyWith<_Logouted> get copyWith =>
-      __$LogoutedCopyWithImpl<_Logouted>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
@@ -1119,10 +1217,10 @@ class _$_Logouted implements _Logouted {
     required TResult Function() initial,
     required TResult Function(UserCredential userCredential) created,
     required TResult Function(UserCredential userCredential) authenticated,
-    required TResult Function(UserCredential userCredential) logouted,
+    required TResult Function() logouted,
     required TResult Function(String errorMessage) error,
   }) {
-    return logouted(userCredential);
+    return logouted();
   }
 
   @override
@@ -1131,12 +1229,12 @@ class _$_Logouted implements _Logouted {
     TResult Function()? initial,
     TResult Function(UserCredential userCredential)? created,
     TResult Function(UserCredential userCredential)? authenticated,
-    TResult Function(UserCredential userCredential)? logouted,
+    TResult Function()? logouted,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
     if (logouted != null) {
-      return logouted(userCredential);
+      return logouted();
     }
     return orElse();
   }
@@ -1171,12 +1269,7 @@ class _$_Logouted implements _Logouted {
 }
 
 abstract class _Logouted implements AuthState {
-  const factory _Logouted(UserCredential userCredential) = _$_Logouted;
-
-  UserCredential get userCredential => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  _$LogoutedCopyWith<_Logouted> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _Logouted() = _$_Logouted;
 }
 
 /// @nodoc
@@ -1245,7 +1338,7 @@ class _$_Error implements _Error {
     required TResult Function() initial,
     required TResult Function(UserCredential userCredential) created,
     required TResult Function(UserCredential userCredential) authenticated,
-    required TResult Function(UserCredential userCredential) logouted,
+    required TResult Function() logouted,
     required TResult Function(String errorMessage) error,
   }) {
     return error(errorMessage);
@@ -1257,7 +1350,7 @@ class _$_Error implements _Error {
     TResult Function()? initial,
     TResult Function(UserCredential userCredential)? created,
     TResult Function(UserCredential userCredential)? authenticated,
-    TResult Function(UserCredential userCredential)? logouted,
+    TResult Function()? logouted,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {

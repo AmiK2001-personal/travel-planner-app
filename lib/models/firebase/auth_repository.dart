@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:travelplanner/models/error_message.dart';
 
-class UserRepository {
+class AuthRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
@@ -29,7 +29,7 @@ class UserRepository {
     }
   }
 
-  UserRepository({FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignin})
+  AuthRepository({FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignin ?? GoogleSignIn();
 
