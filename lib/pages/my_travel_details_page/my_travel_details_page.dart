@@ -219,10 +219,11 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                   else
                     "Нет товаров".text.make(),
                   Center(
-                      child: Text(
-                    _selectedIndex.toString(),
-                    style: const TextStyle(fontSize: 40),
-                  )),
+                    child: Text(
+                      travel.travellers!.first.userId!,
+                      style: const TextStyle(fontSize: 40),
+                    ),
+                  ),
                 ],
               ),
             );
