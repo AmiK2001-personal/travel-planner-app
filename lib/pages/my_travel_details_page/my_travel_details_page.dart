@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:travelplanner/bloc/auth/bloc/auth_bloc.dart';
 import 'package:travelplanner/models/gen/travel/locations.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart' as osm;
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -98,6 +100,11 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
         .snapshots();
   }
 
+  MapController controller = MapController(
+    initMapWithUserPosition: false,
+    initPosition: osm.GeoPoint(latitude: 47.435805, longitude: 8.48338),
+  );
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -107,8 +114,8 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
           stream: fetchTravel(widget.travelId),
           builder: (context, snapshot) {
             final travel = Travel.fromJson(snapshot.data!.data()!);
-
             print(travel);
+
             return Scaffold(
               appBar: AppBar(
                 bottom: TabBar(
@@ -132,6 +139,12 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                         icon: const Icon(Icons.info_outlined),
                         hint: "Название",
                         value: travel.name,
+                        onChanged: (name) {
+                          FirebaseFirestore.instance
+                              .collection("travels")
+                              .doc(widget.travelId)
+                              .update({"name": name});
+                        },
                       ),
                       TpTextField(
                         icon: const Icon(Icons.info_outlined),
@@ -205,7 +218,28 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                                 .box
                                 .margin(const EdgeInsets.only(right: 6))
                                 .make(),
-                            goodie.name!.text.bold.make()
+                            goodie.name!.text.bold.make().click(() {
+                              OSMFlutter(
+                                controller: controller,
+                                road: Road(
+                                  startIcon: MarkerIcon(
+                                    icon: const Icon(
+                                      Icons.person,
+                                      size: 64,
+                                      color: Colors.brown,
+                                    ),
+                                  ),
+                                  roadColor: Colors.yellowAccent,
+                                ),
+                                markerIcon: MarkerIcon(
+                                  icon: const Icon(
+                                    Icons.person_pin_circle,
+                                    color: Colors.blue,
+                                    size: 56,
+                                  ),
+                                ),
+                              );
+                            }).make()
                           ],
                         )
                             .box
@@ -218,12 +252,15 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                     )
                   else
                     "Нет товаров".text.make(),
-                  Center(
-                    child: Text(
-                      travel.travellers!.first.userId!,
-                      style: const TextStyle(fontSize: 40),
-                    ),
-                  ),
+                  if (travel.travellers != null)
+                    Center(
+                      child: Text(
+                        travel.travellers!.first.userId!,
+                        style: const TextStyle(fontSize: 40),
+                      ),
+                    )
+                  else
+                    "Нет участников".text.make(),
                 ],
               ),
             );

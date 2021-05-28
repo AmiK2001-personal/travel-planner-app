@@ -45,73 +45,7 @@ class App extends StatelessWidget {
                   darkTheme: buildDarkThemeData(),
                   theme: buildLightThemeData(),
                   debugShowCheckedModeBanner: false,
-                  home: BlocListener<AuthBloc, AuthState>(
-                      listener: (context, state) {
-                        state.when(
-                            initial: () => null,
-                            created: (userCredential) => {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: const Text("Успех"),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: [
-                                              "Пользователь успешно зарегестрирован"
-                                                  .text
-                                                  .make(),
-                                            ],
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text('ОК'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  )
-                                },
-                            authenticated: (userCredential) => {
-                                  context.nextPage(
-                                    BlocProvider(
-                                      create: (context) => MenuPageBloc(),
-                                      child: MenuPage(),
-                                    ),
-                                  )
-                                },
-                            logouted: () => context.pop(LoginForm()),
-                            error: (errorMessage) => {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: const Text("Ошибка"),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: [
-                                              Text(errorMessage),
-                                            ],
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text('ОК'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  )
-                                });
-                      },
-                      child: LoginForm()),
+                  home: buildHomeBlocListener(),
                 );
               },
             ),
@@ -120,6 +54,76 @@ class App extends StatelessWidget {
         return const CircularProgressIndicator();
       },
     );
+  }
+
+  BlocListener<AuthBloc, AuthState> buildHomeBlocListener() {
+    return BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          state.when(
+              initial: () => null,
+              created: (userCredential) => {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Успех"),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: [
+                                "Пользователь успешно зарегестрирован"
+                                    .text
+                                    .make(),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('ОК'),
+                            ),
+                          ],
+                        );
+                      },
+                    )
+                  },
+              authenticated: (userCredential) => {
+                    context.nextPage(
+                      BlocProvider(
+                        create: (context) => MenuPageBloc(),
+                        child: MenuPage(),
+                      ),
+                    )
+                  },
+              logouted: () => context.pop(LoginForm()),
+              error: (errorMessage) => {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Ошибка"),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: [
+                                Text(errorMessage),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('ОК'),
+                            ),
+                          ],
+                        );
+                      },
+                    )
+                  });
+        },
+        child: LoginForm());
   }
 
   ThemeData buildLightThemeData() {

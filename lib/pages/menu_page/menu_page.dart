@@ -108,8 +108,9 @@ class _TravelCardState extends State<TravelCard> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        stream: fetchTravel(widget.travelId),
-        builder: (context, snapshot) {
+      stream: fetchTravel(widget.travelId),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
           final travel = Travel.fromJson(snapshot.data!.data()!);
           return Stack(
             children: [
@@ -153,14 +154,20 @@ class _TravelCardState extends State<TravelCard> {
               .box
               .margin(const EdgeInsets.only(left: 6, right: 6, bottom: 30))
               .make()
-              .onInkTap(() {
-            context.nextPage(
-              MyTravelDetailsPage(
-                travelId: widget.travelId,
-              ),
-            );
-          });
-        });
+              .onInkTap(
+            () {
+              context.nextPage(
+                MyTravelDetailsPage(
+                  travelId: widget.travelId,
+                ),
+              );
+            },
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
   }
 }
 
@@ -169,7 +176,7 @@ class Body extends StatelessWidget {
 
   final int selectedItemId;
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> fetchPublicTravels() {
+  Stream<QuerySnapshot<Map<String, dynamic>>>? fetchPublicTravels() {
     return FirebaseFirestore.instance
         .collection("travels")
         .where('is_public', isEqualTo: true)
@@ -178,64 +185,67 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MenuPageBloc, MenuPageState>(builder: (context, state) {
-      switch (context.read<MenuPageBloc>().state.selectedNavigationBarItemId) {
-        case 0:
-          return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: fetchPublicTravels(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data != null) {
-                final travels = snapshot.data!.docs
-                    .map((e) => Tuple2(e.id, Travel.fromJson(e.data())))
-                    .toList();
+    return BlocBuilder<MenuPageBloc, MenuPageState>(
+      builder: (context, state) {
+        switch (
+            context.read<MenuPageBloc>().state.selectedNavigationBarItemId) {
+          case 0:
+            return StreamBuilder<QuerySnapshot<Map<String, dynamic>>?>(
+              stream: fetchPublicTravels(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final travels = snapshot.data!.docs
+                      .map((e) => Tuple2(e.id, Travel.fromJson(e.data())))
+                      .toList();
 
-                return travels.isNotEmpty
-                    ? VxSwiper.builder(
-                        enableInfiniteScroll: false,
-                        scrollDirection: Axis.vertical,
-                        itemCount: travels.length,
-                        height: context.screenHeight,
-                        itemBuilder: (context, index) {
-                          return TravelCard(travels[index].item1);
-                        },
-                      )
-                    : "Путешествий нет".text.make().centered();
-              } else if (!snapshot.hasError && !snapshot.hasData) {
-                return const CircularProgressIndicator();
-              } else {
-                return const Text("Error");
-              }
-            },
-          );
-        case 2:
-          return MyTravelsPage();
-        case 3:
-          return NotificationsPage();
-        case 4:
-          return SettingsPage();
-        default:
-          return VStack(
-            [
-              Icon(
-                Icons.build_circle,
-                size: context.percentWidth * 50,
-              ).iconColor(Theme.of(context).primaryColor).build(context),
-              "UNDER".text.fontWeight(FontWeight.w300).size(48).make(),
-              "CONSTRUCTION".text.bold.yellow400.size(32).make(),
-              "Прямо сейчас наш единственный программист упорно трудится над реализацией данного функционала."
-                  .text
-                  .size(18)
-                  .gray500
-                  .align(TextAlign.center)
-                  .make()
-                  .box
-                  .margin(const EdgeInsets.only(top: 20))
-                  .make()
-            ],
-            crossAlignment: CrossAxisAlignment.center,
-          ).box.margin(const EdgeInsets.all(14)).makeCentered();
-      }
-    });
+                  return travels.isNotEmpty
+                      ? VxSwiper.builder(
+                          enableInfiniteScroll: false,
+                          scrollDirection: Axis.vertical,
+                          itemCount: travels.length,
+                          height: context.screenHeight,
+                          itemBuilder: (context, index) {
+                            return TravelCard(travels[index].item1);
+                          },
+                        )
+                      : "Путешествий нет".text.make().centered();
+                } else if (!snapshot.hasError && !snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                } else {
+                  return const Text("Error");
+                }
+              },
+            );
+          case 2:
+            return MyTravelsPage();
+          case 3:
+            return NotificationsPage();
+          case 4:
+            return SettingsPage();
+          default:
+            return VStack(
+              [
+                Icon(
+                  Icons.build_circle,
+                  size: context.percentWidth * 50,
+                ).iconColor(Theme.of(context).primaryColor).build(context),
+                "UNDER".text.fontWeight(FontWeight.w300).size(48).make(),
+                "CONSTRUCTION".text.bold.yellow400.size(32).make(),
+                "Прямо сейчас наш единственный программист упорно трудится над реализацией данного функционала."
+                    .text
+                    .size(18)
+                    .gray500
+                    .align(TextAlign.center)
+                    .make()
+                    .box
+                    .margin(const EdgeInsets.only(top: 20))
+                    .make()
+              ],
+              crossAlignment: CrossAxisAlignment.center,
+            ).box.margin(const EdgeInsets.all(14)).makeCentered();
+        }
+      },
+    );
   }
 }
 
