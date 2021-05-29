@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
-import 'package:travelplanner/bloc/auth/bloc/auth_bloc.dart';
 import 'package:travelplanner/models/gen/travel/locations.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart' as osm;
 import 'package:velocity_x/velocity_x.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:travelplanner/models/gen/travel/travel.dart';
 import 'package:travelplanner/pages/widgets/tp_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:travelplanner/utilities/constraints.dart';
+import 'package:map/map.dart';
 
 class LocationEditForm extends StatefulWidget {
   final Locations location;
 
-  LocationEditForm({
+  const LocationEditForm({
     Key? key,
     required this.location,
   }) : super(key: key);
@@ -100,7 +97,7 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
         .snapshots();
   }
 
-  MapController controller = MapController(
+  osm.MapController controller = osm.MapController(
     initMapWithUserPosition: false,
     initPosition: osm.GeoPoint(latitude: 47.435805, longitude: 8.48338),
   );
@@ -219,10 +216,11 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                                 .margin(const EdgeInsets.only(right: 6))
                                 .make(),
                             goodie.name!.text.bold.make().click(() {
-                              OSMFlutter(
+                              map();
+                              osm.OSMFlutter(
                                 controller: controller,
-                                road: Road(
-                                  startIcon: MarkerIcon(
+                                road: osm.Road(
+                                  startIcon: osm.MarkerIcon(
                                     icon: const Icon(
                                       Icons.person,
                                       size: 64,
@@ -231,7 +229,7 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                                   ),
                                   roadColor: Colors.yellowAccent,
                                 ),
-                                markerIcon: MarkerIcon(
+                                markerIcon: osm.MarkerIcon(
                                   icon: const Icon(
                                     Icons.person_pin_circle,
                                     color: Colors.blue,

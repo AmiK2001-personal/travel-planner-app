@@ -1,7 +1,7 @@
 class ErrorMessage {
   String? code;
   String message;
-  dynamic? data;
+  dynamic data;
   ErrorMessage({
     this.code,
     required this.message,

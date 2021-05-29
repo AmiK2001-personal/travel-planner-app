@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:travelplanner/utilities/constraints.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HeaderContainer extends StatelessWidget {

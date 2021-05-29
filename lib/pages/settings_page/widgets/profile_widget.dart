@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:travelplanner/gen/assets.gen.dart';
 import 'package:velocity_x/velocity_x.dart';
