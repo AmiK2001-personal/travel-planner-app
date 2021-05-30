@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:latlng/latlng.dart';
-import 'package:travelplanner/models/gen/travel/locations.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import 'package:travelplanner/models/gen/travel/travel.dart';
@@ -10,24 +9,58 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:travelplanner/utilities/constraints.dart';
 import 'package:map/map.dart' as flutter_map;
 
-class LocationEditForm extends StatefulWidget {
-  final Locations location;
-
-  const LocationEditForm({
-    Key? key,
-    required this.location,
-  }) : super(key: key);
+class FullScreenDialog extends StatefulWidget {
+  String _skillOne = "You have";
+  String _skillTwo = "not Added";
+  String _skillThree = "any skills yet";
 
   @override
-  _LocationEditFormState createState() => _LocationEditFormState();
+  FullScreenDialogState createState() => new FullScreenDialogState();
 }
 
-class _LocationEditFormState extends State<LocationEditForm> {
+class FullScreenDialogState extends State<FullScreenDialog> {
+  TextEditingController _skillOneController = new TextEditingController();
+  TextEditingController _skillTwoController = new TextEditingController();
+
+  TextEditingController _skillThreeController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-        //child: widget.location.name,
-        );
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Локация"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: ListView(
+          children: <Widget>[
+            TextField(
+              decoration: const InputDecoration(labelText: "Название"),
+              controller: _skillOneController,
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: "Выбрать локацию".text.make().click(() {}).make(),
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      widget._skillThree = _skillThreeController.text;
+                      widget._skillTwo = _skillTwoController.text;
+                      widget._skillOne = _skillOneController.text;
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Сохранить"),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -47,6 +80,78 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
   int _selectedIndex = 0;
+
+  void showMap() {
+    showDialog(
+      context: context,
+      builder: (context) => flutter_map.MapLayoutBuilder(
+        controller: controller,
+        builder: (context, transformer) {
+          final markerPositions =
+              markers.map(transformer.fromLatLngToXYCoords).toList();
+
+          final markerWidgets = markerPositions.map(
+            (pos) => _buildMarkerWidget(pos, Colors.red),
+          );
+
+          final homeLocation =
+              transformer.fromLatLngToXYCoords(LatLng(35.68, 51.412));
+
+          final homeMarkerWidget =
+              _buildMarkerWidget(homeLocation, Colors.black);
+
+          final centerLocation = Offset(
+              transformer.constraints.biggest.width / 2,
+              transformer.constraints.biggest.height / 2);
+
+          final centerMarkerWidget =
+              _buildMarkerWidget(centerLocation, Colors.purple);
+
+          return GestureDetector(
+            onDoubleTap: _onDoubleTap,
+            onScaleStart: _onScaleStart,
+            onScaleUpdate: _onScaleUpdate,
+            onTapUp: (details) {
+              final location =
+                  transformer.fromXYCoordsToLatLng(details.localPosition);
+
+              final clicked = transformer.fromLatLngToXYCoords(location);
+
+              print('${location.longitude}, ${location.latitude}');
+              print('${clicked.dx}, ${clicked.dy}');
+              print('${details.localPosition.dx}, ${details.localPosition.dy}');
+            },
+            child: Stack(
+              children: [
+                flutter_map.Map(
+                  controller: controller,
+                  builder: (context, x, y, z) {
+                    //Legal notice: This url is only used for demo and educational purposes. You need a license key for production use.
+
+                    //Google Maps
+                    final url =
+                        'https://www.google.com/maps/vt/pb=!1m4!1m3!1i$z!2i$x!3i$y!2m3!1e0!2sm!3i420120488!3m7!2sen!5e1105!12m4!1e68!2m2!1sset!2sRoadmap!4e0!5m1!1e0!23i4111425';
+
+                    //Mapbox Streets
+                    // final url =
+                    //     'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/$z/$x/$y?access_token=YOUR_MAPBOX_ACCESS_TOKEN';
+
+                    return CachedNetworkImage(
+                      imageUrl: url,
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
+                homeMarkerWidget,
+                ...markerWidgets,
+                centerMarkerWidget,
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
 
   List<Widget> list = const [
     Tab(
@@ -111,6 +216,7 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
 
             return Scaffold(
               appBar: AppBar(
+                title: "Путешествие в ${travel.name!}".text.make(),
                 bottom: TabBar(
                   controller: _controller,
                   tabs: list,
@@ -118,7 +224,14 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
               ),
               floatingActionButton: _controller.index > 0
                   ? [
-                      IconButton(icon: const Icon(Icons.add), onPressed: () {}),
+                      IconButton(
+                          icon: const Icon(Icons.add),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => FullScreenDialog(),
+                            );
+                          }),
                       IconButton(icon: const Icon(Icons.add), onPressed: () {}),
                       IconButton(icon: const Icon(Icons.add), onPressed: () {})
                     ][_controller.index - 1]
@@ -214,9 +327,7 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                                 .box
                                 .margin(const EdgeInsets.only(right: 6))
                                 .make(),
-                            goodie.name!.text.bold.make().click(() {
-                              showMap();
-                            }).make()
+                            goodie.name!.text.bold.make()
                           ],
                         )
                             .box
@@ -251,12 +362,6 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
 
   final markers = [
     LatLng(35.674, 51.41),
-    LatLng(35.676, 51.41),
-    LatLng(35.678, 51.41),
-    LatLng(35.68, 51.41),
-    LatLng(35.682, 51.41),
-    LatLng(35.684, 51.41),
-    LatLng(35.686, 51.41),
   ];
 
   void _gotoDefault() {
@@ -302,78 +407,6 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
       width: 24,
       height: 24,
       child: Icon(Icons.location_on, color: color),
-    );
-  }
-
-  void showMap() {
-    showDialog(
-      context: context,
-      builder: (context) => flutter_map.MapLayoutBuilder(
-        controller: controller,
-        builder: (context, transformer) {
-          final markerPositions =
-              markers.map(transformer.fromLatLngToXYCoords).toList();
-
-          final markerWidgets = markerPositions.map(
-            (pos) => _buildMarkerWidget(pos, Colors.red),
-          );
-
-          final homeLocation =
-              transformer.fromLatLngToXYCoords(LatLng(35.68, 51.412));
-
-          final homeMarkerWidget =
-              _buildMarkerWidget(homeLocation, Colors.black);
-
-          final centerLocation = Offset(
-              transformer.constraints.biggest.width / 2,
-              transformer.constraints.biggest.height / 2);
-
-          final centerMarkerWidget =
-              _buildMarkerWidget(centerLocation, Colors.purple);
-
-          return GestureDetector(
-            onDoubleTap: _onDoubleTap,
-            onScaleStart: _onScaleStart,
-            onScaleUpdate: _onScaleUpdate,
-            onTapUp: (details) {
-              final location =
-                  transformer.fromXYCoordsToLatLng(details.localPosition);
-
-              final clicked = transformer.fromLatLngToXYCoords(location);
-
-              print('${location.longitude}, ${location.latitude}');
-              print('${clicked.dx}, ${clicked.dy}');
-              print('${details.localPosition.dx}, ${details.localPosition.dy}');
-            },
-            child: Stack(
-              children: [
-                flutter_map.Map(
-                  controller: controller,
-                  builder: (context, x, y, z) {
-                    //Legal notice: This url is only used for demo and educational purposes. You need a license key for production use.
-
-                    //Google Maps
-                    final url =
-                        'https://www.google.com/maps/vt/pb=!1m4!1m3!1i$z!2i$x!3i$y!2m3!1e0!2sm!3i420120488!3m7!2sen!5e1105!12m4!1e68!2m2!1sset!2sRoadmap!4e0!5m1!1e0!23i4111425';
-
-                    //Mapbox Streets
-                    // final url =
-                    //     'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/$z/$x/$y?access_token=YOUR_MAPBOX_ACCESS_TOKEN';
-
-                    return CachedNetworkImage(
-                      imageUrl: url,
-                      fit: BoxFit.cover,
-                    );
-                  },
-                ),
-                homeMarkerWidget,
-                ...markerWidgets,
-                centerMarkerWidget,
-              ],
-            ),
-          );
-        },
-      ),
     );
   }
 }

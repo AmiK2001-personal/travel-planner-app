@@ -12,10 +12,6 @@ import 'bloc/menu_page/menu_page_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // var news = await FirebaseFirestore.instance
-  //     .collection("travels")
-  //     .add(Travel(name: "Казанский кремль", rating: 5).toJson())
-  //     .then((value) => print(value));
   runApp(App());
 }
 

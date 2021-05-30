@@ -13,7 +13,6 @@ import 'package:travelplanner/pages/settings_page/settings_page.dart';
 import 'package:tuple/tuple.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:travelplanner/pages/my_travels_page/my_travels_page.dart';
-import 'package:travelplanner/pages/notifications_page/notifications_page.dart';
 import 'package:travelplanner/pages/my_travel_details_page/my_travel_details_page.dart';
 
 class MenuPage extends StatefulWidget {
@@ -197,14 +196,24 @@ class Body extends StatelessWidget {
                       .toList();
 
                   return travels.isNotEmpty
-                      ? VxSwiper.builder(
-                          enableInfiniteScroll: false,
-                          scrollDirection: Axis.vertical,
-                          itemCount: travels.length,
-                          height: context.screenHeight,
-                          itemBuilder: (context, index) {
-                            return TravelCard(travels[index].item1);
-                          },
+                      ? SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              "Публичные путешествия"
+                                  .text
+                                  .headline5(context)
+                                  .make(),
+                              VxSwiper.builder(
+                                enableInfiniteScroll: false,
+                                scrollDirection: Axis.vertical,
+                                itemCount: travels.length,
+                                height: context.screenHeight,
+                                itemBuilder: (context, index) {
+                                  return TravelCard(travels[index].item1);
+                                },
+                              ),
+                            ],
+                          ),
                         )
                       : "Путешествий нет".text.make().centered();
                 } else if (!snapshot.hasError && !snapshot.hasData) {
@@ -214,11 +223,9 @@ class Body extends StatelessWidget {
                 }
               },
             );
-          case 2:
+          case 1:
             return MyTravelsPage();
-          case 3:
-            return NotificationsPage();
-          case 4:
+          case 2:
             return SettingsPage();
           default:
             return VStack(
@@ -271,9 +278,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Assets.icons.uniconsLine.homeAlt,
-                Assets.icons.uniconsLine.favorite,
                 Assets.icons.uniconsLine.planeFly,
-                Assets.icons.uniconsLine.bell,
                 Assets.icons.uniconsLine.user,
               ]
                   .mapIndexed((currentValue, index) => currentValue
@@ -302,7 +307,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       }))
                   .map((e) => e.scale(scaleValue: 1.2))
                   .toList(),
-            ).w(context.percentWidth * 80),
+            ).w(context.percentWidth * 70),
           ),
         )
             .box
