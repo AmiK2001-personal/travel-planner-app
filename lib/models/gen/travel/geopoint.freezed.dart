@@ -12,60 +12,60 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-GeoPoint _$GeoPointFromJson(Map<String, dynamic> json) {
-  return _GeoPoint.fromJson(json);
+Geopoint _$GeopointFromJson(Map<String, dynamic> json) {
+  return _Geopoint.fromJson(json);
 }
 
 /// @nodoc
-class _$GeoPointTearOff {
-  const _$GeoPointTearOff();
+class _$GeopointTearOff {
+  const _$GeopointTearOff();
 
-  _GeoPoint call(
-      {@JsonKey(name: 'latitude') double? latitude,
-      @JsonKey(name: 'longitude') double? longitude}) {
-    return _GeoPoint(
+  _Geopoint call(
+      {@JsonKey(name: 'latitude') double latitude = 0.0,
+      @JsonKey(name: 'longitude') double longitude = 0.0}) {
+    return _Geopoint(
       latitude: latitude,
       longitude: longitude,
     );
   }
 
-  GeoPoint fromJson(Map<String, Object> json) {
-    return GeoPoint.fromJson(json);
+  Geopoint fromJson(Map<String, Object> json) {
+    return Geopoint.fromJson(json);
   }
 }
 
 /// @nodoc
-const $GeoPoint = _$GeoPointTearOff();
+const $Geopoint = _$GeopointTearOff();
 
 /// @nodoc
-mixin _$GeoPoint {
+mixin _$Geopoint {
   @JsonKey(name: 'latitude')
-  double? get latitude => throw _privateConstructorUsedError;
+  double get latitude => throw _privateConstructorUsedError;
   @JsonKey(name: 'longitude')
-  double? get longitude => throw _privateConstructorUsedError;
+  double get longitude => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $GeoPointCopyWith<GeoPoint> get copyWith =>
+  $GeopointCopyWith<Geopoint> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GeoPointCopyWith<$Res> {
-  factory $GeoPointCopyWith(GeoPoint value, $Res Function(GeoPoint) then) =
-      _$GeoPointCopyWithImpl<$Res>;
+abstract class $GeopointCopyWith<$Res> {
+  factory $GeopointCopyWith(Geopoint value, $Res Function(Geopoint) then) =
+      _$GeopointCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'latitude') double? latitude,
-      @JsonKey(name: 'longitude') double? longitude});
+      {@JsonKey(name: 'latitude') double latitude,
+      @JsonKey(name: 'longitude') double longitude});
 }
 
 /// @nodoc
-class _$GeoPointCopyWithImpl<$Res> implements $GeoPointCopyWith<$Res> {
-  _$GeoPointCopyWithImpl(this._value, this._then);
+class _$GeopointCopyWithImpl<$Res> implements $GeopointCopyWith<$Res> {
+  _$GeopointCopyWithImpl(this._value, this._then);
 
-  final GeoPoint _value;
+  final Geopoint _value;
   // ignore: unused_field
-  final $Res Function(GeoPoint) _then;
+  final $Res Function(Geopoint) _then;
 
   @override
   $Res call({
@@ -76,79 +76,79 @@ class _$GeoPointCopyWithImpl<$Res> implements $GeoPointCopyWith<$Res> {
       latitude: latitude == freezed
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       longitude: longitude == freezed
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$GeoPointCopyWith<$Res> implements $GeoPointCopyWith<$Res> {
-  factory _$GeoPointCopyWith(_GeoPoint value, $Res Function(_GeoPoint) then) =
-      __$GeoPointCopyWithImpl<$Res>;
+abstract class _$GeopointCopyWith<$Res> implements $GeopointCopyWith<$Res> {
+  factory _$GeopointCopyWith(_Geopoint value, $Res Function(_Geopoint) then) =
+      __$GeopointCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'latitude') double? latitude,
-      @JsonKey(name: 'longitude') double? longitude});
+      {@JsonKey(name: 'latitude') double latitude,
+      @JsonKey(name: 'longitude') double longitude});
 }
 
 /// @nodoc
-class __$GeoPointCopyWithImpl<$Res> extends _$GeoPointCopyWithImpl<$Res>
-    implements _$GeoPointCopyWith<$Res> {
-  __$GeoPointCopyWithImpl(_GeoPoint _value, $Res Function(_GeoPoint) _then)
-      : super(_value, (v) => _then(v as _GeoPoint));
+class __$GeopointCopyWithImpl<$Res> extends _$GeopointCopyWithImpl<$Res>
+    implements _$GeopointCopyWith<$Res> {
+  __$GeopointCopyWithImpl(_Geopoint _value, $Res Function(_Geopoint) _then)
+      : super(_value, (v) => _then(v as _Geopoint));
 
   @override
-  _GeoPoint get _value => super._value as _GeoPoint;
+  _Geopoint get _value => super._value as _Geopoint;
 
   @override
   $Res call({
     Object? latitude = freezed,
     Object? longitude = freezed,
   }) {
-    return _then(_GeoPoint(
+    return _then(_Geopoint(
       latitude: latitude == freezed
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       longitude: longitude == freezed
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_GeoPoint with DiagnosticableTreeMixin implements _GeoPoint {
-  _$_GeoPoint(
-      {@JsonKey(name: 'latitude') this.latitude,
-      @JsonKey(name: 'longitude') this.longitude});
+class _$_Geopoint with DiagnosticableTreeMixin implements _Geopoint {
+  _$_Geopoint(
+      {@JsonKey(name: 'latitude') this.latitude = 0.0,
+      @JsonKey(name: 'longitude') this.longitude = 0.0});
 
-  factory _$_GeoPoint.fromJson(Map<String, dynamic> json) =>
-      _$_$_GeoPointFromJson(json);
+  factory _$_Geopoint.fromJson(Map<String, dynamic> json) =>
+      _$_$_GeopointFromJson(json);
 
   @override
   @JsonKey(name: 'latitude')
-  final double? latitude;
+  final double latitude;
   @override
   @JsonKey(name: 'longitude')
-  final double? longitude;
+  final double longitude;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'GeoPoint(latitude: $latitude, longitude: $longitude)';
+    return 'Geopoint(latitude: $latitude, longitude: $longitude)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'GeoPoint'))
+      ..add(DiagnosticsProperty('type', 'Geopoint'))
       ..add(DiagnosticsProperty('latitude', latitude))
       ..add(DiagnosticsProperty('longitude', longitude));
   }
@@ -156,7 +156,7 @@ class _$_GeoPoint with DiagnosticableTreeMixin implements _GeoPoint {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _GeoPoint &&
+        (other is _Geopoint &&
             (identical(other.latitude, latitude) ||
                 const DeepCollectionEquality()
                     .equals(other.latitude, latitude)) &&
@@ -173,30 +173,30 @@ class _$_GeoPoint with DiagnosticableTreeMixin implements _GeoPoint {
 
   @JsonKey(ignore: true)
   @override
-  _$GeoPointCopyWith<_GeoPoint> get copyWith =>
-      __$GeoPointCopyWithImpl<_GeoPoint>(this, _$identity);
+  _$GeopointCopyWith<_Geopoint> get copyWith =>
+      __$GeopointCopyWithImpl<_Geopoint>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_GeoPointToJson(this);
+    return _$_$_GeopointToJson(this);
   }
 }
 
-abstract class _GeoPoint implements GeoPoint {
-  factory _GeoPoint(
-      {@JsonKey(name: 'latitude') double? latitude,
-      @JsonKey(name: 'longitude') double? longitude}) = _$_GeoPoint;
+abstract class _Geopoint implements Geopoint {
+  factory _Geopoint(
+      {@JsonKey(name: 'latitude') double latitude,
+      @JsonKey(name: 'longitude') double longitude}) = _$_Geopoint;
 
-  factory _GeoPoint.fromJson(Map<String, dynamic> json) = _$_GeoPoint.fromJson;
+  factory _Geopoint.fromJson(Map<String, dynamic> json) = _$_Geopoint.fromJson;
 
   @override
   @JsonKey(name: 'latitude')
-  double? get latitude => throw _privateConstructorUsedError;
+  double get latitude => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'longitude')
-  double? get longitude => throw _privateConstructorUsedError;
+  double get longitude => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$GeoPointCopyWith<_GeoPoint> get copyWith =>
+  _$GeopointCopyWith<_Geopoint> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -63,21 +63,7 @@ class _LoginPageState extends State<LoginForm> {
                     .margin(const EdgeInsets.only(bottom: 10))
                     .make()
                     .centered(),
-                HStack([
-                  "Войти через Google"
-                      .text
-                      .textStyle(context.textTheme.bodyText1!)
-                      .make(),
-                  IconButton(
-                    icon: Assets.icons.uniconsMonochrome.google.svg(width: 48),
-                    onPressed: () {},
-                  )
-                      .box
-                      .margin(const EdgeInsets.only(left: 8))
-                      .border(color: context.theme.primaryColor)
-                      .roundedFull
-                      .make()
-                ]),
+                // buildGoogleLogin(context),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: HStack([
@@ -105,5 +91,20 @@ class _LoginPageState extends State<LoginForm> {
         ).box.padding(const EdgeInsets.only(bottom: 30)).make(),
       ),
     );
+  }
+
+  HStack buildGoogleLogin(BuildContext context) {
+    return HStack([
+      "Войти через Google".text.textStyle(context.textTheme.bodyText1!).make(),
+      IconButton(
+        icon: Assets.icons.uniconsMonochrome.google.svg(width: 48),
+        onPressed: () {},
+      )
+          .box
+          .margin(const EdgeInsets.only(left: 8))
+          .border(color: context.theme.primaryColor)
+          .roundedFull
+          .make()
+    ]);
   }
 }

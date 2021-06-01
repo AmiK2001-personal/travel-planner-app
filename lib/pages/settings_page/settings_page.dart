@@ -13,22 +13,23 @@ class SettingsPage extends StatelessWidget {
       ProfileWidget(
         onClicked: () {},
       ),
-      context
-          .read<AuthBloc>()
-          .userRepo
-          .getUser()!
-          .email!
+      "Email: ${context.read<AuthBloc>().userRepo.getUser()!.email}"
           .text
-          .textStyle(context.textTheme.caption!)
+          .subtitle1(context)
           .center
           .make(),
+      "ID пользователя: ${context.read<AuthBloc>().userRepo.getUser()!.uid}"
+          .text
+          .subtitle1(context)
+          .center
+          .make()
+          .box
+          .margin(const EdgeInsets.only(bottom: 10))
+          .make(),
       MenuItem(
-        svgImage: Assets.icons.uniconsLine.userSquare,
-        label: "Профиль",
-      ),
-      MenuItem(
+          alignment: MainAxisAlignment.center,
           svgImage: Assets.icons.uniconsLine.exit,
-          label: "Выйти",
+          label: "Выйти из аккаунта",
           iconColor: Colors.redAccent,
           onTap: () => context.read<AuthBloc>().add(const Logout()),
           textStyle: const TextStyle(color: Colors.redAccent))
@@ -42,6 +43,7 @@ class MenuItem extends StatelessWidget {
   final void Function()? onTap;
   final TextStyle? textStyle;
   final Color? iconColor;
+  final MainAxisAlignment? alignment;
 
   const MenuItem(
       {Key? key,
@@ -49,7 +51,8 @@ class MenuItem extends StatelessWidget {
       required this.label,
       this.onTap,
       this.textStyle,
-      this.iconColor})
+      this.iconColor,
+      this.alignment})
       : super(key: key);
 
   @override
@@ -66,6 +69,7 @@ class MenuItem extends StatelessWidget {
             .margin(const EdgeInsets.only(left: 20))
             .make(),
       ],
+      alignment: alignment ?? MainAxisAlignment.start,
     )
         .onInkTap(onTap ?? () {})
         .box

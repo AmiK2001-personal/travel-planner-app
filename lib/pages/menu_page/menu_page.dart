@@ -62,7 +62,9 @@ class TravelCard extends StatefulWidget {
 
 class _TravelCardState extends State<TravelCard> {
   Widget logo(BuildContext context, List<String>? images) {
-    return (images != null ? firstTravelImage(images) : defaultImage())
+    return (images != null && images.isNotEmpty
+            ? firstTravelImage(images)
+            : defaultImage())
         .whFull(context)
         .box
         .make()
@@ -111,7 +113,7 @@ class _TravelCardState extends State<TravelCard> {
           final travel = Travel.fromJson(snapshot.data!.data()!);
           return Stack(
             children: [
-              logo(context, null),
+              logo(context, travel.images),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -130,11 +132,12 @@ class _TravelCardState extends State<TravelCard> {
                       .align(TextAlign.center)
                       .gray500
                       .make(),
-                  DateFormat('yyyy/MM/dd')
-                      .format(travel.date!)
-                      .text
-                      .fontFamily(FontFamily.metropolis)
-                      .make()
+                  if (travel.date != null)
+                    DateFormat('yyyy/MM/dd')
+                        .format(travel.date!)
+                        .text
+                        .fontFamily(FontFamily.metropolis)
+                        .make()
                 ],
               )
                   .wh(context.percentWidth * 70, context.percentHeight * 12)

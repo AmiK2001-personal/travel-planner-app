@@ -22,7 +22,7 @@ class _$GoodiesTearOff {
 
   _Goodies call(
       {@JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'price') int? price,
+      @JsonKey(name: 'price') double? price,
       @JsonKey(name: 'quantity') int? quantity}) {
     return _Goodies(
       name: name,
@@ -44,7 +44,7 @@ mixin _$Goodies {
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'price')
-  int? get price => throw _privateConstructorUsedError;
+  double? get price => throw _privateConstructorUsedError;
   @JsonKey(name: 'quantity')
   int? get quantity => throw _privateConstructorUsedError;
 
@@ -59,7 +59,7 @@ abstract class $GoodiesCopyWith<$Res> {
       _$GoodiesCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'price') int? price,
+      @JsonKey(name: 'price') double? price,
       @JsonKey(name: 'quantity') int? quantity});
 }
 
@@ -85,7 +85,7 @@ class _$GoodiesCopyWithImpl<$Res> implements $GoodiesCopyWith<$Res> {
       price: price == freezed
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       quantity: quantity == freezed
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -101,7 +101,7 @@ abstract class _$GoodiesCopyWith<$Res> implements $GoodiesCopyWith<$Res> {
   @override
   $Res call(
       {@JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'price') int? price,
+      @JsonKey(name: 'price') double? price,
       @JsonKey(name: 'quantity') int? quantity});
 }
 
@@ -128,7 +128,7 @@ class __$GoodiesCopyWithImpl<$Res> extends _$GoodiesCopyWithImpl<$Res>
       price: price == freezed
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       quantity: quantity == freezed
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -153,7 +153,7 @@ class _$_Goodies with DiagnosticableTreeMixin implements _Goodies {
   final String? name;
   @override
   @JsonKey(name: 'price')
-  final int? price;
+  final double? price;
   @override
   @JsonKey(name: 'quantity')
   final int? quantity;
@@ -207,7 +207,7 @@ class _$_Goodies with DiagnosticableTreeMixin implements _Goodies {
 abstract class _Goodies implements Goodies {
   factory _Goodies(
       {@JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'price') int? price,
+      @JsonKey(name: 'price') double? price,
       @JsonKey(name: 'quantity') int? quantity}) = _$_Goodies;
 
   factory _Goodies.fromJson(Map<String, dynamic> json) = _$_Goodies.fromJson;
@@ -217,7 +217,7 @@ abstract class _Goodies implements Goodies {
   String? get name => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'price')
-  int? get price => throw _privateConstructorUsedError;
+  double? get price => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'quantity')
   int? get quantity => throw _privateConstructorUsedError;

@@ -11,7 +11,7 @@ _$_Locations _$_$_LocationsFromJson(Map<String, dynamic> json) {
     name: json['name'] as String?,
     geopoint: json['geopoint'] == null
         ? null
-        : GeoPoint.fromJson(json['geopoint'] as Map<String, dynamic>),
+        : Geopoint.fromJson(json['geopoint'] as Map<String, dynamic>),
   );
 }
 

@@ -5,12 +5,12 @@ part 'geopoint.freezed.dart';
 part 'geopoint.g.dart';
 
 @freezed
-class GeoPoint with _$GeoPoint {
-  factory GeoPoint({
-    @JsonKey(name: 'latitude') double? latitude,
-    @JsonKey(name: 'longitude') double? longitude,
-  }) = _GeoPoint;
+class Geopoint with _$Geopoint {
+  factory Geopoint({
+    @Default(0.0) @JsonKey(name: 'latitude') double latitude,
+    @Default(0.0) @JsonKey(name: 'longitude') double longitude,
+  }) = _Geopoint;
 
-  factory GeoPoint.fromJson(Map<String, dynamic> json) =>
-      _$GeoPointFromJson(json);
+  factory Geopoint.fromJson(Map<String, dynamic> json) =>
+      _$GeopointFromJson(json);
 }

@@ -21,8 +21,8 @@ class _$RouteTearOff {
   const _$RouteTearOff();
 
   _Route call(
-      {@JsonKey(name: 'from') GeoPoint? from,
-      @JsonKey(name: 'to') GeoPoint? to}) {
+      {@JsonKey(name: 'from') Geopoint? from,
+      @JsonKey(name: 'to') Geopoint? to}) {
     return _Route(
       from: from,
       to: to,
@@ -40,9 +40,9 @@ const $Route = _$RouteTearOff();
 /// @nodoc
 mixin _$Route {
   @JsonKey(name: 'from')
-  GeoPoint? get from => throw _privateConstructorUsedError;
+  Geopoint? get from => throw _privateConstructorUsedError;
   @JsonKey(name: 'to')
-  GeoPoint? get to => throw _privateConstructorUsedError;
+  Geopoint? get to => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,11 +54,11 @@ abstract class $RouteCopyWith<$Res> {
   factory $RouteCopyWith(Route value, $Res Function(Route) then) =
       _$RouteCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'from') GeoPoint? from,
-      @JsonKey(name: 'to') GeoPoint? to});
+      {@JsonKey(name: 'from') Geopoint? from,
+      @JsonKey(name: 'to') Geopoint? to});
 
-  $GeoPointCopyWith<$Res>? get from;
-  $GeoPointCopyWith<$Res>? get to;
+  $GeopointCopyWith<$Res>? get from;
+  $GeopointCopyWith<$Res>? get to;
 }
 
 /// @nodoc
@@ -78,32 +78,32 @@ class _$RouteCopyWithImpl<$Res> implements $RouteCopyWith<$Res> {
       from: from == freezed
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as GeoPoint?,
+              as Geopoint?,
       to: to == freezed
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
-              as GeoPoint?,
+              as Geopoint?,
     ));
   }
 
   @override
-  $GeoPointCopyWith<$Res>? get from {
+  $GeopointCopyWith<$Res>? get from {
     if (_value.from == null) {
       return null;
     }
 
-    return $GeoPointCopyWith<$Res>(_value.from!, (value) {
+    return $GeopointCopyWith<$Res>(_value.from!, (value) {
       return _then(_value.copyWith(from: value));
     });
   }
 
   @override
-  $GeoPointCopyWith<$Res>? get to {
+  $GeopointCopyWith<$Res>? get to {
     if (_value.to == null) {
       return null;
     }
 
-    return $GeoPointCopyWith<$Res>(_value.to!, (value) {
+    return $GeopointCopyWith<$Res>(_value.to!, (value) {
       return _then(_value.copyWith(to: value));
     });
   }
@@ -115,13 +115,13 @@ abstract class _$RouteCopyWith<$Res> implements $RouteCopyWith<$Res> {
       __$RouteCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'from') GeoPoint? from,
-      @JsonKey(name: 'to') GeoPoint? to});
+      {@JsonKey(name: 'from') Geopoint? from,
+      @JsonKey(name: 'to') Geopoint? to});
 
   @override
-  $GeoPointCopyWith<$Res>? get from;
+  $GeopointCopyWith<$Res>? get from;
   @override
-  $GeoPointCopyWith<$Res>? get to;
+  $GeopointCopyWith<$Res>? get to;
 }
 
 /// @nodoc
@@ -142,11 +142,11 @@ class __$RouteCopyWithImpl<$Res> extends _$RouteCopyWithImpl<$Res>
       from: from == freezed
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as GeoPoint?,
+              as Geopoint?,
       to: to == freezed
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
-              as GeoPoint?,
+              as Geopoint?,
     ));
   }
 }
@@ -161,10 +161,10 @@ class _$_Route with DiagnosticableTreeMixin implements _Route {
 
   @override
   @JsonKey(name: 'from')
-  final GeoPoint? from;
+  final Geopoint? from;
   @override
   @JsonKey(name: 'to')
-  final GeoPoint? to;
+  final Geopoint? to;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -209,17 +209,17 @@ class _$_Route with DiagnosticableTreeMixin implements _Route {
 
 abstract class _Route implements Route {
   factory _Route(
-      {@JsonKey(name: 'from') GeoPoint? from,
-      @JsonKey(name: 'to') GeoPoint? to}) = _$_Route;
+      {@JsonKey(name: 'from') Geopoint? from,
+      @JsonKey(name: 'to') Geopoint? to}) = _$_Route;
 
   factory _Route.fromJson(Map<String, dynamic> json) = _$_Route.fromJson;
 
   @override
   @JsonKey(name: 'from')
-  GeoPoint? get from => throw _privateConstructorUsedError;
+  Geopoint? get from => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'to')
-  GeoPoint? get to => throw _privateConstructorUsedError;
+  Geopoint? get to => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$RouteCopyWith<_Route> get copyWith => throw _privateConstructorUsedError;

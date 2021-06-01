@@ -8,6 +8,7 @@ class TpTextField extends StatelessWidget {
   final Color? borderColor;
   final void Function(String)? onChanged;
   final TextEditingController? controller;
+  final double? heigth;
 
   const TpTextField(
       {Key? key,
@@ -16,12 +17,14 @@ class TpTextField extends StatelessWidget {
       required this.hint,
       this.borderColor,
       this.onChanged,
-      this.controller})
+      this.controller,
+      this.heigth})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return VxTextField(
+      maxLine: 200,
       controller: controller,
       value: value ?? "",
       hint: hint,
@@ -34,7 +37,7 @@ class TpTextField extends StatelessWidget {
         .color(Colors.white)
         .roundedLg
         .padding(const EdgeInsets.symmetric(horizontal: 10, vertical: 2))
-        .height(50)
+        .height(heigth ?? 50)
         .border(color: borderColor ?? Theme.of(context).accentColor)
         .make();
   }

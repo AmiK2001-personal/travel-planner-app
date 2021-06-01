@@ -22,7 +22,7 @@ class _$LocationsTearOff {
 
   _Locations call(
       {@JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'geopoint') GeoPoint? geopoint}) {
+      @JsonKey(name: 'geopoint') Geopoint? geopoint}) {
     return _Locations(
       name: name,
       geopoint: geopoint,
@@ -42,7 +42,7 @@ mixin _$Locations {
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'geopoint')
-  GeoPoint? get geopoint => throw _privateConstructorUsedError;
+  Geopoint? get geopoint => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -56,9 +56,9 @@ abstract class $LocationsCopyWith<$Res> {
       _$LocationsCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'geopoint') GeoPoint? geopoint});
+      @JsonKey(name: 'geopoint') Geopoint? geopoint});
 
-  $GeoPointCopyWith<$Res>? get geopoint;
+  $GeopointCopyWith<$Res>? get geopoint;
 }
 
 /// @nodoc
@@ -82,17 +82,17 @@ class _$LocationsCopyWithImpl<$Res> implements $LocationsCopyWith<$Res> {
       geopoint: geopoint == freezed
           ? _value.geopoint
           : geopoint // ignore: cast_nullable_to_non_nullable
-              as GeoPoint?,
+              as Geopoint?,
     ));
   }
 
   @override
-  $GeoPointCopyWith<$Res>? get geopoint {
+  $GeopointCopyWith<$Res>? get geopoint {
     if (_value.geopoint == null) {
       return null;
     }
 
-    return $GeoPointCopyWith<$Res>(_value.geopoint!, (value) {
+    return $GeopointCopyWith<$Res>(_value.geopoint!, (value) {
       return _then(_value.copyWith(geopoint: value));
     });
   }
@@ -106,10 +106,10 @@ abstract class _$LocationsCopyWith<$Res> implements $LocationsCopyWith<$Res> {
   @override
   $Res call(
       {@JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'geopoint') GeoPoint? geopoint});
+      @JsonKey(name: 'geopoint') Geopoint? geopoint});
 
   @override
-  $GeoPointCopyWith<$Res>? get geopoint;
+  $GeopointCopyWith<$Res>? get geopoint;
 }
 
 /// @nodoc
@@ -134,7 +134,7 @@ class __$LocationsCopyWithImpl<$Res> extends _$LocationsCopyWithImpl<$Res>
       geopoint: geopoint == freezed
           ? _value.geopoint
           : geopoint // ignore: cast_nullable_to_non_nullable
-              as GeoPoint?,
+              as Geopoint?,
     ));
   }
 }
@@ -154,7 +154,7 @@ class _$_Locations with DiagnosticableTreeMixin implements _Locations {
   final String? name;
   @override
   @JsonKey(name: 'geopoint')
-  final GeoPoint? geopoint;
+  final Geopoint? geopoint;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -201,7 +201,7 @@ class _$_Locations with DiagnosticableTreeMixin implements _Locations {
 abstract class _Locations implements Locations {
   factory _Locations(
       {@JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'geopoint') GeoPoint? geopoint}) = _$_Locations;
+      @JsonKey(name: 'geopoint') Geopoint? geopoint}) = _$_Locations;
 
   factory _Locations.fromJson(Map<String, dynamic> json) =
       _$_Locations.fromJson;
@@ -211,7 +211,7 @@ abstract class _Locations implements Locations {
   String? get name => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'geopoint')
-  GeoPoint? get geopoint => throw _privateConstructorUsedError;
+  Geopoint? get geopoint => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$LocationsCopyWith<_Locations> get copyWith =>

@@ -9,7 +9,7 @@ part of 'goodies.dart';
 _$_Goodies _$_$_GoodiesFromJson(Map<String, dynamic> json) {
   return _$_Goodies(
     name: json['name'] as String?,
-    price: json['price'] as int?,
+    price: (json['price'] as num?)?.toDouble(),
     quantity: json['quantity'] as int?,
   );
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -8,6 +9,18 @@ import 'travellers.dart';
 
 part 'travel.freezed.dart';
 part 'travel.g.dart';
+
+class TimestampConverter implements JsonConverter<DateTime, Timestamp> {
+  const TimestampConverter();
+
+  @override
+  DateTime fromJson(Timestamp timestamp) {
+    return timestamp.toDate();
+  }
+
+  @override
+  Timestamp toJson(DateTime date) => Timestamp.fromDate(date);
+}
 
 @freezed
 class Travel with _$Travel {
@@ -20,7 +33,7 @@ class Travel with _$Travel {
     @JsonKey(name: 'locations') List<Locations>? locations,
     @JsonKey(name: 'transport_wastes') List<TransportWastes>? transportWastes,
     @JsonKey(name: 'travellers') List<Travellers>? travellers,
-    @JsonKey(name: 'date') DateTime? date,
+    @TimestampConverter() @JsonKey(name: 'date') DateTime? date,
     @JsonKey(name: 'description') String? description,
   }) = _Travel;
 

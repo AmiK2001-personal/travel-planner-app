@@ -8,7 +8,7 @@ part 'goodies.g.dart';
 class Goodies with _$Goodies {
   factory Goodies({
     @JsonKey(name: 'name') String? name,
-    @JsonKey(name: 'price') int? price,
+    @JsonKey(name: 'price') double? price,
     @JsonKey(name: 'quantity') int? quantity,
   }) = _Goodies;
 

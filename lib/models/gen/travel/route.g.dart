@@ -10,10 +10,10 @@ _$_Route _$_$_RouteFromJson(Map<String, dynamic> json) {
   return _$_Route(
     from: json['from'] == null
         ? null
-        : GeoPoint.fromJson(json['from'] as Map<String, dynamic>),
+        : Geopoint.fromJson(json['from'] as Map<String, dynamic>),
     to: json['to'] == null
         ? null
-        : GeoPoint.fromJson(json['to'] as Map<String, dynamic>),
+        : Geopoint.fromJson(json['to'] as Map<String, dynamic>),
   );
 }
 

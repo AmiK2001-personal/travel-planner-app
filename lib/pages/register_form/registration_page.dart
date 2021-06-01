@@ -42,31 +42,17 @@ class _RegPageState extends State<RegPage> {
                       )
                       .toList(),
                 ),
-                Expanded(
-                  child: Center(
-                      child: ButtonWidget(
-                    text: "ЗАРЕГЕСТРИРОВАТЬ",
-                    onClick: () {
-                      context.read<AuthBloc>().add(
-                            CreateUserWithEmailAndPassword(
-                                _emailController.text,
-                                _passwordController.text),
-                          );
-                    },
-                  )).box.padding(const EdgeInsets.only(bottom: 8)).make(),
-                ),
-                HStack([
-                  "Зарегестрироваться через Google".text.size(18).make(),
-                  IconButton(
-                    icon: Assets.icons.uniconsMonochrome.google.svg(width: 48),
-                    onPressed: () {},
-                  )
-                      .box
-                      .margin(const EdgeInsets.only(left: 8))
-                      .border(color: context.theme.primaryColor)
-                      .roundedFull
-                      .make()
-                ]).centered(),
+                Center(
+                    child: ButtonWidget(
+                  text: "ЗАРЕГЕСТРИРОВАТЬ",
+                  onClick: () {
+                    context.read<AuthBloc>().add(
+                          CreateUserWithEmailAndPassword(
+                              _emailController.text, _passwordController.text),
+                        );
+                  },
+                )).box.padding(const EdgeInsets.only(bottom: 8)).make(),
+                //buildGoogleRegister(context).centered(),
                 HStack(
                   [
                     const Text("Есть аккаунт? ",
@@ -89,6 +75,21 @@ class _RegPageState extends State<RegPage> {
         ),
       ]),
     );
+  }
+
+  HStack buildGoogleRegister(BuildContext context) {
+    return HStack([
+      "Зарегестрироваться через Google".text.size(18).make(),
+      IconButton(
+        icon: Assets.icons.uniconsMonochrome.google.svg(width: 48),
+        onPressed: () {},
+      )
+          .box
+          .margin(const EdgeInsets.only(left: 8))
+          .border(color: context.theme.primaryColor)
+          .roundedFull
+          .make()
+    ]);
   }
 }
 
