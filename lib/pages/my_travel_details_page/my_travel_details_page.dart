@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlng/latlng.dart';
-import 'package:travelplanner/models/gen/travel/geopoint.dart';
 import 'package:travelplanner/models/gen/travel/goodies.dart';
 import 'package:travelplanner/models/gen/travel/locations.dart';
 import 'package:travelplanner/models/gen/travel/travellers.dart';
@@ -17,7 +16,6 @@ import 'package:travelplanner/utilities/constraints.dart';
 import 'package:map/map.dart' as flutter_map;
 import 'package:kt_dart/kt.dart';
 import 'package:supercharged/supercharged.dart';
-import 'package:travelplanner/models/gen/travel/geopoint.dart' as geo;
 
 class LocationScreenDialog extends StatefulWidget {
   final List<Locations>? locations;
