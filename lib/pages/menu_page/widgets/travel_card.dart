@@ -1,3 +1,4 @@
+import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -71,41 +72,51 @@ class _TravelCardState extends State<TravelCard> {
           return Stack(
             children: [
               logo(context, travel.images),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  (travel.name ?? "Название")
-                      .text
-                      .fontWeight(FontWeight.w400)
-                      .fontFamily(FontFamily.metropolis)
-                      .xl
-                      .color(Theme.of(context).primaryColor)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Frost(
+                  frostColor:
+                      const Color.fromARGB(255, 30, 30, 30), // Dark gray
+                  blur: 7,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      (travel.name ?? "Название")
+                          .text
+                          .fontWeight(FontWeight.w400)
+                          .fontFamily(FontFamily.metropolis)
+                          .xl
+                          .color(Theme.of(context).primaryColor)
+                          .make(),
+                      (travel.description ?? "Описание")
+                          .text
+                          .softWrap(true)
+                          .ellipsis
+                          .fontFamily(FontFamily.metropolis)
+                          .align(TextAlign.center)
+                          .gray500
+                          .make(),
+                      if (travel.date != null)
+                        DateFormat('yyyy/MM/dd')
+                            .format(travel.date!)
+                            .text
+                            .gray400
+                            .fontFamily(FontFamily.metropolis)
+                            .make()
+                    ],
+                  )
+                      .w(context.percentWidth * 70)
+                      .box
+                      .alignment(Alignment.bottomCenter)
+                      .margin(const EdgeInsets.only(bottom: 30))
                       .make(),
-                  (travel.description ?? "Описание")
-                      .text
-                      .softWrap(true)
-                      .ellipsis
-                      .fontFamily(FontFamily.metropolis)
-                      .align(TextAlign.center)
-                      .gray500
-                      .make(),
-                  if (travel.date != null)
-                    DateFormat('yyyy/MM/dd')
-                        .format(travel.date!)
-                        .text
-                        .fontFamily(FontFamily.metropolis)
-                        .make()
-                ],
+                )
+                    .cornerRadius(15)
+                    .wh(context.percentWidth * 93, context.percentHeight * 14)
+                    .box
+                    .margin(const EdgeInsets.only(bottom: 8))
+                    .make(),
               )
-                  .wh(context.percentWidth * 70, context.percentHeight * 12)
-                  .card
-                  .roundedLg
-                  .elevation(12)
-                  .make()
-                  .box
-                  .alignment(Alignment.bottomCenter)
-                  .margin(const EdgeInsets.only(bottom: 30))
-                  .make()
             ],
           )
               .box
