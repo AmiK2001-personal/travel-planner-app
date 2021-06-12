@@ -82,8 +82,8 @@ class MyTravelsPage extends StatelessWidget {
                         if (travel.item2.images != null)
                           CachedNetworkImage(
                             width: 100,
-                            imageUrl: travel.item2.images!.firstOrElse(() =>
-                                "https://travelmaz.com/wp-content/uploads/2021/01/https___specials-images.forbesimg.com_imageserve_5f709d82fa4f131fa2114a74_0x0.jpg"),
+                            imageUrl: //travel.item2.images!.first.path ??
+                                "https://travelmaz.com/wp-content/uploads/2021/01/https___specials-images.forbesimg.com_imageserve_5f709d82fa4f131fa2114a74_0x0.jpg",
                           ).card.rounded.make(),
                         Text(travel.item2.name ?? "No name").centered()
                       ]),

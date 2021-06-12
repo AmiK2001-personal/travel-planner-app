@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:travelplanner/models/error_message.dart';
+import 'package:travelplanner/models/gen/personal_info/personal_info.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
@@ -49,12 +51,17 @@ class AuthRepository {
       {required String email, required String password}) async {
     if (email.isNotEmpty && password.isNotEmpty) {
       try {
-        return Either.left(
-          await _firebaseAuth.signInWithEmailAndPassword(
-            email: email,
-            password: password,
-          ),
+        final userCred = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
         );
+        await FirebaseFirestore
+            .instance // TODO: create personal info on register
+            .collection("personal_info")
+            .doc(userCred.user!.uid)
+            .set(PersonalInfo(login: userCred.user!.email).toJson());
+
+        return Either.left(userCred);
       } on FirebaseAuthException catch (e) {
         final errorMessage = firebaseAuthExceptionCodeToString(e.code);
         return Either.right(ErrorMessage(message: errorMessage, code: e.code));
@@ -76,12 +83,12 @@ class AuthRepository {
       {required String email, required String password}) async {
     if (email.isNotEmpty && password.isNotEmpty) {
       try {
-        return Either.left(
-          await _firebaseAuth.createUserWithEmailAndPassword(
-            email: email,
-            password: password,
-          ),
+        final userCred = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
         );
+
+        return Either.left(userCred);
       } on FirebaseAuthException catch (e) {
         final errorMessage = firebaseAuthExceptionCodeToString(e.code);
         return Either.right(ErrorMessage(message: errorMessage, code: e.code));

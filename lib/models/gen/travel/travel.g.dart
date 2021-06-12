@@ -10,8 +10,9 @@ _$_Travel _$_$_TravelFromJson(Map<String, dynamic> json) {
   return _$_Travel(
     name: json['name'] as String?,
     rating: json['rating'] as int?,
-    images:
-        (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    images: (json['images'] as List<dynamic>?)
+        ?.map((e) => FirebaseImage.fromJson(e as Map<String, dynamic>))
+        .toList(),
     goodies: (json['goodies'] as List<dynamic>?)
         ?.map((e) => Goodies.fromJson(e as Map<String, dynamic>))
         .toList(),

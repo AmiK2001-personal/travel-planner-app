@@ -1,19 +1,22 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:latlng/latlng.dart';
 import 'package:travelplanner/models/gen/travel/goodies.dart';
 import 'package:travelplanner/models/gen/travel/locations.dart';
 import 'package:travelplanner/models/gen/travel/travellers.dart';
+import 'package:travelplanner/services/personal_info_service.dart';
+import 'package:uuid/uuid.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import 'package:travelplanner/models/gen/travel/travel.dart';
 import 'package:travelplanner/pages/widgets/tp_text_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:travelplanner/utilities/constraints.dart';
-import 'package:map/map.dart' as flutter_map;
 import 'package:kt_dart/kt.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -279,70 +282,23 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
     if (pickedFile != null) return File(pickedFile.path);
   }
 
+  late GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+
+  Future<void> _onMapCreated(GoogleMapController controller) async {
+    mapController = controller;
+  }
+
   void showMap() {
     showDialog(
       context: context,
-      builder: (context) => flutter_map.MapLayoutBuilder(
-        controller: controller,
-        builder: (context, transformer) {
-          final markerPositions =
-              markers.map(transformer.fromLatLngToXYCoords).toList();
-
-          final markerWidgets = markerPositions.map(
-            (pos) => _buildMarkerWidget(pos, Colors.red),
-          );
-
-          final homeLocation =
-              transformer.fromLatLngToXYCoords(LatLng(35.68, 51.412));
-
-          final homeMarkerWidget =
-              _buildMarkerWidget(homeLocation, Colors.black);
-
-          final centerLocation = Offset(
-              transformer.constraints.biggest.width / 2,
-              transformer.constraints.biggest.height / 2);
-
-          final centerMarkerWidget =
-              _buildMarkerWidget(centerLocation, Colors.purple);
-
-          return GestureDetector(
-            onDoubleTap: _onDoubleTap,
-            onScaleStart: _onScaleStart,
-            onScaleUpdate: _onScaleUpdate,
-            onTapUp: (details) {
-              final location =
-                  transformer.fromXYCoordsToLatLng(details.localPosition);
-
-              final clicked = transformer.fromLatLngToXYCoords(location);
-            },
-            child: Stack(
-              children: [
-                flutter_map.Map(
-                  controller: controller,
-                  builder: (context, x, y, z) {
-                    //Legal notice: This url is only used for demo and educational purposes. You need a license key for production use.
-
-                    //Google Maps
-                    final url =
-                        'https://www.google.com/maps/vt/pb=!1m4!1m3!1i$z!2i$x!3i$y!2m3!1e0!2sm!3i420120488!3m7!2sen!5e1105!12m4!1e68!2m2!1sset!2sRoadmap!4e0!5m1!1e0!23i4111425';
-
-                    //Mapbox Streets
-                    // final url =
-                    //     'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/$z/$x/$y?access_token=YOUR_MAPBOX_ACCESS_TOKEN';
-
-                    return CachedNetworkImage(
-                      imageUrl: url,
-                      fit: BoxFit.cover,
-                    );
-                  },
-                ),
-                homeMarkerWidget,
-                ...markerWidgets,
-                centerMarkerWidget,
-              ],
-            ),
-          );
-        },
+      builder: (context) => GoogleMap(
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: CameraPosition(
+          target: _center,
+          zoom: 11.0,
+        ),
       ),
     );
   }
@@ -470,12 +426,12 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                       "Фотографии".text.headline6(context).makeCentered(),
                       if (travel.images != null && travel.images!.isNotEmpty)
                         buildImageSwiper(travel),
-                      // Column(
-                      //   children: [
-                      //     buildImageButton(context),
-                      //     buildPhotoButton(context)
-                      //   ],
-                      // )
+                      Column(
+                        children: [
+                          buildImageButton(context),
+                          buildPhotoButton(context, widget.travelId)
+                        ],
+                      )
                     ]
                         .map((e) => e.box
                             .margin(const EdgeInsets.only(bottom: 8))
@@ -639,18 +595,37 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
     }
   }
 
+  Future<Widget> buildMemberCard(String userId, String roleId) async {
+    final personalInfo =
+        await GetIt.I.get<PersonalInfoService>().fetchUserPersonalInfo(userId);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        VStack([
+          personalInfo!.login!.text.subtitle2(context).make(),
+        ]),
+        roleIdToString(roleId).text.make()
+      ],
+    ).box.margin(const EdgeInsets.all(10)).make().card.make();
+  }
+
   ListView buildMembersListView(Travel travel) {
     return ListView.builder(
       itemCount: travel.travellers!.length,
       itemBuilder: (BuildContext context, int index) {
-        return "UID: ${travel.travellers![index].userId!} ${roleIdToString(travel.travellers![index].roleId!)}"
-            .text
-            .make()
-            .box
-            .margin(const EdgeInsets.all(10))
-            .make()
-            .card
-            .make();
+        return FutureBuilder<Widget>(
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return snapshot.data!;
+            } else if (snapshot.hasError) {
+              return "Ошибка".text.make();
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
+          future: buildMemberCard(travel.travellers![index].userId!,
+              travel.travellers![index].roleId!),
+        );
       },
     );
   }
@@ -659,19 +634,24 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
     return VxSwiper.builder(
       itemCount: travel.images!.length,
       itemBuilder: (context, index) => CachedNetworkImage(
-        imageUrl: travel.images![index],
+        imageUrl: travel.images![index].path,
         fit: BoxFit.fill,
       ).card.roundedLg.make(),
     );
   }
 
-  ElevatedButton buildPhotoButton(BuildContext context) {
+  ElevatedButton buildPhotoButton(BuildContext context, String travelId) {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(context.primaryColor),
       ),
       onPressed: () async {
-        getPhoto();
+        final image = await getPhoto();
+        if (image != null) {
+          FirebaseStorage.instance
+              .ref("images/travel/$travelId/${const Uuid().v4()}")
+              .putFile(image);
+        }
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -689,7 +669,10 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
         backgroundColor: MaterialStateProperty.all(context.primaryColor),
       ),
       onPressed: () async {
-        getImage();
+        final image = await getImage();
+        if (image != null) {
+          FirebaseStorage.instance.ref("images").putFile(image);
+        }
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -698,60 +681,6 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
           "Загрузить изображение из галереи".text.make()
         ],
       ),
-    );
-  }
-
-  final controller = flutter_map.MapController(
-    location: LatLng(35.68, 51.41),
-  );
-
-  final markers = [
-    LatLng(35.674, 51.41),
-  ];
-
-  void _gotoDefault() {
-    controller.center = LatLng(35.68, 51.41);
-    setState(() {});
-  }
-
-  void _onDoubleTap() {
-    controller.zoom += 0.5;
-    setState(() {});
-  }
-
-  Offset? _dragStart;
-  double _scaleStart = 1.0;
-  void _onScaleStart(ScaleStartDetails details) {
-    _dragStart = details.focalPoint;
-    _scaleStart = 1.0;
-  }
-
-  void _onScaleUpdate(ScaleUpdateDetails details) {
-    final scaleDiff = details.scale - _scaleStart;
-    _scaleStart = details.scale;
-
-    if (scaleDiff > 0) {
-      controller.zoom += 0.02;
-      setState(() {});
-    } else if (scaleDiff < 0) {
-      controller.zoom -= 0.02;
-      setState(() {});
-    } else {
-      final now = details.focalPoint;
-      final diff = now - _dragStart!;
-      _dragStart = now;
-      controller.drag(diff.dx, diff.dy);
-      setState(() {});
-    }
-  }
-
-  Widget _buildMarkerWidget(Offset pos, Color color) {
-    return Positioned(
-      left: pos.dx - 16,
-      top: pos.dy - 16,
-      width: 24,
-      height: 24,
-      child: Icon(Icons.location_on, color: color),
     );
   }
 }

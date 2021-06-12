@@ -8,23 +8,21 @@ part of 'personal_info.dart';
 
 _$_PersonalInfo _$_$_PersonalInfoFromJson(Map<String, dynamic> json) {
   return _$_PersonalInfo(
+    login: json['login'] as String?,
+    avatar: json['avatar'] == null
+        ? null
+        : FirebaseImage.fromJson(json['avatar'] as Map<String, dynamic>),
     firstname: json['firstname'] as String?,
     lastname: json['lastname'] as String?,
     patronymic: json['patronymic'] as String?,
-    birthDate: json['birth_date'] as String?,
-    phone: json['phone'] as String?,
-    favoriteTravels: (json['favorite_travels'] as List<dynamic>?)
-        ?.map((e) => e as String)
-        .toList(),
   );
 }
 
 Map<String, dynamic> _$_$_PersonalInfoToJson(_$_PersonalInfo instance) =>
     <String, dynamic>{
+      'login': instance.login,
+      'avatar': instance.avatar,
       'firstname': instance.firstname,
       'lastname': instance.lastname,
       'patronymic': instance.patronymic,
-      'birth_date': instance.birthDate,
-      'phone': instance.phone,
-      'favorite_travels': instance.favoriteTravels,
     };

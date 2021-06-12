@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:travelplanner/bloc/auth/bloc/auth_bloc.dart';
 import 'package:travelplanner/pages/login_form/login_form.dart';
 import 'package:travelplanner/pages/menu_page/menu_page.dart';
+import 'package:travelplanner/services/personal_info_service.dart';
 import 'package:travelplanner/utilities/constraints.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -12,7 +14,12 @@ import 'bloc/menu_page/menu_page_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setup();
   runApp(App());
+}
+
+void setup() {
+  GetIt.I.registerSingleton<PersonalInfoService>(PersonalInfoService());
 }
 
 class App extends StatelessWidget {

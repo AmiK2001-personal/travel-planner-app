@@ -21,19 +21,17 @@ class _$PersonalInfoTearOff {
   const _$PersonalInfoTearOff();
 
   _PersonalInfo call(
-      {@JsonKey(name: 'firstname') String? firstname,
+      {@JsonKey(name: 'login') String? login,
+      @JsonKey(name: 'avatar') FirebaseImage? avatar,
+      @JsonKey(name: 'firstname') String? firstname,
       @JsonKey(name: 'lastname') String? lastname,
-      @JsonKey(name: 'patronymic') String? patronymic,
-      @JsonKey(name: 'birth_date') String? birthDate,
-      @JsonKey(name: 'phone') String? phone,
-      @JsonKey(name: 'favorite_travels') List<String>? favoriteTravels}) {
+      @JsonKey(name: 'patronymic') String? patronymic}) {
     return _PersonalInfo(
+      login: login,
+      avatar: avatar,
       firstname: firstname,
       lastname: lastname,
       patronymic: patronymic,
-      birthDate: birthDate,
-      phone: phone,
-      favoriteTravels: favoriteTravels,
     );
   }
 
@@ -47,18 +45,16 @@ const $PersonalInfo = _$PersonalInfoTearOff();
 
 /// @nodoc
 mixin _$PersonalInfo {
+  @JsonKey(name: 'login')
+  String? get login => throw _privateConstructorUsedError;
+  @JsonKey(name: 'avatar')
+  FirebaseImage? get avatar => throw _privateConstructorUsedError;
   @JsonKey(name: 'firstname')
   String? get firstname => throw _privateConstructorUsedError;
   @JsonKey(name: 'lastname')
   String? get lastname => throw _privateConstructorUsedError;
   @JsonKey(name: 'patronymic')
   String? get patronymic => throw _privateConstructorUsedError;
-  @JsonKey(name: 'birth_date')
-  String? get birthDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'phone')
-  String? get phone => throw _privateConstructorUsedError;
-  @JsonKey(name: 'favorite_travels')
-  List<String>? get favoriteTravels => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -72,12 +68,13 @@ abstract class $PersonalInfoCopyWith<$Res> {
           PersonalInfo value, $Res Function(PersonalInfo) then) =
       _$PersonalInfoCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'firstname') String? firstname,
+      {@JsonKey(name: 'login') String? login,
+      @JsonKey(name: 'avatar') FirebaseImage? avatar,
+      @JsonKey(name: 'firstname') String? firstname,
       @JsonKey(name: 'lastname') String? lastname,
-      @JsonKey(name: 'patronymic') String? patronymic,
-      @JsonKey(name: 'birth_date') String? birthDate,
-      @JsonKey(name: 'phone') String? phone,
-      @JsonKey(name: 'favorite_travels') List<String>? favoriteTravels});
+      @JsonKey(name: 'patronymic') String? patronymic});
+
+  $FirebaseImageCopyWith<$Res>? get avatar;
 }
 
 /// @nodoc
@@ -90,14 +87,21 @@ class _$PersonalInfoCopyWithImpl<$Res> implements $PersonalInfoCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? login = freezed,
+    Object? avatar = freezed,
     Object? firstname = freezed,
     Object? lastname = freezed,
     Object? patronymic = freezed,
-    Object? birthDate = freezed,
-    Object? phone = freezed,
-    Object? favoriteTravels = freezed,
   }) {
     return _then(_value.copyWith(
+      login: login == freezed
+          ? _value.login
+          : login // ignore: cast_nullable_to_non_nullable
+              as String?,
+      avatar: avatar == freezed
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as FirebaseImage?,
       firstname: firstname == freezed
           ? _value.firstname
           : firstname // ignore: cast_nullable_to_non_nullable
@@ -110,19 +114,18 @@ class _$PersonalInfoCopyWithImpl<$Res> implements $PersonalInfoCopyWith<$Res> {
           ? _value.patronymic
           : patronymic // ignore: cast_nullable_to_non_nullable
               as String?,
-      birthDate: birthDate == freezed
-          ? _value.birthDate
-          : birthDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phone: phone == freezed
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      favoriteTravels: favoriteTravels == freezed
-          ? _value.favoriteTravels
-          : favoriteTravels // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
     ));
+  }
+
+  @override
+  $FirebaseImageCopyWith<$Res>? get avatar {
+    if (_value.avatar == null) {
+      return null;
+    }
+
+    return $FirebaseImageCopyWith<$Res>(_value.avatar!, (value) {
+      return _then(_value.copyWith(avatar: value));
+    });
   }
 }
 
@@ -134,12 +137,14 @@ abstract class _$PersonalInfoCopyWith<$Res>
       __$PersonalInfoCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'firstname') String? firstname,
+      {@JsonKey(name: 'login') String? login,
+      @JsonKey(name: 'avatar') FirebaseImage? avatar,
+      @JsonKey(name: 'firstname') String? firstname,
       @JsonKey(name: 'lastname') String? lastname,
-      @JsonKey(name: 'patronymic') String? patronymic,
-      @JsonKey(name: 'birth_date') String? birthDate,
-      @JsonKey(name: 'phone') String? phone,
-      @JsonKey(name: 'favorite_travels') List<String>? favoriteTravels});
+      @JsonKey(name: 'patronymic') String? patronymic});
+
+  @override
+  $FirebaseImageCopyWith<$Res>? get avatar;
 }
 
 /// @nodoc
@@ -154,14 +159,21 @@ class __$PersonalInfoCopyWithImpl<$Res> extends _$PersonalInfoCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? login = freezed,
+    Object? avatar = freezed,
     Object? firstname = freezed,
     Object? lastname = freezed,
     Object? patronymic = freezed,
-    Object? birthDate = freezed,
-    Object? phone = freezed,
-    Object? favoriteTravels = freezed,
   }) {
     return _then(_PersonalInfo(
+      login: login == freezed
+          ? _value.login
+          : login // ignore: cast_nullable_to_non_nullable
+              as String?,
+      avatar: avatar == freezed
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as FirebaseImage?,
       firstname: firstname == freezed
           ? _value.firstname
           : firstname // ignore: cast_nullable_to_non_nullable
@@ -174,18 +186,6 @@ class __$PersonalInfoCopyWithImpl<$Res> extends _$PersonalInfoCopyWithImpl<$Res>
           ? _value.patronymic
           : patronymic // ignore: cast_nullable_to_non_nullable
               as String?,
-      birthDate: birthDate == freezed
-          ? _value.birthDate
-          : birthDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phone: phone == freezed
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      favoriteTravels: favoriteTravels == freezed
-          ? _value.favoriteTravels
-          : favoriteTravels // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
     ));
   }
 }
@@ -194,16 +194,21 @@ class __$PersonalInfoCopyWithImpl<$Res> extends _$PersonalInfoCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_PersonalInfo with DiagnosticableTreeMixin implements _PersonalInfo {
   _$_PersonalInfo(
-      {@JsonKey(name: 'firstname') this.firstname,
+      {@JsonKey(name: 'login') this.login,
+      @JsonKey(name: 'avatar') this.avatar,
+      @JsonKey(name: 'firstname') this.firstname,
       @JsonKey(name: 'lastname') this.lastname,
-      @JsonKey(name: 'patronymic') this.patronymic,
-      @JsonKey(name: 'birth_date') this.birthDate,
-      @JsonKey(name: 'phone') this.phone,
-      @JsonKey(name: 'favorite_travels') this.favoriteTravels});
+      @JsonKey(name: 'patronymic') this.patronymic});
 
   factory _$_PersonalInfo.fromJson(Map<String, dynamic> json) =>
       _$_$_PersonalInfoFromJson(json);
 
+  @override
+  @JsonKey(name: 'login')
+  final String? login;
+  @override
+  @JsonKey(name: 'avatar')
+  final FirebaseImage? avatar;
   @override
   @JsonKey(name: 'firstname')
   final String? firstname;
@@ -213,19 +218,10 @@ class _$_PersonalInfo with DiagnosticableTreeMixin implements _PersonalInfo {
   @override
   @JsonKey(name: 'patronymic')
   final String? patronymic;
-  @override
-  @JsonKey(name: 'birth_date')
-  final String? birthDate;
-  @override
-  @JsonKey(name: 'phone')
-  final String? phone;
-  @override
-  @JsonKey(name: 'favorite_travels')
-  final List<String>? favoriteTravels;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PersonalInfo(firstname: $firstname, lastname: $lastname, patronymic: $patronymic, birthDate: $birthDate, phone: $phone, favoriteTravels: $favoriteTravels)';
+    return 'PersonalInfo(login: $login, avatar: $avatar, firstname: $firstname, lastname: $lastname, patronymic: $patronymic)';
   }
 
   @override
@@ -233,18 +229,21 @@ class _$_PersonalInfo with DiagnosticableTreeMixin implements _PersonalInfo {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'PersonalInfo'))
+      ..add(DiagnosticsProperty('login', login))
+      ..add(DiagnosticsProperty('avatar', avatar))
       ..add(DiagnosticsProperty('firstname', firstname))
       ..add(DiagnosticsProperty('lastname', lastname))
-      ..add(DiagnosticsProperty('patronymic', patronymic))
-      ..add(DiagnosticsProperty('birthDate', birthDate))
-      ..add(DiagnosticsProperty('phone', phone))
-      ..add(DiagnosticsProperty('favoriteTravels', favoriteTravels));
+      ..add(DiagnosticsProperty('patronymic', patronymic));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _PersonalInfo &&
+            (identical(other.login, login) ||
+                const DeepCollectionEquality().equals(other.login, login)) &&
+            (identical(other.avatar, avatar) ||
+                const DeepCollectionEquality().equals(other.avatar, avatar)) &&
             (identical(other.firstname, firstname) ||
                 const DeepCollectionEquality()
                     .equals(other.firstname, firstname)) &&
@@ -253,26 +252,17 @@ class _$_PersonalInfo with DiagnosticableTreeMixin implements _PersonalInfo {
                     .equals(other.lastname, lastname)) &&
             (identical(other.patronymic, patronymic) ||
                 const DeepCollectionEquality()
-                    .equals(other.patronymic, patronymic)) &&
-            (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.phone, phone) ||
-                const DeepCollectionEquality().equals(other.phone, phone)) &&
-            (identical(other.favoriteTravels, favoriteTravels) ||
-                const DeepCollectionEquality()
-                    .equals(other.favoriteTravels, favoriteTravels)));
+                    .equals(other.patronymic, patronymic)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(login) ^
+      const DeepCollectionEquality().hash(avatar) ^
       const DeepCollectionEquality().hash(firstname) ^
       const DeepCollectionEquality().hash(lastname) ^
-      const DeepCollectionEquality().hash(patronymic) ^
-      const DeepCollectionEquality().hash(birthDate) ^
-      const DeepCollectionEquality().hash(phone) ^
-      const DeepCollectionEquality().hash(favoriteTravels);
+      const DeepCollectionEquality().hash(patronymic);
 
   @JsonKey(ignore: true)
   @override
@@ -287,17 +277,21 @@ class _$_PersonalInfo with DiagnosticableTreeMixin implements _PersonalInfo {
 
 abstract class _PersonalInfo implements PersonalInfo {
   factory _PersonalInfo(
-          {@JsonKey(name: 'firstname') String? firstname,
-          @JsonKey(name: 'lastname') String? lastname,
-          @JsonKey(name: 'patronymic') String? patronymic,
-          @JsonKey(name: 'birth_date') String? birthDate,
-          @JsonKey(name: 'phone') String? phone,
-          @JsonKey(name: 'favorite_travels') List<String>? favoriteTravels}) =
-      _$_PersonalInfo;
+      {@JsonKey(name: 'login') String? login,
+      @JsonKey(name: 'avatar') FirebaseImage? avatar,
+      @JsonKey(name: 'firstname') String? firstname,
+      @JsonKey(name: 'lastname') String? lastname,
+      @JsonKey(name: 'patronymic') String? patronymic}) = _$_PersonalInfo;
 
   factory _PersonalInfo.fromJson(Map<String, dynamic> json) =
       _$_PersonalInfo.fromJson;
 
+  @override
+  @JsonKey(name: 'login')
+  String? get login => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'avatar')
+  FirebaseImage? get avatar => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'firstname')
   String? get firstname => throw _privateConstructorUsedError;
@@ -307,15 +301,6 @@ abstract class _PersonalInfo implements PersonalInfo {
   @override
   @JsonKey(name: 'patronymic')
   String? get patronymic => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(name: 'birth_date')
-  String? get birthDate => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(name: 'phone')
-  String? get phone => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(name: 'favorite_travels')
-  List<String>? get favoriteTravels => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$PersonalInfoCopyWith<_PersonalInfo> get copyWith =>

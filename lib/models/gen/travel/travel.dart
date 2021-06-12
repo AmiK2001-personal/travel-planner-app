@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:travelplanner/models/firebase_image.dart';
 
 import 'goodies.dart';
 import 'locations.dart';
@@ -27,7 +28,7 @@ class Travel with _$Travel {
   factory Travel({
     @JsonKey(name: 'name') String? name,
     @JsonKey(name: 'rating') int? rating,
-    @JsonKey(name: 'images') List<String>? images,
+    @JsonKey(name: 'images') List<FirebaseImage>? images,
     @JsonKey(name: 'goodies') List<Goodies>? goodies,
     @JsonKey(name: 'is_public') bool? isPublic,
     @JsonKey(name: 'locations') List<Locations>? locations,
