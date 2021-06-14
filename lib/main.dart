@@ -1,52 +1,74 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:travelplanner/bloc/auth/bloc/auth_bloc.dart';
-import 'package:travelplanner/pages/login_form/login_form.dart';
-import 'package:travelplanner/pages/menu_page/menu_page.dart';
-import 'package:travelplanner/services/personal_info_service.dart';
-import 'package:travelplanner/utilities/constraints.dart';
+import 'package:get/get.dart';
+import 'package:travelplanner/presentation/services/theme_service.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import 'bloc/login_form/login_form_bloc.dart';
-import 'bloc/menu_page/menu_page_bloc.dart';
+import 'dependency_injection.dart';
+import 'presentation/screens/menu/bloc/menu_page_bloc.dart';
+import 'presentation/screens/menu/pages/menu_page.dart';
+import 'presentation/screens/signin/bloc/signin_bloc.dart';
+import 'presentation/screens/signin/pages/login_form.dart';
+import 'presentation/screens/signup/bloc/auth_bloc.dart';
+import 'presentation/utils/constraints.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setup();
+  await init();
   runApp(App());
 }
 
-void setup() {
-  GetIt.I.registerSingleton<PersonalInfoService>(PersonalInfoService());
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
 }
 
-class App extends StatelessWidget {
+class _AppState extends State<App> {
+  ThemeService themeService = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Firebase.initializeApp(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Text("Error connect to firebase");
+          return "Error connect to firebase".text.make();
         }
         if (snapshot.connectionState == ConnectionState.done) {
           return MultiBlocProvider(
             providers: [
               BlocProvider<AuthBloc>(
-                create: (BuildContext context) => AuthBloc(),
+                create: (BuildContext context) => Get.find<AuthBloc>(),
               ),
               BlocProvider<LoginFormBloc>(
-                create: (BuildContext context) => LoginFormBloc(),
+                create: (BuildContext context) => Get.find<LoginFormBloc>(),
               ),
             ],
             child: BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
-                return MaterialApp(
-                  themeMode: ThemeMode.light,
-                  darkTheme: buildDarkThemeData(),
-                  theme: buildLightThemeData(),
+                return GetMaterialApp(
+                  themeMode: Get.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+                  darkTheme: ThemeData.dark().copyWith(
+                    textTheme: const TextTheme(
+                      headline6: TextStyle(color: Colors.white),
+                      bodyText1: TextStyle(color: Colors.white),
+                    ),
+                    textButtonTheme: TextButtonThemeData(
+                      style: ButtonStyle(
+                        textStyle: MaterialStateProperty.all(
+                          const TextStyle(color: Colors.black87),
+                        ),
+                      ),
+                    ),
+                    accentColor: secondaryColor,
+                    primaryColor: primaryColor,
+                    backgroundColor: Colors.grey.shade900,
+                  ),
+                  theme: ThemeData.light().copyWith(
+                      accentColor: secondaryColor,
+                      primaryColor: primaryColor,
+                      backgroundColor: Colors.white),
                   debugShowCheckedModeBanner: false,
                   home: buildHomeBlocListener(),
                 );
@@ -127,24 +149,5 @@ class App extends StatelessWidget {
                   });
         },
         child: LoginForm());
-  }
-
-  ThemeData buildLightThemeData() {
-    return ThemeData(
-        accentColor: secondaryColor,
-        primaryColor: primaryColor,
-        backgroundColor: Colors.white);
-  }
-
-  ThemeData buildDarkThemeData() {
-    return ThemeData(
-      textTheme: const TextTheme(
-        headline6: TextStyle(color: Colors.white),
-        bodyText1: TextStyle(color: Colors.white),
-      ),
-      accentColor: secondaryColor,
-      primaryColor: primaryColor,
-      backgroundColor: Colors.grey.shade900,
-    );
   }
 }
