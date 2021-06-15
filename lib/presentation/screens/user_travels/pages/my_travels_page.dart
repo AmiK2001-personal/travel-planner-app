@@ -31,20 +31,10 @@ class MyTravelsPage extends StatelessWidget {
       backgroundColor: Colors.white10,
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: travelRemoteDataSource
-            .getById(context.read<AuthBloc>().userRepo.getUser()!.uid),
+            .getUserTravels(context.read<AuthBloc>().userRepo.getUser()!.uid),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            final travels = snapshot.data!.docs
-                .map((e) => Tuple2(e.id, Travel.fromJson(e.data())))
-                .toList();
-            final userTravels = travels
-                .filter((x) => x.item2.travellers!.containsAny(["0", "1", "2"]
-                    .map((e) => Travellers(
-                        userId:
-                            context.read<AuthBloc>().userRepo.getUser()!.uid,
-                        roleId: e))))
-                .toList();
-
+            final userTravels = snapshot.data!.docs;
             if (userTravels.isEmpty) {
               return VStack(
                 [

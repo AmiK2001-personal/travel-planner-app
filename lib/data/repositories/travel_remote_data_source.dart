@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:travelplanner/domain/entities/travel/locations.dart';
+import 'package:travelplanner/domain/entities/travel/travel.dart';
 import 'package:travelplanner/domain/entities/travel/travellers.dart';
+import 'package:tuple/tuple.dart';
 
 abstract class TravelRemoteDataSource {
-  Stream<QuerySnapshot<Map<String, dynamic>>>? getById(String userId);
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getById(String userId);
+  Stream<QuerySnapshot<Map<String, dynamic>>>? getUserTravels(String userId);
   Future<DocumentReference<Map<String, dynamic>>> createForUserWithId(
       String userId);
   Stream<QuerySnapshot<Map<String, dynamic>>>? getPublicTravels();
@@ -17,8 +21,8 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
   final firestore = FirebaseFirestore.instance;
 
   @override
-  Stream<QuerySnapshot<Map<String, dynamic>>>? getById(String userId) {
-    return firestore.collection("travels").snapshots();
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getById(String userId) {
+    return firestore.collection("travels").doc(userId).snapshots();
   }
 
   @override
@@ -66,5 +70,25 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
         .collection("travels")
         .doc(travelId)
         .update({"locations": data});
+  }
+
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>>? getUserTravels(String userId) {
+    // final travels = snapshot.data!.docs
+    //             .map((e) => Tuple2(e.id, Travel.fromJson(e.data())))
+    //             .toList();
+    //         final userTravels = travels
+    //             .filter((x) => x.item2.travellers!.containsAny(["0", "1", "2"]
+    //                 .map((e) => Travellers(
+    //                     userId:
+    //                         context.read<AuthBloc>().userRepo.getUser()!.uid,
+    //                     roleId: e))))
+    //             .toList();
+
+    return firestore
+        .collection("travels")
+        .where('is_public', isEqualTo: true)
+        .snapshots();
+    // .map((e) => Tuple2(e., Travel.fromJson(e.data())));
   }
 }
