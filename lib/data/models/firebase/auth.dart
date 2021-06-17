@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:travelplanner/domain/entities/personal_info/personal_info.dart';
 
-import '../error_message.dart';
+import '../../../core/error/error_message.dart';
 
 class Auth {
   final FirebaseAuth _firebaseAuth;

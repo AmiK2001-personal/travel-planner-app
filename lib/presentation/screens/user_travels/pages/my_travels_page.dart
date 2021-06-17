@@ -34,7 +34,9 @@ class MyTravelsPage extends StatelessWidget {
             .getUserTravels(context.read<AuthBloc>().userRepo.getUser()!.uid),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            final userTravels = snapshot.data!.docs;
+            final userTravels = snapshot.data!.docs
+                .map((e) => Tuple2(e.id, Travel.fromJson(e.data())))
+                .toList();
             if (userTravels.isEmpty) {
               return VStack(
                 [
@@ -55,6 +57,7 @@ class MyTravelsPage extends StatelessWidget {
                 itemCount: userTravels.length,
                 itemBuilder: (context, index) {
                   final travel = userTravels[index];
+
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -89,6 +92,7 @@ class MyTravelsPage extends StatelessWidget {
                       ),
                     );
                   });
+                  return "ke".text.make(); // TODO! make fix
                 },
               );
             }

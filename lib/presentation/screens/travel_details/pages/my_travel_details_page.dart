@@ -1,5 +1,11 @@
+import 'package:blur/blur.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
+import 'package:travelplanner/domain/entities/travel/travellers.dart';
+import 'package:travelplanner/presentation/screens/signup/bloc/auth_bloc.dart';
 import 'package:travelplanner/presentation/screens/travel_details/pages/info_page/info_page.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +16,7 @@ import 'group_page/members_dialog.dart';
 import 'group_page/members_page.dart';
 import 'location_page/location_dialog.dart';
 import 'location_page/location_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyTravelDetailsPage extends StatefulWidget {
   final String travelId;
@@ -26,6 +33,7 @@ class MyTravelDetailsPage extends StatefulWidget {
 class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
+  final TravelRemoteDataSource travelRemoteDataSource = Get.find();
 
   List<Widget> list = const [
     Tab(
@@ -63,6 +71,62 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
         .snapshots();
   }
 
+  Widget buildInfo(Travel travel) {
+    return Scaffold(
+      appBar: AppBar(
+        title: "Путешествие: ${travel.name!}".text.make(),
+        bottom: TabBar(
+          controller: _controller,
+          tabs: list,
+        ),
+      ),
+      floatingActionButton: _controller.index > 0
+          ? [
+              IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => LocationScreenDialog(
+                          travel.locations, widget.travelId),
+                    );
+                  }),
+              IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) =>
+                          GoodieScreenDialog(widget.travelId, travel.goodies),
+                    );
+                  }),
+              IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => MemberScreenDialog(
+                          widget.travelId, travel.travellers),
+                    );
+                  }),
+            ][_controller.index - 1]
+          : null,
+      body: TabBarView(
+        controller: _controller,
+        children: [
+          InfoPage(travel: travel, travelId: widget.travelId),
+          LocationPage(
+            travel: travel,
+          ),
+          GoodiesPage(travel: travel),
+          MembersPage(
+            travel: travel,
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
@@ -71,62 +135,49 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
           if (snapshot.hasData) {
             final travel = Travel.fromJson(snapshot.data!.data()!);
 
-            return Scaffold(
-              appBar: AppBar(
-                title: "Путешествие: ${travel.name!}".text.make(),
-                bottom: TabBar(
-                  controller: _controller,
-                  tabs: list,
-                ),
-              ),
-              floatingActionButton: _controller.index > 0
-                  ? [
-                      IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => LocationScreenDialog(
-                                  travel.locations, widget.travelId),
-                            );
-                          }),
-                      IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => GoodieScreenDialog(
-                                  widget.travelId, travel.goodies),
-                            );
-                          }),
-                      IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => MemberScreenDialog(
-                                  widget.travelId, travel.travellers),
-                            );
-                          }),
-                    ][_controller.index - 1]
-                  : null,
-              body: TabBarView(
-                controller: _controller,
+            if (travel.isPublic!) {
+              return Stack(
                 children: [
-                  InfoPage(travel: travel, travelId: widget.travelId),
-                  LocationPage(
-                    travel: travel,
+                  Blur(
+                    blur: 2,
+                    child: buildInfo(travel),
                   ),
-                  GoodiesPage(travel: travel),
-                  MembersPage(
-                    travel: travel,
-                  )
+                  VStack([
+                    "Для того чтобы просмотреть и редактировать путешествие сначала ипортируйте его"
+                        .text
+                        .subtitle1(context)
+                        .makeCentered(),
+                    ElevatedButton(
+                        onPressed: () async {
+                          final newTravel = await importTravel(travel,
+                              context.read<AuthBloc>().userRepo.getUser()!.uid);
+                          context.nextReplacementPage(buildInfo(newTravel));
+                        },
+                        child: HStack([
+                          const Icon(Icons.download_rounded),
+                          "Импортировать".text.make()
+                        ])).centered()
+                  ])
+                      .box
+                      .margin(const EdgeInsets.all(8))
+                      .make()
+                      .card
+                      .rounded
+                      .makeCentered()
                 ],
-              ),
-            );
+              );
+            } else {
+              return buildInfo(travel);
+            }
           } else {
             return const CircularProgressIndicator.adaptive();
           }
         });
+  }
+
+  Future<Travel> importTravel(Travel travel, String? uid) {
+    final newTravel =
+        travel.copyWith(travellers: [Travellers(userId: uid, roleId: "0")]);
+    return travelRemoteDataSource.addTravel(newTravel);
   }
 }

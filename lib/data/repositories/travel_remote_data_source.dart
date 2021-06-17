@@ -13,6 +13,7 @@ abstract class TravelRemoteDataSource {
   Stream<QuerySnapshot<Map<String, dynamic>>>? getPublicTravels();
   Future<void> addLocation(
       Locations location, List<Locations>? locations, String travelId);
+  Future<Travel> addTravel(Travel travel);
 }
 
 class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
@@ -87,8 +88,27 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
 
     return firestore
         .collection("travels")
-        .where('is_public', isEqualTo: true)
+        .where("travellers",
+            arrayContains: Travellers(roleId: "0", userId: userId).toJson())
         .snapshots();
+    // .where('is_public', isEqualTo: true)
+
     // .map((e) => Tuple2(e., Travel.fromJson(e.data())));
+  }
+
+  @override
+  Future<Travel> addTravel(Travel travel) async {
+    final newTravel = {
+      "date": travel.date,
+      "description": travel.description,
+      "is_public": false,
+      "images": travel.images?.map((e) => e.toJson()).toList(),
+      "name": travel.name,
+      "travellers": travel.travellers?.map((e) => e.toJson()).toList(),
+      "goodies": travel.goodies?.map((e) => e.toJson()).toList(),
+      "locations": travel.locations?.map((e) => e.toJson()).toList(),
+    };
+    await firestore.collection("travels").add(newTravel);
+    return travel;
   }
 }

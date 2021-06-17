@@ -1,8 +1,14 @@
-class Id {
-  final String _id;
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:uuid/uuid.dart';
 
-  Id(this._id);
+part 'id.freezed.dart';
+part 'id.g.dart';
 
-  @override
-  String toString() => _id;
+@freezed
+class Id with _$Id {
+  factory Id({
+    @JsonKey(name: 'id') required String id,
+  }) = _Id;
+
+  factory Id.fromJson(Map<String, dynamic> json) => _$IdFromJson(json);
 }

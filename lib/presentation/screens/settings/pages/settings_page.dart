@@ -39,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
         alignment: MainAxisAlignment.center,
         svgImage: Assets.icons.uniconsLine.paintTool,
         label: "Сменить тему",
-        onTap: () => Get.find<ThemeService>().changeTheme(),
+        onTap: () => themeService.changeTheme(),
       ),
       MenuItem(
           alignment: MainAxisAlignment.center,
