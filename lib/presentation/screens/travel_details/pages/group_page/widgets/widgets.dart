@@ -31,7 +31,7 @@ ListView buildMembersListView(BuildContext context, Travel travel) {
           if (snapshot.hasData) {
             return snapshot.data!;
           } else if (snapshot.hasError) {
-            return "Ошибка".text.make();
+            return SizedBox(); //TODO
           } else {
             return const CircularProgressIndicator();
           }

@@ -1,14 +1,13 @@
 import 'package:blur/blur.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
-import 'package:travelplanner/domain/entities/travel/travellers.dart';
 import 'package:travelplanner/presentation/screens/signup/bloc/auth_bloc.dart';
 import 'package:travelplanner/presentation/screens/travel_details/pages/info_page/info_page.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'goodies_page/goodies_dialog.dart';
 import 'goodies_page/goodies_page.dart';
@@ -16,7 +15,6 @@ import 'group_page/members_dialog.dart';
 import 'group_page/members_page.dart';
 import 'location_page/location_dialog.dart';
 import 'location_page/location_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyTravelDetailsPage extends StatefulWidget {
   final String travelId;
@@ -62,13 +60,6 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
       // Notify to update bottom action buttons
       setState(() {});
     });
-  }
-
-  Stream<DocumentSnapshot<Map<String, dynamic>>> fetchTravel(String travelId) {
-    return FirebaseFirestore.instance
-        .collection("travels")
-        .doc(travelId)
-        .snapshots();
   }
 
   Widget buildInfo(Travel travel) {
@@ -130,7 +121,7 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        stream: fetchTravel(widget.travelId),
+        stream: travelRemoteDataSource.fetchTravel(widget.travelId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final travel = Travel.fromJson(snapshot.data!.data()!);
@@ -149,8 +140,14 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                         .makeCentered(),
                     ElevatedButton(
                         onPressed: () async {
-                          final newTravel = await importTravel(travel,
-                              context.read<AuthBloc>().userRepo.getUser()!.uid);
+                          final newTravel =
+                              await travelRemoteDataSource.importTravel(
+                                  travel,
+                                  context
+                                      .read<AuthBloc>()
+                                      .userRepo
+                                      .getUser()!
+                                      .uid);
                           context.nextReplacementPage(buildInfo(newTravel));
                         },
                         child: HStack([
@@ -173,11 +170,5 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
             return const CircularProgressIndicator.adaptive();
           }
         });
-  }
-
-  Future<Travel> importTravel(Travel travel, String? uid) {
-    final newTravel =
-        travel.copyWith(travellers: [Travellers(userId: uid, roleId: "0")]);
-    return travelRemoteDataSource.addTravel(newTravel);
   }
 }

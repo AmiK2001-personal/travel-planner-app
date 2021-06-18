@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:travelplanner/domain/entities/travel/locations.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
 import 'package:travelplanner/domain/entities/travel/travellers.dart';
-import 'package:tuple/tuple.dart';
 
 abstract class TravelRemoteDataSource {
   Stream<DocumentSnapshot<Map<String, dynamic>>> getById(String userId);
@@ -14,6 +12,8 @@ abstract class TravelRemoteDataSource {
   Future<void> addLocation(
       Locations location, List<Locations>? locations, String travelId);
   Future<Travel> addTravel(Travel travel);
+  Stream<DocumentSnapshot<Map<String, dynamic>>> fetchTravel(String travelId);
+  Future<Travel> importTravel(Travel travel, String? uid);
 }
 
 class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
@@ -75,25 +75,19 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
 
   @override
   Stream<QuerySnapshot<Map<String, dynamic>>>? getUserTravels(String userId) {
-    // final travels = snapshot.data!.docs
-    //             .map((e) => Tuple2(e.id, Travel.fromJson(e.data())))
-    //             .toList();
-    //         final userTravels = travels
-    //             .filter((x) => x.item2.travellers!.containsAny(["0", "1", "2"]
-    //                 .map((e) => Travellers(
-    //                     userId:
-    //                         context.read<AuthBloc>().userRepo.getUser()!.uid,
-    //                     roleId: e))))
-    //             .toList();
-
     return firestore
         .collection("travels")
         .where("travellers",
             arrayContains: Travellers(roleId: "0", userId: userId).toJson())
         .snapshots();
-    // .where('is_public', isEqualTo: true)
+  }
 
-    // .map((e) => Tuple2(e., Travel.fromJson(e.data())));
+  @override
+  Stream<DocumentSnapshot<Map<String, dynamic>>> fetchTravel(String travelId) {
+    return FirebaseFirestore.instance
+        .collection("travels")
+        .doc(travelId)
+        .snapshots();
   }
 
   @override
@@ -110,5 +104,12 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
     };
     await firestore.collection("travels").add(newTravel);
     return travel;
+  }
+
+  @override
+  Future<Travel> importTravel(Travel travel, String? uid) {
+    final newTravel =
+        travel.copyWith(travellers: [Travellers(userId: uid, roleId: "0")]);
+    return addTravel(newTravel);
   }
 }
