@@ -3,10 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
 import 'package:travelplanner/presentation/screens/signup/bloc/auth_bloc.dart';
 import 'package:travelplanner/presentation/screens/travel_details/pages/info_page/info_page.dart';
+import 'package:travelplanner/presentation/widgets/blur_container.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import 'goodies_page/goodies_dialog.dart';
@@ -102,18 +104,37 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                   }),
             ][_controller.index - 1]
           : null,
-      body: TabBarView(
-        controller: _controller,
-        children: [
-          InfoPage(travel: travel, travelId: widget.travelId),
-          LocationPage(
-            travel: travel,
+      body: SlidingUpPanel(
+        body: TabBarView(
+          controller: _controller,
+          children: [
+            InfoPage(travel: travel, travelId: widget.travelId),
+            LocationPage(
+              travel: travel,
+            ),
+            GoodiesPage(travel: travel),
+            MembersPage(
+              travel: travel,
+            )
+          ],
+        ).box.margin(const EdgeInsets.only(bottom: 30)).make(),
+        renderPanelSheet: false,
+        collapsed: BlurContainer(child: "lel".text.makeCentered()),
+        panel: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(24.0)),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 20.0,
+                  color: Colors.grey,
+                ),
+              ]),
+          margin: const EdgeInsets.all(24.0),
+          child: Center(
+            child: Text("This is the SlidingUpPanel when open"),
           ),
-          GoodiesPage(travel: travel),
-          MembersPage(
-            travel: travel,
-          )
-        ],
+        ),
       ),
     );
   }
