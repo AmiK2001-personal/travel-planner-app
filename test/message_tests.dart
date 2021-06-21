@@ -14,7 +14,7 @@ void main() {
       final messageRemoteDataSource = Get.find<MessageRemoteDataSource>();
       final msg = Message(
           senderId: Id(id: "42342"),
-          sendingTime: DateTime.now(),
+          sendingTime: DateTime.now().toString(),
           text: "Hello");
       messageRemoteDataSource.send(msg, Id(id: "uhgrhgrhu"));
     });

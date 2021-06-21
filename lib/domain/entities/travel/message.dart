@@ -8,7 +8,7 @@ part 'message.g.dart';
 class Message with _$Message {
   factory Message({
     @JsonKey(name: 'sender_id') required Id senderId,
-    @JsonKey(name: 'sending_time') required DateTime sendingTime,
+    @JsonKey(name: 'sending_time') required String sendingTime,
     @JsonKey(name: 'text') required String text,
   }) = _Message;
 

@@ -22,7 +22,7 @@ class _$MessageTearOff {
 
   _Message call(
       {@JsonKey(name: 'sender_id') required Id senderId,
-      @JsonKey(name: 'sending_time') required DateTime sendingTime,
+      @JsonKey(name: 'sending_time') required String sendingTime,
       @JsonKey(name: 'text') required String text}) {
     return _Message(
       senderId: senderId,
@@ -44,7 +44,7 @@ mixin _$Message {
   @JsonKey(name: 'sender_id')
   Id get senderId => throw _privateConstructorUsedError;
   @JsonKey(name: 'sending_time')
-  DateTime get sendingTime => throw _privateConstructorUsedError;
+  String get sendingTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'text')
   String get text => throw _privateConstructorUsedError;
 
@@ -59,7 +59,7 @@ abstract class $MessageCopyWith<$Res> {
       _$MessageCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'sender_id') Id senderId,
-      @JsonKey(name: 'sending_time') DateTime sendingTime,
+      @JsonKey(name: 'sending_time') String sendingTime,
       @JsonKey(name: 'text') String text});
 
   $IdCopyWith<$Res> get senderId;
@@ -87,7 +87,7 @@ class _$MessageCopyWithImpl<$Res> implements $MessageCopyWith<$Res> {
       sendingTime: sendingTime == freezed
           ? _value.sendingTime
           : sendingTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String,
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -110,7 +110,7 @@ abstract class _$MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
   @override
   $Res call(
       {@JsonKey(name: 'sender_id') Id senderId,
-      @JsonKey(name: 'sending_time') DateTime sendingTime,
+      @JsonKey(name: 'sending_time') String sendingTime,
       @JsonKey(name: 'text') String text});
 
   @override
@@ -140,7 +140,7 @@ class __$MessageCopyWithImpl<$Res> extends _$MessageCopyWithImpl<$Res>
       sendingTime: sendingTime == freezed
           ? _value.sendingTime
           : sendingTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String,
       text: text == freezed
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -165,7 +165,7 @@ class _$_Message implements _Message {
   final Id senderId;
   @override
   @JsonKey(name: 'sending_time')
-  final DateTime sendingTime;
+  final String sendingTime;
   @override
   @JsonKey(name: 'text')
   final String text;
@@ -210,7 +210,7 @@ class _$_Message implements _Message {
 abstract class _Message implements Message {
   factory _Message(
       {@JsonKey(name: 'sender_id') required Id senderId,
-      @JsonKey(name: 'sending_time') required DateTime sendingTime,
+      @JsonKey(name: 'sending_time') required String sendingTime,
       @JsonKey(name: 'text') required String text}) = _$_Message;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$_Message.fromJson;
@@ -220,7 +220,7 @@ abstract class _Message implements Message {
   Id get senderId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'sending_time')
-  DateTime get sendingTime => throw _privateConstructorUsedError;
+  String get sendingTime => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'text')
   String get text => throw _privateConstructorUsedError;

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
+import 'package:travelplanner/presentation/screens/messages/messages.dart';
 import 'package:travelplanner/presentation/screens/signup/bloc/auth_bloc.dart';
 import 'package:travelplanner/presentation/screens/travel_details/pages/info_page/info_page.dart';
 import 'package:travelplanner/presentation/widgets/blur_container.dart';
@@ -123,8 +124,8 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: ["Чат".text.make(), const Icon(Icons.arrow_upward_rounded)],
         ),
-        panel: const BlurContainer(
-          child: Text("This is the SlidingUpPanel when open"),
+        panel: BlurContainer(
+          child: Messages(chatId: widget.travelId),
         ).box.roundedFull.make(),
       ),
     );
