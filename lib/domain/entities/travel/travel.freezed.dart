@@ -30,7 +30,7 @@ class _$TravelTearOff {
       @JsonKey(name: 'locations') List<Locations>? locations,
       @JsonKey(name: 'transport_wastes') List<TransportWastes>? transportWastes,
       @JsonKey(name: 'travellers') List<Travellers>? travellers,
-      @TimestampConverter() @JsonKey(name: 'date') DateTime? date,
+      @JsonKey(name: 'date') String? date,
       @JsonKey(name: 'description') String? description}) {
     return _Travel(
       id: id,
@@ -76,9 +76,8 @@ mixin _$Travel {
       throw _privateConstructorUsedError;
   @JsonKey(name: 'travellers')
   List<Travellers>? get travellers => throw _privateConstructorUsedError;
-  @TimestampConverter()
   @JsonKey(name: 'date')
-  DateTime? get date => throw _privateConstructorUsedError;
+  String? get date => throw _privateConstructorUsedError;
   @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
 
@@ -101,7 +100,7 @@ abstract class $TravelCopyWith<$Res> {
       @JsonKey(name: 'locations') List<Locations>? locations,
       @JsonKey(name: 'transport_wastes') List<TransportWastes>? transportWastes,
       @JsonKey(name: 'travellers') List<Travellers>? travellers,
-      @TimestampConverter() @JsonKey(name: 'date') DateTime? date,
+      @JsonKey(name: 'date') String? date,
       @JsonKey(name: 'description') String? description});
 }
 
@@ -167,7 +166,7 @@ class _$TravelCopyWithImpl<$Res> implements $TravelCopyWith<$Res> {
       date: date == freezed
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -191,7 +190,7 @@ abstract class _$TravelCopyWith<$Res> implements $TravelCopyWith<$Res> {
       @JsonKey(name: 'locations') List<Locations>? locations,
       @JsonKey(name: 'transport_wastes') List<TransportWastes>? transportWastes,
       @JsonKey(name: 'travellers') List<Travellers>? travellers,
-      @TimestampConverter() @JsonKey(name: 'date') DateTime? date,
+      @JsonKey(name: 'date') String? date,
       @JsonKey(name: 'description') String? description});
 }
 
@@ -258,7 +257,7 @@ class __$TravelCopyWithImpl<$Res> extends _$TravelCopyWithImpl<$Res>
       date: date == freezed
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -280,7 +279,7 @@ class _$_Travel with DiagnosticableTreeMixin implements _Travel {
       @JsonKey(name: 'locations') this.locations,
       @JsonKey(name: 'transport_wastes') this.transportWastes,
       @JsonKey(name: 'travellers') this.travellers,
-      @TimestampConverter() @JsonKey(name: 'date') this.date,
+      @JsonKey(name: 'date') this.date,
       @JsonKey(name: 'description') this.description});
 
   factory _$_Travel.fromJson(Map<String, dynamic> json) =>
@@ -314,9 +313,8 @@ class _$_Travel with DiagnosticableTreeMixin implements _Travel {
   @JsonKey(name: 'travellers')
   final List<Travellers>? travellers;
   @override
-  @TimestampConverter()
   @JsonKey(name: 'date')
-  final DateTime? date;
+  final String? date;
   @override
   @JsonKey(name: 'description')
   final String? description;
@@ -415,7 +413,7 @@ abstract class _Travel implements Travel {
       @JsonKey(name: 'locations') List<Locations>? locations,
       @JsonKey(name: 'transport_wastes') List<TransportWastes>? transportWastes,
       @JsonKey(name: 'travellers') List<Travellers>? travellers,
-      @TimestampConverter() @JsonKey(name: 'date') DateTime? date,
+      @JsonKey(name: 'date') String? date,
       @JsonKey(name: 'description') String? description}) = _$_Travel;
 
   factory _Travel.fromJson(Map<String, dynamic> json) = _$_Travel.fromJson;
@@ -449,9 +447,8 @@ abstract class _Travel implements Travel {
   @JsonKey(name: 'travellers')
   List<Travellers>? get travellers => throw _privateConstructorUsedError;
   @override
-  @TimestampConverter()
   @JsonKey(name: 'date')
-  DateTime? get date => throw _privateConstructorUsedError;
+  String? get date => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;

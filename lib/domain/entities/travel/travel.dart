@@ -11,17 +11,18 @@ import 'travellers.dart';
 part 'travel.freezed.dart';
 part 'travel.g.dart';
 
-class TimestampConverter implements JsonConverter<DateTime, Timestamp> {
-  const TimestampConverter();
+// class TimestampConverter implements JsonConverter<DateTime, String> {
+//   const TimestampConverter();
 
-  @override
-  DateTime fromJson(Timestamp timestamp) {
-    return timestamp.toDate();
-  }
+//   @override
+//   DateTime fromJson(String timestamp) {
+//     return DateTime.parse(timestamp);
+//   }
 
-  @override
-  Timestamp toJson(DateTime date) => Timestamp.fromDate(date);
-}
+//   @override
+//   String toJson(DateTime date) =>
+//       Timestamp.fromDate(date).toDate().toIso8601String();
+// }
 
 @freezed
 class Travel with _$Travel {
@@ -35,7 +36,7 @@ class Travel with _$Travel {
     @JsonKey(name: 'locations') List<Locations>? locations,
     @JsonKey(name: 'transport_wastes') List<TransportWastes>? transportWastes,
     @JsonKey(name: 'travellers') List<Travellers>? travellers,
-    @TimestampConverter() @JsonKey(name: 'date') DateTime? date,
+    @JsonKey(name: 'date') String? date,
     @JsonKey(name: 'description') String? description,
   }) = _Travel;
 

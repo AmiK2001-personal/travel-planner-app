@@ -27,7 +27,7 @@ _$_Travel _$_$_TravelFromJson(Map<String, dynamic> json) {
     travellers: (json['travellers'] as List<dynamic>?)
         ?.map((e) => Travellers.fromJson(e as Map<String, dynamic>))
         .toList(),
-    date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
+    date: json['date'] as String?,
     description: json['description'] as String?,
   );
 }
@@ -42,6 +42,6 @@ Map<String, dynamic> _$_$_TravelToJson(_$_Travel instance) => <String, dynamic>{
       'locations': instance.locations,
       'transport_wastes': instance.transportWastes,
       'travellers': instance.travellers,
-      'date': instance.date?.toIso8601String(),
+      'date': instance.date,
       'description': instance.description,
     };

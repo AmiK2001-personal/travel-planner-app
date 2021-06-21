@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
 import 'package:travelplanner/presentation/widgets/image_viewer.dart';
 import 'package:travelplanner/presentation/widgets/tp_text_field.dart';
@@ -20,13 +21,14 @@ Widget buildDate(BuildContext context, Travel travel, String travelId) {
     IconButton(
         icon: const Icon(Icons.date_range),
         onPressed: () async {
-          final date = await _selectDate(context);
+          final selectedDate = await _selectDate(context);
 
-          if (date != null) {
+          if (selectedDate != null) {
+            final date = DateFormat('yyyy-MM-dd').format(selectedDate);
             FirebaseFirestore.instance
                 .collection("travels")
                 .doc(travelId)
-                .update({"date": date.toString()});
+                .update({"date": date});
           }
         }),
     if (travel.date != null)

@@ -121,7 +121,7 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
         renderPanelSheet: false,
         collapsed: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: ["Чат".text.make(), Icon(Icons.arrow_upward_rounded)],
+          children: ["Чат".text.make(), const Icon(Icons.arrow_upward_rounded)],
         ),
         panel: const BlurContainer(
           child: Text("This is the SlidingUpPanel when open"),

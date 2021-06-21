@@ -89,7 +89,7 @@ class _TravelCardState extends State<TravelCard> {
                         .make(),
                     if (travel.date != null)
                       DateFormat('yyyy/MM/dd')
-                          .format(travel.date!)
+                          .format(DateTime.parse(travel.date!))
                           .text
                           .gray400
                           .fontFamily(FontFamily.metropolis)
