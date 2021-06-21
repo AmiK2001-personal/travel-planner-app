@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:get/get.dart';
 
 import 'package:travelplanner/core/datasources/id.dart';
 import 'package:travelplanner/domain/entities/travel/message.dart';

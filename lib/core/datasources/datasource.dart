@@ -1,5 +1,3 @@
-import 'package:dfunc/dfunc.dart';
-
 import 'id.dart';
 
 abstract class DataSource<T> {

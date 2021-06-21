@@ -26,6 +26,7 @@ class TimestampConverter implements JsonConverter<DateTime, Timestamp> {
 @freezed
 class Travel with _$Travel {
   factory Travel({
+    @JsonKey(name: 'id') String? id,
     @JsonKey(name: 'name') String? name,
     @JsonKey(name: 'rating') int? rating,
     @JsonKey(name: 'images') List<FirebaseImage>? images,

@@ -8,6 +8,7 @@ part of 'travel.dart';
 
 _$_Travel _$_$_TravelFromJson(Map<String, dynamic> json) {
   return _$_Travel(
+    id: json['id'] as String?,
     name: json['name'] as String?,
     rating: json['rating'] as int?,
     images: (json['images'] as List<dynamic>?)
@@ -32,6 +33,7 @@ _$_Travel _$_$_TravelFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$_$_TravelToJson(_$_Travel instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'rating': instance.rating,
       'images': instance.images,

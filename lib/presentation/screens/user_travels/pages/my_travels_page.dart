@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
-import 'package:travelplanner/domain/entities/travel/travellers.dart';
 import 'package:travelplanner/presentation/screens/signup/bloc/auth_bloc.dart';
 import 'package:travelplanner/presentation/screens/travel_details/pages/my_travel_details_page.dart';
 import 'package:tuple/tuple.dart';
@@ -65,7 +64,7 @@ class MyTravelsPage extends StatelessWidget {
                         if (travel.item2.images != null)
                           CachedNetworkImage(
                             width: 100,
-                            imageUrl: //travel.item2.images!.first.path ??
+                            imageUrl: // travel.item2.images!.first.path ??
                                 "https://travelmaz.com/wp-content/uploads/2021/01/https___specials-images.forbesimg.com_imageserve_5f709d82fa4f131fa2114a74_0x0.jpg",
                           ).card.rounded.make(),
                         Text(travel.item2.name ?? "No name").centered()
@@ -92,7 +91,6 @@ class MyTravelsPage extends StatelessWidget {
                       ),
                     );
                   });
-                  return "ke".text.make(); // TODO! make fix
                 },
               );
             }

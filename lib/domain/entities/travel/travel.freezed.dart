@@ -21,7 +21,8 @@ class _$TravelTearOff {
   const _$TravelTearOff();
 
   _Travel call(
-      {@JsonKey(name: 'name') String? name,
+      {@JsonKey(name: 'id') String? id,
+      @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'rating') int? rating,
       @JsonKey(name: 'images') List<FirebaseImage>? images,
       @JsonKey(name: 'goodies') List<Goodies>? goodies,
@@ -32,6 +33,7 @@ class _$TravelTearOff {
       @TimestampConverter() @JsonKey(name: 'date') DateTime? date,
       @JsonKey(name: 'description') String? description}) {
     return _Travel(
+      id: id,
       name: name,
       rating: rating,
       images: images,
@@ -55,6 +57,8 @@ const $Travel = _$TravelTearOff();
 
 /// @nodoc
 mixin _$Travel {
+  @JsonKey(name: 'id')
+  String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'rating')
@@ -88,7 +92,8 @@ abstract class $TravelCopyWith<$Res> {
   factory $TravelCopyWith(Travel value, $Res Function(Travel) then) =
       _$TravelCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'name') String? name,
+      {@JsonKey(name: 'id') String? id,
+      @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'rating') int? rating,
       @JsonKey(name: 'images') List<FirebaseImage>? images,
       @JsonKey(name: 'goodies') List<Goodies>? goodies,
@@ -110,6 +115,7 @@ class _$TravelCopyWithImpl<$Res> implements $TravelCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = freezed,
     Object? rating = freezed,
     Object? images = freezed,
@@ -122,6 +128,10 @@ class _$TravelCopyWithImpl<$Res> implements $TravelCopyWith<$Res> {
     Object? description = freezed,
   }) {
     return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -172,7 +182,8 @@ abstract class _$TravelCopyWith<$Res> implements $TravelCopyWith<$Res> {
       __$TravelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'name') String? name,
+      {@JsonKey(name: 'id') String? id,
+      @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'rating') int? rating,
       @JsonKey(name: 'images') List<FirebaseImage>? images,
       @JsonKey(name: 'goodies') List<Goodies>? goodies,
@@ -195,6 +206,7 @@ class __$TravelCopyWithImpl<$Res> extends _$TravelCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = freezed,
     Object? rating = freezed,
     Object? images = freezed,
@@ -207,6 +219,10 @@ class __$TravelCopyWithImpl<$Res> extends _$TravelCopyWithImpl<$Res>
     Object? description = freezed,
   }) {
     return _then(_Travel(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -255,7 +271,8 @@ class __$TravelCopyWithImpl<$Res> extends _$TravelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Travel with DiagnosticableTreeMixin implements _Travel {
   _$_Travel(
-      {@JsonKey(name: 'name') this.name,
+      {@JsonKey(name: 'id') this.id,
+      @JsonKey(name: 'name') this.name,
       @JsonKey(name: 'rating') this.rating,
       @JsonKey(name: 'images') this.images,
       @JsonKey(name: 'goodies') this.goodies,
@@ -269,6 +286,9 @@ class _$_Travel with DiagnosticableTreeMixin implements _Travel {
   factory _$_Travel.fromJson(Map<String, dynamic> json) =>
       _$_$_TravelFromJson(json);
 
+  @override
+  @JsonKey(name: 'id')
+  final String? id;
   @override
   @JsonKey(name: 'name')
   final String? name;
@@ -303,7 +323,7 @@ class _$_Travel with DiagnosticableTreeMixin implements _Travel {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Travel(name: $name, rating: $rating, images: $images, goodies: $goodies, isPublic: $isPublic, locations: $locations, transportWastes: $transportWastes, travellers: $travellers, date: $date, description: $description)';
+    return 'Travel(id: $id, name: $name, rating: $rating, images: $images, goodies: $goodies, isPublic: $isPublic, locations: $locations, transportWastes: $transportWastes, travellers: $travellers, date: $date, description: $description)';
   }
 
   @override
@@ -311,6 +331,7 @@ class _$_Travel with DiagnosticableTreeMixin implements _Travel {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'Travel'))
+      ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('rating', rating))
       ..add(DiagnosticsProperty('images', images))
@@ -327,6 +348,8 @@ class _$_Travel with DiagnosticableTreeMixin implements _Travel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _Travel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.rating, rating) ||
@@ -358,6 +381,7 @@ class _$_Travel with DiagnosticableTreeMixin implements _Travel {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(rating) ^
       const DeepCollectionEquality().hash(images) ^
@@ -382,7 +406,8 @@ class _$_Travel with DiagnosticableTreeMixin implements _Travel {
 
 abstract class _Travel implements Travel {
   factory _Travel(
-      {@JsonKey(name: 'name') String? name,
+      {@JsonKey(name: 'id') String? id,
+      @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'rating') int? rating,
       @JsonKey(name: 'images') List<FirebaseImage>? images,
       @JsonKey(name: 'goodies') List<Goodies>? goodies,
@@ -395,6 +420,9 @@ abstract class _Travel implements Travel {
 
   factory _Travel.fromJson(Map<String, dynamic> json) = _$_Travel.fromJson;
 
+  @override
+  @JsonKey(name: 'id')
+  String? get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
