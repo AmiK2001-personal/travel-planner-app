@@ -7,13 +7,15 @@ class BlurContainer extends StatelessWidget {
   final Alignment alignment;
   final double blur;
   final Color blurColor;
+  final Decoration? decoration;
 
   const BlurContainer(
       {Key? key,
       required this.child,
       this.alignment = Alignment.center,
       this.blur = 13,
-      this.blurColor = Colors.white})
+      this.blurColor = Colors.white,
+      this.decoration})
       : super(key: key);
 
   @override
@@ -26,6 +28,7 @@ class BlurContainer extends StatelessWidget {
             colorOpacity: 0.62,
             blurColor: blurColor,
             child: Container(
+              decoration: decoration,
               color: Colors.transparent,
             ).whFull(context),
           ),

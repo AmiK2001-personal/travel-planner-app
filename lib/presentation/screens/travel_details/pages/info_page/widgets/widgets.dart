@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
+import 'package:travelplanner/presentation/widgets/image_viewer.dart';
 import 'package:travelplanner/presentation/widgets/tp_text_field.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -71,6 +72,9 @@ VxSwiper buildImageSwiper(Travel travel) {
     itemBuilder: (context, index) => CachedNetworkImage(
       imageUrl: travel.images![index].path,
       fit: BoxFit.fill,
-    ).card.roundedLg.make(),
+    ).card.roundedLg.make().onTap(() {
+      context.nextPage(
+          ImageViewer(imageProvider: NetworkImage(travel.images![index].path)));
+    }),
   );
 }

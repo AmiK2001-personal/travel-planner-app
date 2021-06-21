@@ -119,22 +119,13 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
           ],
         ).box.margin(const EdgeInsets.only(bottom: 30)).make(),
         renderPanelSheet: false,
-        collapsed: BlurContainer(child: "lel".text.makeCentered()),
-        panel: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(24.0)),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 20.0,
-                  color: Colors.grey,
-                ),
-              ]),
-          margin: const EdgeInsets.all(24.0),
-          child: Center(
-            child: Text("This is the SlidingUpPanel when open"),
-          ),
+        collapsed: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: ["Чат".text.make(), Icon(Icons.arrow_upward_rounded)],
         ),
+        panel: const BlurContainer(
+          child: Text("This is the SlidingUpPanel when open"),
+        ).box.roundedFull.make(),
       ),
     );
   }
