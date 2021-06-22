@@ -27,7 +27,7 @@
 		// Indicate that a variable can have the value null.
 		"nullSafety": true,
 		// Default target directory.
-		"targetDirectory": "/lib/models/api",
+		"targetDirectory": "/lib/models/gen",
 		// Activate as primary global configuration.
 		"primaryConfiguration": false,
 		// Disable ask for confirmation to start the conversion.
@@ -51,30 +51,68 @@
 	*/
 	
 	{
-		"__className": "PaginatedResponse",
-		"count": 21,
-		"items": []
-	},
-	{
-		"__className": "Account",
-		"id": "6071df1490274d571accba12",
+		"__className": "User",
 		"login": "hello",
-		"encryptedPassword": {
-		  "value": {
-			"hash": "ty3P2laxmZZ4mZQgzYD+aAV5aUhADlA5PWl37I+3TSA=",
-			"salt": "zBkfgeqAyavXGy5WtK0czQ=="
-		  }
-		},
-		"password": null,
-		"personalInfo": {
-		  "firstname": "Alex",
-		  "lastname": "Duan",
-		  "patronymic": {
-			"value": "Dickson"
-		  },
-		  "age": {
-			"value": 23
-		  }
-		}
+		"password": "frfr",
+		"email" : "sdasd",
+		"personal_info_id": "sdasd",
+		"photo": "kds"
+	  },
+
+	  {
+		"__className": "PersonalInfo",
+		"firstname": "Alex",
+		"lastname": "Duan",
+		"patronymic": "",
+		"birth_date": "2012-04-23T18:25:43.511Z",
+		"phone" : "3843434",
+		"favorite_travels" : ["fkkof", "frfrifj"]
+	  },
+
+	  {
+		"__className": "Travel",
+		"name":"deded",
+		"rating":5,
+		"images" : [
+			"adad"
+		],
+		"goodies" : [
+			{
+				"name" : "deded",
+				"price":32323,
+				"quantity":2
+			  }
+		],
+		"is_public" : true,
+		"locations": [
+			{
+				"name" : "deded",
+				"geopoint": {
+					"lat": 1,
+					"long": 1
+				}
+			  }
+		],
+		"transport_wastes" : [
+			{
+				"name" : "price",
+				"route": {
+					"from" : {
+						"lat": 1,
+						"long": 1
+					},
+					"to" : {
+						"lat": 1,
+						"long": 1
+					}
+				}
+			  }
+		],
+		"travellers": [{
+			"role_id" : "0",
+			"user_id":"sdsda"
+		  }]
 	  }
+
+
 ]

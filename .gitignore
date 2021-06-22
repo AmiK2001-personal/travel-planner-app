@@ -49,3 +49,5 @@ app.*.map.json
 /test/**/*.freezed.dart
 # Remove the following pattern if you wish to check in your lock file
 pubspec.lock
+
+/android/app/google-services.json
