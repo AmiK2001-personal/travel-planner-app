@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide ContextExtensionss;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -6,6 +8,7 @@ import 'package:travelplanner/domain/entities/travel/geopoint.dart';
 import 'package:travelplanner/domain/entities/travel/locations.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:supercharged/supercharged.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class LocationScreenDialog extends StatefulWidget {
   final List<Locations>? locations;
@@ -22,13 +25,9 @@ class LocationScreenDialogState extends State<LocationScreenDialog> {
   final TextEditingController longitudeController = TextEditingController();
   final TextEditingController latitudetudeController = TextEditingController();
 
-  late GoogleMapController mapController;
+  Completer<GoogleMapController> _controller = Completer();
 
   final LatLng _center = const LatLng(45.521563, -122.677433);
-
-  Future<void> _onMapCreated(GoogleMapController controller) async {
-    mapController = controller;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +52,12 @@ class LocationScreenDialogState extends State<LocationScreenDialog> {
               controller: latitudetudeController,
             ),
             GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 11.0,
-              ),
-            ).h40(context),
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(37.43296265331129, -122.08832357078792),
+                )).h60(context),
             Row(
               children: <Widget>[
                 Expanded(
