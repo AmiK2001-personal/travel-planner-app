@@ -23,7 +23,7 @@ class _$PersonalInfoTearOff {
   _PersonalInfo call(
       {@JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'login') String? login,
-      @JsonKey(name: 'avatar') FirebaseImage? avatar,
+      @JsonKey(name: 'avatar') String? avatar,
       @JsonKey(name: 'firstname') String? firstname,
       @JsonKey(name: 'lastname') String? lastname,
       @JsonKey(name: 'patronymic') String? patronymic}) {
@@ -52,7 +52,7 @@ mixin _$PersonalInfo {
   @JsonKey(name: 'login')
   String? get login => throw _privateConstructorUsedError;
   @JsonKey(name: 'avatar')
-  FirebaseImage? get avatar => throw _privateConstructorUsedError;
+  String? get avatar => throw _privateConstructorUsedError;
   @JsonKey(name: 'firstname')
   String? get firstname => throw _privateConstructorUsedError;
   @JsonKey(name: 'lastname')
@@ -74,12 +74,10 @@ abstract class $PersonalInfoCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'login') String? login,
-      @JsonKey(name: 'avatar') FirebaseImage? avatar,
+      @JsonKey(name: 'avatar') String? avatar,
       @JsonKey(name: 'firstname') String? firstname,
       @JsonKey(name: 'lastname') String? lastname,
       @JsonKey(name: 'patronymic') String? patronymic});
-
-  $FirebaseImageCopyWith<$Res>? get avatar;
 }
 
 /// @nodoc
@@ -111,7 +109,7 @@ class _$PersonalInfoCopyWithImpl<$Res> implements $PersonalInfoCopyWith<$Res> {
       avatar: avatar == freezed
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as FirebaseImage?,
+              as String?,
       firstname: firstname == freezed
           ? _value.firstname
           : firstname // ignore: cast_nullable_to_non_nullable
@@ -126,17 +124,6 @@ class _$PersonalInfoCopyWithImpl<$Res> implements $PersonalInfoCopyWith<$Res> {
               as String?,
     ));
   }
-
-  @override
-  $FirebaseImageCopyWith<$Res>? get avatar {
-    if (_value.avatar == null) {
-      return null;
-    }
-
-    return $FirebaseImageCopyWith<$Res>(_value.avatar!, (value) {
-      return _then(_value.copyWith(avatar: value));
-    });
-  }
 }
 
 /// @nodoc
@@ -149,13 +136,10 @@ abstract class _$PersonalInfoCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'login') String? login,
-      @JsonKey(name: 'avatar') FirebaseImage? avatar,
+      @JsonKey(name: 'avatar') String? avatar,
       @JsonKey(name: 'firstname') String? firstname,
       @JsonKey(name: 'lastname') String? lastname,
       @JsonKey(name: 'patronymic') String? patronymic});
-
-  @override
-  $FirebaseImageCopyWith<$Res>? get avatar;
 }
 
 /// @nodoc
@@ -189,7 +173,7 @@ class __$PersonalInfoCopyWithImpl<$Res> extends _$PersonalInfoCopyWithImpl<$Res>
       avatar: avatar == freezed
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as FirebaseImage?,
+              as String?,
       firstname: firstname == freezed
           ? _value.firstname
           : firstname // ignore: cast_nullable_to_non_nullable
@@ -228,7 +212,7 @@ class _$_PersonalInfo with DiagnosticableTreeMixin implements _PersonalInfo {
   final String? login;
   @override
   @JsonKey(name: 'avatar')
-  final FirebaseImage? avatar;
+  final String? avatar;
   @override
   @JsonKey(name: 'firstname')
   final String? firstname;
@@ -303,7 +287,7 @@ abstract class _PersonalInfo implements PersonalInfo {
   factory _PersonalInfo(
       {@JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'login') String? login,
-      @JsonKey(name: 'avatar') FirebaseImage? avatar,
+      @JsonKey(name: 'avatar') String? avatar,
       @JsonKey(name: 'firstname') String? firstname,
       @JsonKey(name: 'lastname') String? lastname,
       @JsonKey(name: 'patronymic') String? patronymic}) = _$_PersonalInfo;
@@ -319,7 +303,7 @@ abstract class _PersonalInfo implements PersonalInfo {
   String? get login => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'avatar')
-  FirebaseImage? get avatar => throw _privateConstructorUsedError;
+  String? get avatar => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'firstname')
   String? get firstname => throw _privateConstructorUsedError;

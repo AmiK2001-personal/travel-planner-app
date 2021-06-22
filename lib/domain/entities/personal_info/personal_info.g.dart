@@ -10,9 +10,7 @@ _$_PersonalInfo _$_$_PersonalInfoFromJson(Map<String, dynamic> json) {
   return _$_PersonalInfo(
     userId: json['user_id'] as String?,
     login: json['login'] as String?,
-    avatar: json['avatar'] == null
-        ? null
-        : FirebaseImage.fromJson(json['avatar'] as Map<String, dynamic>),
+    avatar: json['avatar'] as String?,
     firstname: json['firstname'] as String?,
     lastname: json['lastname'] as String?,
     patronymic: json['patronymic'] as String?,

@@ -70,17 +70,11 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
 
     var data = List<Map<String, dynamic>>.empty(growable: true);
     if (locations != null) {
-      data = locations.map((e) => e.toJson()).toList();
+      data = locations.map((e) => locationToJson(e)).toList();
       data.add(locationToJson(location));
     } else {
-      data = locations!
-          .map((e) => e.toJson())
-          .toImmutableList()
-          .plusElement(locationToJson(location))
-          .toList()
-          .dart;
+      data = [locationToJson(location)];
     }
-
     return FirebaseFirestore.instance
         .collection("travels")
         .doc(travelId)
