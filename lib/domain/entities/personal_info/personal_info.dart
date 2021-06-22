@@ -8,6 +8,7 @@ part 'personal_info.g.dart';
 @freezed
 class PersonalInfo with _$PersonalInfo {
   factory PersonalInfo({
+    @JsonKey(name: 'user_id') String? user_id,
     @JsonKey(name: 'login') String? login,
     @JsonKey(name: 'avatar') FirebaseImage? avatar,
     @JsonKey(name: 'firstname') String? firstname,

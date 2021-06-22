@@ -12,6 +12,7 @@ import 'presentation/screens/signin/bloc/signin_bloc.dart';
 import 'presentation/screens/signin/pages/login_form.dart';
 import 'presentation/screens/signup/bloc/auth_bloc.dart';
 import 'presentation/utils/constraints.dart';
+import 'package:flutter/services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +26,14 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+  }
+
   ThemeService themeService = Get.find();
 
   @override

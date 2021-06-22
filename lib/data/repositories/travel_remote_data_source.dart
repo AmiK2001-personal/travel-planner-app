@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
+import 'package:travelplanner/data/repositories/user_info_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/locations.dart';
 import 'package:travelplanner/domain/entities/travel/message.dart';
+import 'package:travelplanner/domain/entities/travel/messages.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
 import 'package:travelplanner/domain/entities/travel/travellers.dart';
-import 'package:travelplanner/presentation/screens/messages/messages.dart';
+import 'package:kt_dart/kt.dart';
 
 abstract class TravelRemoteDataSource {
   Stream<DocumentSnapshot<Map<String, dynamic>>> getById(String userId);
@@ -16,13 +19,18 @@ abstract class TravelRemoteDataSource {
   Future<Travel> addTravel(Travel travel);
   Stream<DocumentSnapshot<Map<String, dynamic>>> fetchTravel(String travelId);
   Future<Travel> importTravel(Travel travel, String? uid);
-  Future<List<Message>?> getMessages(String chatlId);
+  Stream<Messages> getMessages(String chatlId);
+  Future<void> addTraveller(
+      String email, List<Travellers>? travellers, String travelId);
+
+  Future<void> removeTraveller(String userId, String travelId);
 }
 
 class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
   TravelRemoteDataSourceImpl();
 
   final firestore = FirebaseFirestore.instance;
+  UserInfoRemoteDataSource userInfoRemoteDataSource = Get.find();
 
   @override
   Stream<DocumentSnapshot<Map<String, dynamic>>> getById(String userId) {
@@ -37,6 +45,7 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
       "travellers": [
         Travellers(roleId: "0", userId: userId).toJson(),
       ],
+      "is_public": false
     };
     return firestore.collection("travels").add(travel);
   }
@@ -117,11 +126,55 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
   }
 
   @override
-  Future<List<Message>?> getMessages(String chatId) async {
+  Stream<Messages> getMessages(String chatId) {
     return firestore
         .collection("messages")
         .doc(chatId)
-        .get()
-        .then((value) => (value.data()!["messages"] ?? []) as List<Message>);
+        .snapshots()
+        .map((value) => Messages.fromJson(value.data()!));
+  }
+
+  @override
+  Future<void> addTraveller(
+      String email, List<Travellers>? travellers, String travelId) async {
+    var data = List<Map<String, dynamic>>.empty();
+    final userInfos = (await userInfoRemoteDataSource.getAll()).kt;
+    final user = userInfos.find((x) => x.login == email);
+    if (user != null) {
+      if (travellers != null) {
+        data = travellers.kt
+            .plusElement(Travellers(roleId: "2", userId: user.user_id))
+            .map((e) => e.toJson())
+            .asList();
+      } else {
+        data = [Travellers(roleId: "2", userId: user.user_id).toJson()];
+      }
+      return FirebaseFirestore.instance
+          .collection("travels")
+          .doc(travelId)
+          .update({"travellers": data});
+    }
+  }
+
+  @override
+  Future<void> removeTraveller(String userId, String travelId) async {
+    final oldTravel = await getById(userId).first.then((value) {
+      final data = value.data();
+      if (data != null) {
+        return Travel.fromJson(data);
+      } else {
+        return null;
+      }
+    });
+
+    if (oldTravel != null) {
+      final travellers = oldTravel.travellers!.kt;
+      travellers.removeAllWhere((x) => x.userId == userId);
+
+      return FirebaseFirestore.instance
+          .collection("travels")
+          .doc(travelId)
+          .update({"travellers": travellers.map((e) => e.toJson()).asList()});
+    }
   }
 }

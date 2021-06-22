@@ -8,6 +8,7 @@ part of 'personal_info.dart';
 
 _$_PersonalInfo _$_$_PersonalInfoFromJson(Map<String, dynamic> json) {
   return _$_PersonalInfo(
+    user_id: json['user_id'] as String?,
     login: json['login'] as String?,
     avatar: json['avatar'] == null
         ? null
@@ -20,6 +21,7 @@ _$_PersonalInfo _$_$_PersonalInfoFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$_$_PersonalInfoToJson(_$_PersonalInfo instance) =>
     <String, dynamic>{
+      'user_id': instance.user_id,
       'login': instance.login,
       'avatar': instance.avatar,
       'firstname': instance.firstname,

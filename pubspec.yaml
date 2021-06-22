@@ -46,6 +46,7 @@ dependencies:
   uuid: ^3.0.4
   velocity_x: ^3.0.0
   weather: ^2.0.0
+  yandex_mapkit: ^1.0.1
 
 dev_dependencies:
   flutter_test:

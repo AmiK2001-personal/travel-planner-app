@@ -21,7 +21,7 @@ class _$MessageTearOff {
   const _$MessageTearOff();
 
   _Message call(
-      {@JsonKey(name: 'sender_id') required Id senderId,
+      {@JsonKey(name: 'sender_id') required String senderId,
       @JsonKey(name: 'sending_time') required String sendingTime,
       @JsonKey(name: 'text') required String text}) {
     return _Message(
@@ -42,7 +42,7 @@ const $Message = _$MessageTearOff();
 /// @nodoc
 mixin _$Message {
   @JsonKey(name: 'sender_id')
-  Id get senderId => throw _privateConstructorUsedError;
+  String get senderId => throw _privateConstructorUsedError;
   @JsonKey(name: 'sending_time')
   String get sendingTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'text')
@@ -58,11 +58,9 @@ abstract class $MessageCopyWith<$Res> {
   factory $MessageCopyWith(Message value, $Res Function(Message) then) =
       _$MessageCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'sender_id') Id senderId,
+      {@JsonKey(name: 'sender_id') String senderId,
       @JsonKey(name: 'sending_time') String sendingTime,
       @JsonKey(name: 'text') String text});
-
-  $IdCopyWith<$Res> get senderId;
 }
 
 /// @nodoc
@@ -83,7 +81,7 @@ class _$MessageCopyWithImpl<$Res> implements $MessageCopyWith<$Res> {
       senderId: senderId == freezed
           ? _value.senderId
           : senderId // ignore: cast_nullable_to_non_nullable
-              as Id,
+              as String,
       sendingTime: sendingTime == freezed
           ? _value.sendingTime
           : sendingTime // ignore: cast_nullable_to_non_nullable
@@ -94,13 +92,6 @@ class _$MessageCopyWithImpl<$Res> implements $MessageCopyWith<$Res> {
               as String,
     ));
   }
-
-  @override
-  $IdCopyWith<$Res> get senderId {
-    return $IdCopyWith<$Res>(_value.senderId, (value) {
-      return _then(_value.copyWith(senderId: value));
-    });
-  }
 }
 
 /// @nodoc
@@ -109,12 +100,9 @@ abstract class _$MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
       __$MessageCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'sender_id') Id senderId,
+      {@JsonKey(name: 'sender_id') String senderId,
       @JsonKey(name: 'sending_time') String sendingTime,
       @JsonKey(name: 'text') String text});
-
-  @override
-  $IdCopyWith<$Res> get senderId;
 }
 
 /// @nodoc
@@ -136,7 +124,7 @@ class __$MessageCopyWithImpl<$Res> extends _$MessageCopyWithImpl<$Res>
       senderId: senderId == freezed
           ? _value.senderId
           : senderId // ignore: cast_nullable_to_non_nullable
-              as Id,
+              as String,
       sendingTime: sendingTime == freezed
           ? _value.sendingTime
           : sendingTime // ignore: cast_nullable_to_non_nullable
@@ -162,7 +150,7 @@ class _$_Message implements _Message {
 
   @override
   @JsonKey(name: 'sender_id')
-  final Id senderId;
+  final String senderId;
   @override
   @JsonKey(name: 'sending_time')
   final String sendingTime;
@@ -209,7 +197,7 @@ class _$_Message implements _Message {
 
 abstract class _Message implements Message {
   factory _Message(
-      {@JsonKey(name: 'sender_id') required Id senderId,
+      {@JsonKey(name: 'sender_id') required String senderId,
       @JsonKey(name: 'sending_time') required String sendingTime,
       @JsonKey(name: 'text') required String text}) = _$_Message;
 
@@ -217,7 +205,7 @@ abstract class _Message implements Message {
 
   @override
   @JsonKey(name: 'sender_id')
-  Id get senderId => throw _privateConstructorUsedError;
+  String get senderId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'sending_time')
   String get sendingTime => throw _privateConstructorUsedError;

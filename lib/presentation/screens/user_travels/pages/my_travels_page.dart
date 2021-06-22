@@ -88,6 +88,8 @@ class MyTravelsPage extends StatelessWidget {
                     context.nextPage(
                       MyTravelDetailsPage(
                         travelId: travel.item1,
+                        travellerId:
+                            context.read<AuthBloc>().userRepo.getUser()!.uid,
                       ),
                     );
                   });

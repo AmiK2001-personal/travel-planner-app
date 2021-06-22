@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travellers.dart';
 import 'package:kt_dart/kt.dart';
 
 class MemberScreenDialog extends StatefulWidget {
   final String travelId;
   final List<Travellers>? travellers;
-
   const MemberScreenDialog(this.travelId, this.travellers);
 
   @override
@@ -14,7 +15,8 @@ class MemberScreenDialog extends StatefulWidget {
 }
 
 class MemberScreenDialogState extends State<MemberScreenDialog> {
-  final TextEditingController _skillOneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  TravelRemoteDataSource travelRemoteDataSource = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -27,33 +29,17 @@ class MemberScreenDialogState extends State<MemberScreenDialog> {
         child: ListView(
           children: <Widget>[
             TextField(
-              decoration: const InputDecoration(
-                  labelText: "Идентификатор пользователя"),
-              controller: _skillOneController,
+              decoration:
+                  const InputDecoration(labelText: "Email пользователя"),
+              controller: emailController,
             ),
             Row(
               children: <Widget>[
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
-                      var data = List<Map<String, dynamic>>.empty();
-                      if (widget.travellers != null) {
-                        data = widget.travellers!.kt
-                            .plusElement(Travellers(
-                                roleId: "2", userId: _skillOneController.text))
-                            .map((e) => e.toJson())
-                            .asList();
-                      } else {
-                        data = [
-                          Travellers(
-                                  roleId: "2", userId: _skillOneController.text)
-                              .toJson()
-                        ];
-                      }
-                      await FirebaseFirestore.instance
-                          .collection("travels")
-                          .doc(widget.travelId)
-                          .update({"travellers": data});
+                      travelRemoteDataSource.addTraveller(emailController.text,
+                          widget.travellers, widget.travelId);
                       Navigator.pop(context);
                     },
                     child: const Text("Добавить"),

@@ -6,11 +6,12 @@ import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
-import 'package:travelplanner/presentation/screens/messages/messages.dart';
+import 'package:travelplanner/presentation/screens/messages/messages_view.dart';
 import 'package:travelplanner/presentation/screens/signup/bloc/auth_bloc.dart';
 import 'package:travelplanner/presentation/screens/travel_details/pages/info_page/info_page.dart';
 import 'package:travelplanner/presentation/widgets/blur_container.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:kt_dart/kt.dart';
 
 import 'goodies_page/goodies_dialog.dart';
 import 'goodies_page/goodies_page.dart';
@@ -21,11 +22,11 @@ import 'location_page/location_page.dart';
 
 class MyTravelDetailsPage extends StatefulWidget {
   final String travelId;
+  final String? travellerId;
 
-  const MyTravelDetailsPage({
-    Key? key,
-    required this.travelId,
-  }) : super(key: key);
+  const MyTravelDetailsPage(
+      {Key? key, required this.travelId, required this.travellerId})
+      : super(key: key);
 
   @override
   _MyTravelDetailsPageState createState() => _MyTravelDetailsPageState();
@@ -67,45 +68,44 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
 
   Widget buildInfo(Travel travel) {
     return Scaffold(
-      appBar: AppBar(
-        title: "Путешествие: ${travel.name!}".text.make(),
-        bottom: TabBar(
-          controller: _controller,
-          tabs: list,
+        appBar: AppBar(
+          title: "Путешествие: ${travel.name!}".text.make(),
+          bottom: TabBar(
+            controller: _controller,
+            tabs: list,
+          ),
         ),
-      ),
-      floatingActionButton: _controller.index > 0
-          ? [
-              IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => LocationScreenDialog(
-                          travel.locations, widget.travelId),
-                    );
-                  }),
-              IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) =>
-                          GoodieScreenDialog(widget.travelId, travel.goodies),
-                    );
-                  }),
-              IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => MemberScreenDialog(
-                          widget.travelId, travel.travellers),
-                    );
-                  }),
-            ][_controller.index - 1]
-          : null,
-      body: SlidingUpPanel(
+        floatingActionButton: _controller.index > 0
+            ? [
+                IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => LocationScreenDialog(
+                            travel.locations, widget.travelId),
+                      );
+                    }),
+                IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) =>
+                            GoodieScreenDialog(widget.travelId, travel.goodies),
+                      );
+                    }),
+                IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => MemberScreenDialog(
+                            widget.travelId, travel.travellers),
+                      );
+                    }),
+              ][_controller.index - 1]
+            : null,
         body: TabBarView(
           controller: _controller,
           children: [
@@ -116,19 +116,42 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
             GoodiesPage(travel: travel),
             MembersPage(
               travel: travel,
+              travelId: widget.travelId,
             )
           ],
-        ).box.margin(const EdgeInsets.only(bottom: 30)).make(),
-        renderPanelSheet: false,
-        collapsed: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: ["Чат".text.make(), const Icon(Icons.arrow_upward_rounded)],
-        ),
-        panel: BlurContainer(
-          child: Messages(chatId: widget.travelId),
-        ).box.roundedFull.make(),
-      ),
-    );
+        ).box.margin(const EdgeInsets.only(bottom: 30)).make()
+        // body: SlidingUpPanel(
+        //   body: TabBarView(
+        //     controller: _controller,
+        //     children: [
+        //       InfoPage(travel: travel, travelId: widget.travelId),
+        //       LocationPage(
+        //         travel: travel,
+        //       ),
+        //       GoodiesPage(travel: travel),
+        //       MembersPage(
+        //         travel: travel,
+        //       )
+        //     ],
+        //   ).box.margin(const EdgeInsets.only(bottom: 30)).make(),
+        //   renderPanelSheet: false,
+        //   collapsed: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: [
+        //       "Чат"
+        //           .text
+        //           .make()
+        //           .box
+        //           .margin(const EdgeInsets.only(right: 6))
+        //           .make(),
+        //       const Icon(Icons.arrow_upward_rounded)
+        //     ],
+        //   ),
+        //   panel: BlurContainer(
+        //     child: MessagesView(chatId: widget.travelId),
+        //   ).box.roundedFull.make(),
+        // ),
+        );
   }
 
   @override
@@ -138,8 +161,13 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final travel = Travel.fromJson(snapshot.data!.data()!);
-
-            if (travel.isPublic!) {
+            print(travel.travellers!.kt
+                .count((x) => x.userId == widget.travellerId));
+            print(widget.travellerId);
+            if ((travel.travellers!.kt
+                        .count((x) => x.userId == widget.travellerId) >
+                    0) &
+                travel.isPublic!) {
               return Stack(
                 children: [
                   Blur(

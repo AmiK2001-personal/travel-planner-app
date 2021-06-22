@@ -7,9 +7,11 @@ import 'package:intl/intl.dart';
 import 'package:travelplanner/data/models/firebase/firebase_image.dart';
 import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
+import 'package:travelplanner/presentation/screens/signup/bloc/auth_bloc.dart';
 import 'package:travelplanner/presentation/screens/travel_details/pages/my_travel_details_page.dart';
 import 'package:travelplanner/presentation/utils/fonts.gen.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TravelCard extends StatefulWidget {
   final String travelId;
@@ -110,6 +112,7 @@ class _TravelCardState extends State<TravelCard> {
             () {
               context.nextPage(
                 MyTravelDetailsPage(
+                  travellerId: context.read<AuthBloc>().userRepo.getUser()!.uid,
                   travelId: widget.travelId,
                 ),
               );

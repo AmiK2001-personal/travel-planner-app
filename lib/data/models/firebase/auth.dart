@@ -60,7 +60,9 @@ class Auth {
             .instance // TODO: create personal info on register
             .collection("personal_info")
             .doc(userCred.user!.uid)
-            .set(PersonalInfo(login: userCred.user!.email).toJson());
+            .set(PersonalInfo(
+                    login: userCred.user!.email, user_id: userCred.user!.uid)
+                .toJson());
 
         return Either.left(userCred);
       } on FirebaseAuthException catch (e) {
