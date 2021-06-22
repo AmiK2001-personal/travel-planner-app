@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:travelplanner/presentation/services/theme_service.dart';
@@ -12,7 +13,6 @@ import 'presentation/screens/signin/bloc/signin_bloc.dart';
 import 'presentation/screens/signin/pages/login_form.dart';
 import 'presentation/screens/signup/bloc/auth_bloc.dart';
 import 'presentation/utils/constraints.dart';
-import 'package:flutter/services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

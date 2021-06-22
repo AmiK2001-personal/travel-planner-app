@@ -72,11 +72,11 @@ VxSwiper buildImageSwiper(Travel travel) {
   return VxSwiper.builder(
     itemCount: travel.images!.length,
     itemBuilder: (context, index) => CachedNetworkImage(
-      imageUrl: travel.images![index].path,
+      imageUrl: travel.images![index],
       fit: BoxFit.fill,
     ).card.roundedLg.make().onTap(() {
       context.nextPage(
-          ImageViewer(imageProvider: NetworkImage(travel.images![index].path)));
+          ImageViewer(imageProvider: NetworkImage(travel.images![index])));
     }),
   );
 }

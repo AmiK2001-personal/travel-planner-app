@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true">
 
          <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyAJ7sUUEbJfBM9IibqbGZwlKy7FAlwmY1I"/>
+               android:value="AIzaSyAaTEvlJvBNphmrSFv6D8Weeg9s0LOZv9s"/>
 
         <activity
             android:name=".MainActivity"

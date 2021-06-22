@@ -1,46 +1,51 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travellers.dart';
 
-class MemberScreenDialog extends StatefulWidget {
+class RoleSelectDialog extends StatefulWidget {
   final String travelId;
   final List<Travellers>? travellers;
-  const MemberScreenDialog(this.travelId, this.travellers);
+  final Travellers traveller;
+
+  const RoleSelectDialog(this.travelId, this.travellers, this.traveller);
 
   @override
-  MemberScreenDialogState createState() => MemberScreenDialogState();
+  RoleSelectDialogState createState() => RoleSelectDialogState();
 }
 
-class MemberScreenDialogState extends State<MemberScreenDialog> {
+class RoleSelectDialogState extends State<RoleSelectDialog> {
   final TextEditingController emailController = TextEditingController();
   TravelRemoteDataSource travelRemoteDataSource = Get.find();
+  FirebaseFirestore firebase = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Добавление в группу"),
+        title: const Text("Сменить роль"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
-            TextField(
-              decoration:
-                  const InputDecoration(labelText: "Email пользователя"),
-              controller: emailController,
+            DropdownSearch(
+              items: const ["Создатель", "Участник"],
             ),
             Row(
               children: <Widget>[
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
-                      travelRemoteDataSource.addTraveller(emailController.text,
-                          widget.travellers, widget.travelId);
+                      // firebase
+                      //     .collection("travels")
+                      //     .doc(widget.travelId)
+                      //     .update();
                       Navigator.pop(context);
                     },
-                    child: const Text("Добавить"),
+                    child: const Text("Сохранить"),
                   ),
                 )
               ],

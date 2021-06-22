@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,7 +7,6 @@ import 'package:travelplanner/presentation/screens/menu/bloc/bloc.dart';
 import 'package:travelplanner/presentation/screens/signin/bloc/bloc.dart';
 import 'package:travelplanner/presentation/services/theme_service.dart';
 
-import 'data/repositories/message_repository.dart';
 import 'presentation/screens/signup/bloc/auth_bloc.dart';
 
 Future<void> init() async {
@@ -29,6 +27,4 @@ Future<void> init() async {
   Get.lazyPut<UserInfoRemoteDataSource>(
     () => UserInfoRemoteDataSourceImpl(),
   );
-  Get.lazyPut<MessageRemoteDataSource>(
-      () => MessageRemoteDataSourceImpl(firestore: FirebaseFirestore.instance));
 }

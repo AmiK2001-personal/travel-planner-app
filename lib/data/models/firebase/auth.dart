@@ -61,7 +61,7 @@ class Auth {
             .collection("personal_info")
             .doc(userCred.user!.uid)
             .set(PersonalInfo(
-                    login: userCred.user!.email, user_id: userCred.user!.uid)
+                    login: userCred.user!.email, userId: userCred.user!.uid)
                 .toJson());
 
         return Either.left(userCred);

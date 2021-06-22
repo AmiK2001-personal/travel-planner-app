@@ -24,7 +24,7 @@ class _$TravelTearOff {
       {@JsonKey(name: 'id') String? id,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'rating') int? rating,
-      @JsonKey(name: 'images') List<FirebaseImage>? images,
+      @JsonKey(name: 'images') List<String>? images,
       @JsonKey(name: 'goodies') List<Goodies>? goodies,
       @JsonKey(name: 'is_public') bool? isPublic,
       @JsonKey(name: 'locations') List<Locations>? locations,
@@ -64,7 +64,7 @@ mixin _$Travel {
   @JsonKey(name: 'rating')
   int? get rating => throw _privateConstructorUsedError;
   @JsonKey(name: 'images')
-  List<FirebaseImage>? get images => throw _privateConstructorUsedError;
+  List<String>? get images => throw _privateConstructorUsedError;
   @JsonKey(name: 'goodies')
   List<Goodies>? get goodies => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_public')
@@ -94,7 +94,7 @@ abstract class $TravelCopyWith<$Res> {
       {@JsonKey(name: 'id') String? id,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'rating') int? rating,
-      @JsonKey(name: 'images') List<FirebaseImage>? images,
+      @JsonKey(name: 'images') List<String>? images,
       @JsonKey(name: 'goodies') List<Goodies>? goodies,
       @JsonKey(name: 'is_public') bool? isPublic,
       @JsonKey(name: 'locations') List<Locations>? locations,
@@ -142,7 +142,7 @@ class _$TravelCopyWithImpl<$Res> implements $TravelCopyWith<$Res> {
       images: images == freezed
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<FirebaseImage>?,
+              as List<String>?,
       goodies: goodies == freezed
           ? _value.goodies
           : goodies // ignore: cast_nullable_to_non_nullable
@@ -184,7 +184,7 @@ abstract class _$TravelCopyWith<$Res> implements $TravelCopyWith<$Res> {
       {@JsonKey(name: 'id') String? id,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'rating') int? rating,
-      @JsonKey(name: 'images') List<FirebaseImage>? images,
+      @JsonKey(name: 'images') List<String>? images,
       @JsonKey(name: 'goodies') List<Goodies>? goodies,
       @JsonKey(name: 'is_public') bool? isPublic,
       @JsonKey(name: 'locations') List<Locations>? locations,
@@ -233,7 +233,7 @@ class __$TravelCopyWithImpl<$Res> extends _$TravelCopyWithImpl<$Res>
       images: images == freezed
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<FirebaseImage>?,
+              as List<String>?,
       goodies: goodies == freezed
           ? _value.goodies
           : goodies // ignore: cast_nullable_to_non_nullable
@@ -296,7 +296,7 @@ class _$_Travel with DiagnosticableTreeMixin implements _Travel {
   final int? rating;
   @override
   @JsonKey(name: 'images')
-  final List<FirebaseImage>? images;
+  final List<String>? images;
   @override
   @JsonKey(name: 'goodies')
   final List<Goodies>? goodies;
@@ -407,7 +407,7 @@ abstract class _Travel implements Travel {
       {@JsonKey(name: 'id') String? id,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'rating') int? rating,
-      @JsonKey(name: 'images') List<FirebaseImage>? images,
+      @JsonKey(name: 'images') List<String>? images,
       @JsonKey(name: 'goodies') List<Goodies>? goodies,
       @JsonKey(name: 'is_public') bool? isPublic,
       @JsonKey(name: 'locations') List<Locations>? locations,
@@ -429,7 +429,7 @@ abstract class _Travel implements Travel {
   int? get rating => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'images')
-  List<FirebaseImage>? get images => throw _privateConstructorUsedError;
+  List<String>? get images => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'goodies')
   List<Goodies>? get goodies => throw _privateConstructorUsedError;

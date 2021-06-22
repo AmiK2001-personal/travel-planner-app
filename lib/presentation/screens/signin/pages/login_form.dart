@@ -64,7 +64,6 @@ class _LoginPageState extends State<LoginForm> {
                     .margin(const EdgeInsets.only(bottom: 10))
                     .make()
                     .centered(),
-                // buildGoogleLogin(context),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: HStack([
@@ -77,7 +76,7 @@ class _LoginPageState extends State<LoginForm> {
                         onPressed: () {
                           context.nextPage(RegPage());
                         },
-                        child: "Зарегестрироваться"
+                        child: "Зарегистрироваться"
                             .text
                             .textStyle(TextStyle(color: primaryColor))
                             .make())

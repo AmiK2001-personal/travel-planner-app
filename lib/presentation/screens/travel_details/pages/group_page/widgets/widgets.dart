@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
-import 'package:travelplanner/presentation/screens/travel_details/pages/group_page/members_dialog.dart';
 import 'package:travelplanner/presentation/screens/travel_details/pages/group_page/utils/utils.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:get/get.dart' hide ContextExtensionss;
@@ -21,16 +20,16 @@ Future<Widget> buildMemberCard(
         personalInfo!.login!.text.subtitle2(context).make(),
       ]),
       roleIdToString(roleId).text.make(),
-      if (roleId != "0") // Is not admin
-        IconButton(
-          onPressed: () async {
-            await travelDataSource.removeTraveller(userId, travelId);
-          },
-          icon: const Icon(
-            Icons.delete_forever_rounded,
-            color: Colors.red,
-          ),
-        )
+      // if (roleId != "0") // Is not admin
+      //   IconButton(
+      //     onPressed: () async {
+      //       await travelDataSource.removeTraveller(userId, travelId);
+      //     },
+      //     icon: const Icon(
+      //       Icons.delete_forever_rounded,
+      //       color: Colors.red,
+      //     ),
+      //   )
     ],
   ).box.margin(const EdgeInsets.all(10)).make().card.make();
 }

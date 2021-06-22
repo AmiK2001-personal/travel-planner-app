@@ -8,7 +8,6 @@ import 'package:travelplanner/domain/entities/travel/geopoint.dart';
 import 'package:travelplanner/domain/entities/travel/locations.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:supercharged/supercharged.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class LocationScreenDialog extends StatefulWidget {
   final List<Locations>? locations;
@@ -25,9 +24,7 @@ class LocationScreenDialogState extends State<LocationScreenDialog> {
   final TextEditingController longitudeController = TextEditingController();
   final TextEditingController latitudetudeController = TextEditingController();
 
-  Completer<GoogleMapController> _controller = Completer();
-
-  final LatLng _center = const LatLng(45.521563, -122.677433);
+  final Completer<GoogleMapController> _controller = Completer();
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +43,25 @@ class LocationScreenDialogState extends State<LocationScreenDialog> {
             TextField(
               decoration: const InputDecoration(labelText: "Долгота"),
               controller: longitudeController,
+              keyboardType: TextInputType.number,
+              readOnly: true,
             ),
             TextField(
               decoration: const InputDecoration(labelText: "Широта"),
               controller: latitudetudeController,
+              keyboardType: TextInputType.number,
+              readOnly: true,
             ),
             GoogleMap(
                 onMapCreated: (GoogleMapController controller) {
                   _controller.complete(controller);
                 },
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(37.43296265331129, -122.08832357078792),
+                onTap: (argument) {
+                  longitudeController.text = argument.longitude.toString();
+                  latitudetudeController.text = argument.latitude.toString();
+                },
+                initialCameraPosition: const CameraPosition(
+                  target: LatLng(55.796391, 49.108891),
                 )).h60(context),
             Row(
               children: <Widget>[

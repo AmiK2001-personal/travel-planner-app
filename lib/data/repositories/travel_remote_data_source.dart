@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:travelplanner/data/repositories/user_info_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/locations.dart';
-import 'package:travelplanner/domain/entities/travel/message.dart';
-import 'package:travelplanner/domain/entities/travel/messages.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
 import 'package:travelplanner/domain/entities/travel/travellers.dart';
 import 'package:kt_dart/kt.dart';
@@ -19,7 +17,6 @@ abstract class TravelRemoteDataSource {
   Future<Travel> addTravel(Travel travel);
   Stream<DocumentSnapshot<Map<String, dynamic>>> fetchTravel(String travelId);
   Future<Travel> importTravel(Travel travel, String? uid);
-  Stream<Messages> getMessages(String chatlId);
   Future<void> addTraveller(
       String email, List<Travellers>? travellers, String travelId);
 
@@ -76,7 +73,12 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
       data = locations.map((e) => e.toJson()).toList();
       data.add(locationToJson(location));
     } else {
-      data = [locationToJson(location)];
+      data = locations!
+          .map((e) => e.toJson())
+          .toImmutableList()
+          .plusElement(locationToJson(location))
+          .toList()
+          .dart;
     }
 
     return FirebaseFirestore.instance
@@ -108,7 +110,7 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
       "date": travel.date,
       "description": travel.description,
       "is_public": false,
-      "images": travel.images?.map((e) => e.toJson()).toList(),
+      "images": travel.images,
       "name": travel.name,
       "travellers": travel.travellers?.map((e) => e.toJson()).toList(),
       "goodies": travel.goodies?.map((e) => e.toJson()).toList(),
@@ -126,15 +128,6 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
   }
 
   @override
-  Stream<Messages> getMessages(String chatId) {
-    return firestore
-        .collection("messages")
-        .doc(chatId)
-        .snapshots()
-        .map((value) => Messages.fromJson(value.data()!));
-  }
-
-  @override
   Future<void> addTraveller(
       String email, List<Travellers>? travellers, String travelId) async {
     var data = List<Map<String, dynamic>>.empty();
@@ -143,11 +136,11 @@ class TravelRemoteDataSourceImpl extends TravelRemoteDataSource {
     if (user != null) {
       if (travellers != null) {
         data = travellers.kt
-            .plusElement(Travellers(roleId: "2", userId: user.user_id))
+            .plusElement(Travellers(roleId: "2", userId: user.userId))
             .map((e) => e.toJson())
             .asList();
       } else {
-        data = [Travellers(roleId: "2", userId: user.user_id).toJson()];
+        data = [Travellers(roleId: "2", userId: user.userId).toJson()];
       }
       return FirebaseFirestore.instance
           .collection("travels")

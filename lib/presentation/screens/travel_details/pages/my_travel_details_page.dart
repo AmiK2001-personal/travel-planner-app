@@ -3,13 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
-import 'package:travelplanner/presentation/screens/messages/messages_view.dart';
 import 'package:travelplanner/presentation/screens/signup/bloc/auth_bloc.dart';
 import 'package:travelplanner/presentation/screens/travel_details/pages/info_page/info_page.dart';
-import 'package:travelplanner/presentation/widgets/blur_container.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:kt_dart/kt.dart';
 
@@ -68,90 +65,59 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
 
   Widget buildInfo(Travel travel) {
     return Scaffold(
-        appBar: AppBar(
-          title: "Путешествие: ${travel.name!}".text.make(),
-          bottom: TabBar(
-            controller: _controller,
-            tabs: list,
-          ),
-        ),
-        floatingActionButton: _controller.index > 0
-            ? [
-                IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => LocationScreenDialog(
-                            travel.locations, widget.travelId),
-                      );
-                    }),
-                IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) =>
-                            GoodieScreenDialog(widget.travelId, travel.goodies),
-                      );
-                    }),
-                IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => MemberScreenDialog(
-                            widget.travelId, travel.travellers),
-                      );
-                    }),
-              ][_controller.index - 1]
-            : null,
-        body: TabBarView(
+      appBar: AppBar(
+        title: "Путешествие: ${travel.name!}".text.make(),
+        bottom: TabBar(
           controller: _controller,
-          children: [
-            InfoPage(travel: travel, travelId: widget.travelId),
-            LocationPage(
-              travel: travel,
-            ),
-            GoodiesPage(travel: travel),
-            MembersPage(
-              travel: travel,
-              travelId: widget.travelId,
-            )
-          ],
-        ).box.margin(const EdgeInsets.only(bottom: 30)).make()
-        // body: SlidingUpPanel(
-        //   body: TabBarView(
-        //     controller: _controller,
-        //     children: [
-        //       InfoPage(travel: travel, travelId: widget.travelId),
-        //       LocationPage(
-        //         travel: travel,
-        //       ),
-        //       GoodiesPage(travel: travel),
-        //       MembersPage(
-        //         travel: travel,
-        //       )
-        //     ],
-        //   ).box.margin(const EdgeInsets.only(bottom: 30)).make(),
-        //   renderPanelSheet: false,
-        //   collapsed: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       "Чат"
-        //           .text
-        //           .make()
-        //           .box
-        //           .margin(const EdgeInsets.only(right: 6))
-        //           .make(),
-        //       const Icon(Icons.arrow_upward_rounded)
-        //     ],
-        //   ),
-        //   panel: BlurContainer(
-        //     child: MessagesView(chatId: widget.travelId),
-        //   ).box.roundedFull.make(),
-        // ),
-        );
+          tabs: list,
+        ),
+      ),
+      floatingActionButton: _controller.index > 0
+          ? [
+              IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => LocationScreenDialog(
+                          travel.locations, widget.travelId),
+                    );
+                  }),
+              IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) =>
+                          GoodieScreenDialog(widget.travelId, travel.goodies),
+                    );
+                  }),
+              IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => MemberScreenDialog(
+                          widget.travelId, travel.travellers),
+                    );
+                  }),
+            ][_controller.index - 1]
+          : null,
+      body: TabBarView(
+        controller: _controller,
+        children: [
+          InfoPage(travel: travel, travelId: widget.travelId),
+          LocationPage(
+            travel: travel,
+          ),
+          GoodiesPage(travel: travel),
+          MembersPage(
+            travel: travel,
+            travelId: widget.travelId,
+          )
+        ],
+      ),
+    );
   }
 
   @override
@@ -161,10 +127,7 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final travel = Travel.fromJson(snapshot.data!.data()!);
-            print(travel.travellers!.kt
-                .count((x) => x.userId == widget.travellerId));
-            print(widget.travellerId);
-            if ((travel.travellers!.kt
+            if (!(travel.travellers!.kt
                         .count((x) => x.userId == widget.travellerId) >
                     0) &
                 travel.isPublic!) {

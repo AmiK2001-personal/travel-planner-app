@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:uuid/uuid.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -25,6 +27,7 @@ class InfoPage extends StatefulWidget {
 
 class _InfoPageState extends State<InfoPage> {
   final picker = ImagePicker();
+  TravelRemoteDataSource travelRemoteDataSource = Get.find();
 
   Future<File?> getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -43,11 +46,7 @@ class _InfoPageState extends State<InfoPage> {
       ),
       onPressed: () async {
         final image = await getPhoto();
-        if (image != null) {
-          FirebaseStorage.instance
-              .ref("images/travel/$travelId/${const Uuid().v4()}")
-              .putFile(image);
-        }
+        addImage(image, travelId);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,16 +55,14 @@ class _InfoPageState extends State<InfoPage> {
     );
   }
 
-  ElevatedButton buildImageButton(BuildContext context) {
+  ElevatedButton buildImageButton(BuildContext context, String travelId) {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(context.primaryColor),
       ),
       onPressed: () async {
         final image = await getImage();
-        if (image != null) {
-          FirebaseStorage.instance.ref("images").putFile(image);
-        }
+        addImage(image, travelId);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -106,7 +103,7 @@ class _InfoPageState extends State<InfoPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildImageButton(context)
+            buildImageButton(context, widget.travelId)
                 .box
                 .padding(const EdgeInsets.only(right: 8))
                 .make(),
@@ -117,5 +114,29 @@ class _InfoPageState extends State<InfoPage> {
           .map((e) => e.box.margin(const EdgeInsets.only(bottom: 8)).make())
           .toList(),
     ).p8();
+  }
+
+  Future<void> addImage(File? image, String travelId) async {
+    if (image != null) {
+      final id = const Uuid().v4();
+      final path = "travel/$travelId/$id";
+
+      final storageImg = FirebaseStorage.instance.ref(path);
+
+      await storageImg.putFile(image).then((_) async {
+        final travel = await travelRemoteDataSource
+            .getById(travelId)
+            .first
+            .then((value) => Travel.fromJson(value.data()!));
+
+        final images = travel.images ?? [];
+        images.add(await storageImg.getDownloadURL());
+
+        await FirebaseFirestore.instance
+            .collection("travels")
+            .doc(travelId)
+            .update({"images": images});
+      });
+    }
   }
 }

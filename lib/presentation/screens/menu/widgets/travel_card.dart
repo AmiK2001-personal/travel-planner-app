@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:travelplanner/data/models/firebase/firebase_image.dart';
 import 'package:travelplanner/data/repositories/travel_remote_data_source.dart';
 import 'package:travelplanner/domain/entities/travel/travel.dart';
 import 'package:travelplanner/presentation/screens/signup/bloc/auth_bloc.dart';
@@ -25,11 +24,12 @@ class TravelCard extends StatefulWidget {
 class _TravelCardState extends State<TravelCard> {
   TravelRemoteDataSource travelRemoteDataSource = Get.find();
 
-  Future<Widget> logo(BuildContext context, List<FirebaseImage>? images) async {
+  Future<Widget> logo(BuildContext context, List<String>? images) async {
     if (images != null && images.isNotEmpty) {
       return CachedNetworkImage(
-        imageUrl: await getUrl(images.first) ??
-            "https://travelmaz.com/wp-content/uploads/2021/01/https___specials-images.forbesimg.com_imageserve_5f709d82fa4f131fa2114a74_0x0.jpg",
+        imageUrl: images.isNotEmpty
+            ? images.first
+            : "https://travelmaz.com/wp-content/uploads/2021/01/https___specials-images.forbesimg.com_imageserve_5f709d82fa4f131fa2114a74_0x0.jpg",
         placeholder: (context, url) => const CircularProgressIndicator(),
         errorWidget: (context, url, error) => const Icon(Icons.error),
         fit: BoxFit.fitHeight,
