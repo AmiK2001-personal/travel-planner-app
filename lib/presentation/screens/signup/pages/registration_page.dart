@@ -44,7 +44,7 @@ class _RegPageState extends State<RegPage> {
                 ),
                 Center(
                     child: ButtonWidget(
-                  text: "ЗАРЕГЕСТРИРОВАТЬ",
+                  text: "Зарегистрировать",
                   onClick: () {
                     context.read<AuthBloc>().add(
                           CreateUserWithEmailAndPassword(

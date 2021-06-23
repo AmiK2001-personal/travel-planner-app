@@ -138,7 +138,7 @@ class _MyTravelDetailsPageState extends State<MyTravelDetailsPage>
                     child: buildInfo(travel),
                   ),
                   VStack([
-                    "Для того чтобы просмотреть и редактировать путешествие сначала ипортируйте его"
+                    "Для того, чтобы просмотреть и редактировать путешествие, сначала импортируйте его"
                         .text
                         .subtitle1(context)
                         .makeCentered(),
