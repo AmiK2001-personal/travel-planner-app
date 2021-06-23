@@ -5,3 +5,5 @@
 Данный проект представляет возможности совместного редактирования для планирования групповых путешествий.
 
 В проекте активно используется СУБД Firebase, BLoC архитектура, внедрение зависимости.
+
+[Загрузить последнюю версию приложения для OS Android](https://github.com/AmiK2001-personal/travel-planner-app/releases/download/release/travelplanner.apk)
