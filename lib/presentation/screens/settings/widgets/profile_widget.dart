@@ -16,17 +16,10 @@ class ProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryColor;
-
     return Center(
       child: Stack(
         children: [
           buildImage(),
-          // Positioned(
-          //   bottom: 0,
-          //   right: 4,
-          //   child: buildEditIcon(color),
-          // ),
         ],
       ),
     );

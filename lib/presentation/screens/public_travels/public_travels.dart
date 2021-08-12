@@ -29,9 +29,11 @@ StreamBuilder<QuerySnapshot<Map<String, dynamic>>> buildPublicTravelsPage() {
                     return TravelCard(travels[index].item1)
                         .box
                         .padding(const EdgeInsets.only(bottom: 10))
+                        .margin(const EdgeInsets.all(2))
                         .make();
                   },
-                ))
+                ),
+              )
             : "Путешествий нет".text.make().centered();
       } else if (!snapshot.hasError && !snapshot.hasData) {
         return const CircularProgressIndicator();

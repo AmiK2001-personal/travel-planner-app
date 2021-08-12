@@ -1,4 +1,3 @@
-import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,50 +20,51 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return BlocBuilder<MenuPageBloc, MenuPageState>(
       builder: (context, state) {
-        return Frost(
-          frostColor: Colors.white.withOpacity(0.8),
-          borderRadius: BorderRadius.circular(23),
-          blur: 13,
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Assets.icons.uniconsLine.homeAlt,
-                Assets.icons.uniconsLine.planeFly,
-                Assets.icons.uniconsLine.user,
-              ]
-                  .mapIndexed((currentValue, index) => currentValue
-                          .svg(
-                              color: context
-                                          .read<MenuPageBloc>()
-                                          .state
-                                          .selectedNavigationBarItemId ==
-                                      index
-                                  ? context.accentColor
-                                  : context.primaryColor)
-                          .scale(
-                              scaleValue: context
-                                          .read<MenuPageBloc>()
-                                          .state
-                                          .selectedNavigationBarItemId ==
-                                      index
-                                  ? 1.3
-                                  : 1.0)
-                          .box
-                          .make()
-                          .onTap(() {
-                        context
-                            .read<MenuPageBloc>()
-                            .add(SelectedNavigationBarItemIdChanged(index));
-                      }))
-                  .map((e) => e.scale(scaleValue: 1.2))
-                  .toList(),
-            ).w(context.percentWidth * 70),
-          ),
+        // blurColor: Colors.white.withOpacity(0.8),
+        // borderRadius: BorderRadius.circular(23),
+        // blur: 13,
+        return Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Assets.icons.uniconsLine.homeAlt,
+              Assets.icons.uniconsLine.planeFly,
+              Assets.icons.uniconsLine.user,
+            ]
+                .mapIndexed((currentValue, index) => currentValue
+                        .svg(
+                            color: context
+                                        .read<MenuPageBloc>()
+                                        .state
+                                        .selectedNavigationBarItemId ==
+                                    index
+                                ? context.accentColor
+                                : context.primaryColor)
+                        .scale(
+                            scaleValue: context
+                                        .read<MenuPageBloc>()
+                                        .state
+                                        .selectedNavigationBarItemId ==
+                                    index
+                                ? 1.3
+                                : 1.0)
+                        .box
+                        .make()
+                        .onTap(() {
+                      context
+                          .read<MenuPageBloc>()
+                          .add(SelectedNavigationBarItemIdChanged(index));
+                    }))
+                .map((e) => e.scale(scaleValue: 1.2))
+                .toList(),
+          ).w(context.percentWidth * 70),
         )
             .box
             .withRounded(value: 23.0)
+            .color(context.theme.backgroundColor)
+            .make()
+            .box
             .padding(const EdgeInsets.only(bottom: 20))
             .make();
       },

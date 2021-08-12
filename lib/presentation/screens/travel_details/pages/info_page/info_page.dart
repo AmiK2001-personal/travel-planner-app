@@ -29,13 +29,8 @@ class _InfoPageState extends State<InfoPage> {
   final picker = ImagePicker();
   TravelRemoteDataSource travelRemoteDataSource = Get.find();
 
-  Future<File?> getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    if (pickedFile != null) return File(pickedFile.path);
-  }
-
-  Future<File?> getPhoto() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+  Future<File?> getImage({required ImageSource imageSource}) async {
+    final pickedFile = await picker.pickImage(source: imageSource);
     if (pickedFile != null) return File(pickedFile.path);
   }
 
@@ -45,7 +40,7 @@ class _InfoPageState extends State<InfoPage> {
         backgroundColor: MaterialStateProperty.all(context.primaryColor),
       ),
       onPressed: () async {
-        final image = await getPhoto();
+        final image = await getImage(imageSource: ImageSource.camera);
         addImage(image, travelId);
       },
       child: Row(
@@ -61,7 +56,7 @@ class _InfoPageState extends State<InfoPage> {
         backgroundColor: MaterialStateProperty.all(context.primaryColor),
       ),
       onPressed: () async {
-        final image = await getImage();
+        final image = await getImage(imageSource: ImageSource.gallery);
         addImage(image, travelId);
       },
       child: Row(

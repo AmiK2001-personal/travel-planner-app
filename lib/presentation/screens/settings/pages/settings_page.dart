@@ -18,7 +18,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: [
+    return ListView(
+            children: [
       ProfileWidget(
         onClicked: () {},
       ),
@@ -40,15 +41,20 @@ class _SettingsPageState extends State<SettingsPage> {
         svgImage: Assets.icons.uniconsLine.paintTool,
         label: "Сменить тему",
         onTap: () => themeService.changeTheme(),
-      ),
+      ).centered(),
       MenuItem(
-          alignment: MainAxisAlignment.center,
-          svgImage: Assets.icons.uniconsLine.exit,
-          label: "Выйти из аккаунта",
-          iconColor: Colors.redAccent,
-          onTap: () => context.read<AuthBloc>().add(const Logout()),
-          textStyle: const TextStyle(color: Colors.redAccent))
-    ]).box.margin(const EdgeInsets.symmetric(horizontal: 10)).make();
+              alignment: MainAxisAlignment.center,
+              svgImage: Assets.icons.uniconsLine.exit,
+              label: "Выйти из аккаунта",
+              iconColor: Colors.redAccent,
+              onTap: () => context.read<AuthBloc>().add(const Logout()),
+              textStyle: const TextStyle(color: Colors.redAccent))
+          .centered()
+    ].map((e) => e.objectCenterLeft()).toList())
+        .box
+        .margin(const EdgeInsets.symmetric(horizontal: 10))
+        .make()
+        .centered();
   }
 }
 
